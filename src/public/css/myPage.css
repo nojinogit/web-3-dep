@@ -1,0 +1,158 @@
+img {
+  width: 100%;
+  height: auto;
+}
+
+button{
+  background-color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.flex__item {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.container {
+  max-width: 1500px;
+  margin: 100px auto;
+}
+
+.profile {
+  width: 80%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto;
+  white-space: nowrap;
+}
+
+.profile p{
+  margin-right: 40%;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.profile-update{
+  border: 1px solid orangered;
+  border-radius: 3px;
+}
+
+.profile-update a{
+  color:orangered;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 20px;
+}
+
+.profile-img{
+  width: 15%;
+}
+
+.profile-img img{
+  width: 100%;
+  border-radius: 50%;
+}
+
+.merchandise-button{
+  width: 80%;
+  margin: 50px auto 0 auto;
+  cursor: pointer;
+}
+
+.merchandise-button button:hover {
+  color: orangered;
+}
+
+.merchandise-button button{
+  margin-right: 50px;
+}
+
+.shop-wrap {
+  margin: 10px auto;
+  justify-content: space-around;
+  border-top: 1px solid black;
+}
+
+.shop-wrap__item {
+  width: 300px;
+  margin:10px;
+  display: block;
+  box-shadow: 10px 10px 15px -10px;
+  border-radius:15px;
+}
+
+.shop-wrap__item-content {
+  background: #fff;
+  border-radius: 0 0 15px 15px;
+  padding: 20px;
+}
+
+.shop-wrap__item-bottom{
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.shop-wrap__item-eyecatch {
+  border-radius: 15px 15px 0 0;
+  height: 200px;
+}
+
+.shop-wrap__item-content-tag {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 20px;
+  display: inline;
+}
+
+.heart{
+    width: 40px;
+    height: auto;
+  }
+
+.detail{
+  text-decoration: none;
+  padding:5px;
+  background-color:orangered;
+  color: white;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.none{
+  display: none;
+}
+
+@media screen and (max-width : 768px) {
+  .default{
+      display: none;
+  }
+
+  .responsive{
+    display:block;
+  }
+
+  .search-area input {
+    width: 100%;
+    border: 1px solid black;
+    height: 30px;
+  }
+
+  .search-area select {
+    width: 100%;
+    border: 1px solid black;
+    height: 30px;
+  }
+
+  .shop-wrap {
+    width: 100%;
+    margin: 20px auto;
+    text-align: center;
+  }
+
+  .shop-wrap__item{
+    margin: 20px auto;
+  }
+}

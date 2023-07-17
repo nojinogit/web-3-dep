@@ -1,5 +1,5 @@
 .header {
-    background:white;
+    background:black;
 }
 
 .header__inner {
@@ -13,8 +13,11 @@
     align-items: center;
 }
 
+.header-utilities a{
+    color: white;
+}
+
 .header__logo {
-    color: black;
     text-decoration: none;
     font-weight: bold;
     font-size: 24px;
@@ -22,44 +25,45 @@
 
 .header-utilities nav {
     width: 18%;
+    margin-left: 20%;
 }
 
 .header-nav {
     display: flex;
-    margin-left: 400px;
     list-style: none;
 }
 
 .header-nav__item {
     margin: 0 30px;
     white-space:nowrap;
-
 }
 
 .header-nav__link {
-    color: black;
     text-decoration: none;
+}
+
+.header__sell{
+    background-color:white;
+    margin-left:40%;
+    display: block;
+}
+
+.header__sell a{
+    color:black;
+    text-decoration: none;
+    padding: 0 10px;
+    white-space: nowrap;
 }
 
 .header-nav__button {
     border: none;
     background: transparent;
-    color: black;
     font-size: 16px;
     cursor: pointer;
+    color: white;
 }
 
 body{
     position: relative;
     min-height: 100vh;
-    background-color:#f2f2f2;
-}
-
-footer{
-    text-align: center;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 30px 0;
-    background-color: white;
 }

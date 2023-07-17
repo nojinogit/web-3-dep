@@ -16,8 +16,9 @@
         @csrf
         <div class="form__group">
             <div class="form__group-content">
+                <p>お名前</p>
                 <div class="form__input--text">
-                    <input type="text" name="name" value="{{ old('name') }}" placeholder="お名前"/>
+                    <input type="text" name="name" value="{{ old('name') }}">
                 </div>
             <div class="form__error">
             @error('name')
@@ -26,8 +27,9 @@
         </div>
         <div class="form__group">
             <div class="form__group-content">
+                <p>メールアドレス</p>
                 <div class="form__input--text">
-                    <input type="email" name="email" value="{{ old('email') }}" placeholder="メールアドレス"/>
+                    <input type="email" name="email" value="{{ old('email') }}">
                 </div>
                 <div class="form__error">
                 @error('email')
@@ -38,8 +40,9 @@
         </div>
         <div class="form__group">
             <div class="form__group-content">
+                <p>パスワード</p>
                 <div class="form__input--text">
-                    <input type="password" name="password" placeholder="パスワード"/>
+                    <input type="password" name="password">
                 </div>
                 <div class="form__error">
                 @error('password')
@@ -50,8 +53,9 @@
         </div>
         <div class="form__group">
             <div class="form__group-content">
+                <p>確認用パスワード</p>
                 <div class="form__input--text">
-                    <input type="password" name="password_confirmation" placeholder="確認用パスワード"/>
+                    <input type="password" name="password_confirmation">
                 </div>
             </div>
         </div>
@@ -60,8 +64,7 @@
         </div>
     </form>
     <div class="login__link">
-        <p>アカウントをお持ちの方はこちら</p>
-        <a class="login__button-submit" href="/login">ログイン</a>
+        <a class="login__button-submit" href="/login">ログインはこちら</a>
     </div>
 </div>
 

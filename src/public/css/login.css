@@ -1,8 +1,3 @@
-.login-form__content {
-    margin: 0 auto;
-    padding: 30px 15px;
-    max-width: 1230px;
-}
 
 .login-form__heading {
     margin-bottom: 20px;
@@ -11,7 +6,7 @@
 
 .form {
     margin: 0 auto;
-    width: 25%;
+    width: 40%;
     text-align: center;
 }
 
@@ -23,6 +18,11 @@
     text-align: left;
 }
 
+.form__group-content p{
+    text-align: left;
+    font-weight:bold;
+}
+
 .form__error {
     height: 20px;
     color: #ff0000;
@@ -32,10 +32,9 @@
 .form__input--text input {
     padding: 10px;
     width: 100%;
-    height: 40px;
-    border: 3px solid gray;
+    height: 30px;
+    border: 1px solid black;
     border-radius: 3px;
-    background-color: #f2f2f2;
     appearance: none;
 }
 
@@ -49,7 +48,7 @@
     height: 50px;
     border: none;
     border-radius: 3px;
-    background:blue;
+    background:orangered;
     color: #fff;
     cursor: pointer;
 }
@@ -62,8 +61,4 @@
 register__button-submit{
     color: blue;
     text-decoration: none;
-}
-
-p{
-    color: gray;
 }

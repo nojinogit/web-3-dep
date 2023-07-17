@@ -16,40 +16,46 @@
         <div class="header__inner">
             <div class="header-utilities">
                 <a class="header__logo" href="/">
-            Atte
-            </a>
+                    COACHTECH
+                </a>
                 <nav>
                     <ul class="header-nav">
+                        <li class="header-nav__item">
+                            <form action="">
+                                <input type="text" onchange="this.form.submit()" placeholder="何をお探しですか？">
+                            </form>
+                        </li>
                         @if (Auth::check())
-                        <li class="header-nav__item">
-                            <a class="header-nav__link" href="/">ホーム</a>
-                        </li>
-                        <li class="header-nav__item">
-                            <a class="header-nav__link" href="/attendance">日付一覧</a>
-                        </li>
-                        <li class="header-nav__item">
-                            <a class="header-nav__link" href="/userIndex">ユーザー一覧</a>
-                        </li>
-                        <li class="header-nav__item">
-                            <a class="header-nav__link" href="/userAttendance">ユーザー別勤怠</a>
-                        </li>
                         <li class="header-nav__item">
                             <form class="form" action="/logout" method="post">
                                 @csrf
                                 <button class="header-nav__button">ログアウト</button>
                             </form>
                         </li>
+                        <li class="header-nav__item">
+                            <a class="header-nav__link" href="/userIndex">マイページ</a>
+                        </li>
                         @endif
+                        @unless (Auth::check())
+                        <li class="header-nav__item">
+                            <form class="form" action="/login" method="get">
+                                <button class="header-nav__button">ログイン</button>
+                            </form>
+                        </li>
+                        <li class="header-nav__item">
+                            <a class="header-nav__link" href="/register">会員登録</a>
+                        </li>
+                        @endunless
                     </ul>
                 </nav>
+                <div class="header__sell">
+                    <a href="">出品</a>
+                </div>
             </div>
         </div>
     </header>
     <main>
     @yield('content')
     </main>
-    <footer>
-        Atte,inc.
-    </footer>
 </body>
 </html>
