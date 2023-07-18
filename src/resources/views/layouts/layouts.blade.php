@@ -49,7 +49,7 @@
                     </ul>
                 </nav>
                 <div class="header__sell">
-                    <a href="">出品</a>
+                    <a href="/sell">出品</a>
                 </div>
             </div>
         </div>

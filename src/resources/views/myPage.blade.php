@@ -14,7 +14,7 @@
             </div>
             <p>ビールおぢさん</p>
             <div class="profile-update">
-                <a href="">プロフィールの編集</a>
+                <a href="/profile">プロフィールの編集</a>
             </div>
         </div>
         <div class="merchandise-button">

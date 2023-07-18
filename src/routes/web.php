@@ -23,3 +23,5 @@ Route::get('/purchase', function () {return view('/purchase');});
 Route::get('/address', function () {return view('/address');});
 Route::get('/comment', function () {return view('/comment');});
 Route::get('/myPage', function () {return view('/myPage');});
+Route::get('/profile', function () {return view('/profile');});
+Route::get('/sell', function () {return view('/sell');});
