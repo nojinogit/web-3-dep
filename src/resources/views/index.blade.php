@@ -13,17 +13,20 @@
             <button>マイリスト</button>
         </div>
         <div class="flex__item shop-wrap">
+            @foreach($items as $item)
             <div class="shop-wrap__item">
-                <img src="storage/sample/ドラム式洗濯機.jpg" class="shop-wrap__item-eyecatch">
+                <img src="{{asset($item->path)}}" class="shop-wrap__item-eyecatch">
                 <div class="shop-wrap__item-content">
-                    <form action="/detail" method="get" name="id">
-                        <button class="detail">ドラム式洗濯機</button>
+                    <form action="{{route('detail',['id' => $item->id])}}" method="get" name="id">
+                        <button class="detail">{{$item->name}}</button>
                     </form>
                     <div>
-                        <p class="shop-wrap__item-content-tag">￥10,000</p>
+                        <p class="shop-wrap__item-content-tag">￥{{$item->price}}</p>
                     </div>
                     <div>
-                        <p class="shop-wrap__item-content-tag">#</p>
+                        @foreach($item->categories as $category)
+                        <p class="shop-wrap__item-content-tag">#{{$category->category}}</p>
+                        @endforeach
                     </div>
                     <div class="shop-wrap__item-bottom">
                         @auth
@@ -68,6 +71,7 @@
                     </div>
                 </div>
             </div>
+            @endforeach
         </div>
     </div>
         <script>

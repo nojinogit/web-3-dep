@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,10 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 //Route::get('/', function () {return view('welcome');});
 
+Route::get('/',[ItemController::class,'index'])->name('index');
+Route::get('/detail/{id}',[ItemController::class,'detail'])->name('detail');
+
 Route::get('/login', function () {return view('/login');});
 Route::get('/register', function () {return view('/auth/register');});
-Route::get('/', function () {return view('/index');});
-Route::get('/detail', function () {return view('/detail');});
 Route::get('/purchase', function () {return view('/purchase');});
 Route::get('/address', function () {return view('/address');});
 Route::get('/comment', function () {return view('/comment');});

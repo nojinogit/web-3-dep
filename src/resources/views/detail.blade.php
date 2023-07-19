@@ -10,7 +10,7 @@
     <div class="container">
         <div class="flex__item shop-wrap">
             <div class="shop-wrap__item">
-                <img src="storage/sample/ドラム式洗濯機.jpg" alt="" class="shop-wrap__item-eyecatch">
+                <img src="{{asset($item->path)}}" alt="" class="shop-wrap__item-eyecatch">
             </div>
             <div class="reserve">
                 <h1>ドラム式洗濯機</h1>

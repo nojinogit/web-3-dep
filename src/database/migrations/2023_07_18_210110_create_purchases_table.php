@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('merchandise_id')->constrained('merchandises');
+            $table->foreignId('item_id')->constrained('items');
             $table->string('payment');
             $table->string('send')->nullable();
             $table->softDeletes();
