@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="{{asset('css/sanitize.css')}}"/>
     <link rel="stylesheet" href="{{asset('css/layouts.css')}}"/>
     @yield('css')
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
 <body>
@@ -33,7 +34,7 @@
                             </form>
                         </li>
                         <li class="header-nav__item">
-                            <a class="header-nav__link" href="/userIndex">マイページ</a>
+                            <a class="header-nav__link" href="/myPage">マイページ</a>
                         </li>
                         @endif
                         @unless (Auth::check())

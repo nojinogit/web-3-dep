@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Models\Favorite;
 
 class ItemController extends Controller
 {
@@ -13,7 +14,20 @@ class ItemController extends Controller
     }
 
     public function detail($id){
-    $item=Item::find($id);
+    $item=Item::findOrFail($id);
     return view('/detail',compact('item'));
+    }
+
+    public function myList($id){
+    $favoriteItems=Favorite::where('user_id',$id)->get();
+    $itemIds=[];
+    foreach($favoriteItems as $favoriteItem){
+        $itemIds[]=$favoriteItem->item_id;
+    };
+    $items=[];
+    foreach($itemIds as $itemId){
+        $items[]=Item::with('categories')->findOrFail($itemId);
+    };
+    return view('/index',compact('items'));
     }
 }

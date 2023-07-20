@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\FavoriteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,9 @@ use App\Http\Controllers\ItemController;
 
 Route::get('/',[ItemController::class,'index'])->name('index');
 Route::get('/detail/{id}',[ItemController::class,'detail'])->name('detail');
+Route::get('/myList/{id}',[ItemController::class,'myList'])->name('myList');
+Route::post('/favoriteStore',[FavoriteController::class,'favoriteStore'])->name('favoriteStore');
+Route::delete('/favoriteDelete',[FavoriteController::class,'favoriteDelete'])->name('favoriteDelete');
 
 Route::get('/login', function () {return view('/login');});
 Route::get('/register', function () {return view('/auth/register');});
