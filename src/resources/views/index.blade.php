@@ -65,9 +65,8 @@
                                     </button>
                                 </form>
                         @endauth
+                        </div>
                     </div>
-                    </div>
-                    
                     <div>
                         <p class="shop-wrap__item-content-tag">￥{{$item->price}}</p>
                     </div>

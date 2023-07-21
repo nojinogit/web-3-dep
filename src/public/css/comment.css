@@ -9,6 +9,32 @@ img {
   flex-wrap: wrap;
 }
 
+.favorite__comment {
+  display: flex;
+  align-items: center;
+}
+
+.comment {
+  margin-left: 10%;
+}
+
+.count {
+  display: flex;
+  align-items: center;
+}
+
+.favorite-count {
+  margin-left: 1%;
+  width: 40px;
+  text-align: center;
+}
+
+.comment-count {
+  margin-left: 11.75%;
+  width: 40px;
+  text-align: center;
+}
+
 .container {
   max-width: 1500px;
   margin: 100px auto;
@@ -116,6 +142,21 @@ textarea{
   cursor: pointer;
   bottom: 0px;
   border-radius: 5px;
+}
+
+button {
+  background-color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.none {
+  display: none;
+}
+
+.heart {
+  width: 40px;
+  height: auto;
 }
 
 @media screen and (max-width : 768px) {

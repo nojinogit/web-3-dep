@@ -50,4 +50,8 @@ class User extends Authenticatable
     public function items(){
         return $this->hasMany(Item::class);
     }
+
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
 }
