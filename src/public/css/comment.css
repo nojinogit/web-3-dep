@@ -21,6 +21,7 @@ img {
 .count {
   display: flex;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .favorite-count {
@@ -100,6 +101,8 @@ img {
 .review-user{
   display: flex;
   align-items: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 .review-user p{
@@ -116,6 +119,10 @@ img {
   border-radius: 50%;
 }
 
+.comment-wrap {
+  margin-bottom: 20px;
+}
+
 .comment-main{
   width: 100%;
   border: 1px solid black;
@@ -123,10 +130,6 @@ img {
 
 .comment-main p{
   font-weight: normal;
-}
-
-.comment-post{
-  margin-top: 100px;
 }
 
 textarea{
@@ -144,10 +147,15 @@ textarea{
   border-radius: 5px;
 }
 
-button {
+.favorite_button {
   background-color: white;
   border: none;
   cursor: pointer;
+}
+
+.comment-delete{
+  margin-top: 5px;
+  border-radius: 3px;
 }
 
 .none {
@@ -158,6 +166,7 @@ button {
   width: 40px;
   height: auto;
 }
+
 
 @media screen and (max-width : 768px) {
 

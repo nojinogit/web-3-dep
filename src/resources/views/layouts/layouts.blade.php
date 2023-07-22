@@ -50,7 +50,7 @@
                     </ul>
                 </nav>
                 <div class="header__sell">
-                    <a href="/sell">出品</a>
+                    <a href="{{route('sell')}}">出品</a>
                 </div>
             </div>
         </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Favorite;
+use App\Models\Comment;
 
 class ItemController extends Controller
 {
@@ -15,7 +16,9 @@ class ItemController extends Controller
 
     public function detail($id){
     $item=Item::with('categories')->findOrFail($id);
-    return view('/detail',compact('item'));
+    $favoriteCount=Favorite::where('item_id',$id)->count();
+    $commentCount=Comment::where('item_id',$id)->count();
+    return view('/detail',compact('item','favoriteCount','commentCount'));
     }
 
     public function myList($id){

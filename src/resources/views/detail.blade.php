@@ -65,8 +65,8 @@
                     </div>
                 </div>
                 <div class="count">
-                    <div class="favorite-count">1</div>
-                    <div class="comment-count">2</div>
+                    <div class="favorite-count">{{$favoriteCount}}</div>
+                    <div class="comment-count">{{$commentCount}}</div>
                 </div>
                 <form action="" method="post">
                     @csrf
@@ -111,7 +111,9 @@
                 $('.deleteOrigin'+res.item_id).addClass('none');
                 $('.delete'+res.item_id).addClass('none');
                 $('.store'+res.item_id).removeClass('none');
-            }).faile(function(){
+                var favoriteCount = parseInt($('.favorite-count').text());
+                $('.favorite-count').text(favoriteCount - 1);
+                }).faile(function(){
                 alert('通信の失敗をしました');
             });
         });
@@ -132,6 +134,8 @@
                 $('.storeOrigin'+res.item_id).addClass('none');
                 $('.store'+res.item_id).addClass('none');
                 $('.delete'+res.item_id).removeClass('none');
+                var favoriteCount = parseInt($('.favorite-count').text());
+                $('.favorite-count').text(favoriteCount + 1);
             }).faile(function(){
                 alert('通信の失敗をしました');
             });

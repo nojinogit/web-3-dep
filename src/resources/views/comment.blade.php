@@ -4,6 +4,7 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/comment.css')}}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -29,7 +30,7 @@
                             <form class="favoriteDelete deleteOrigin{{$item->id}}">
                                 <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                                 <input type="hidden" name="item_id" value="{{$item->id}}">
-                                <button type="submit">
+                                <button type="submit" class="favorite_button">
                                     <img src="{{ asset('svg/yellow.svg')}}" alt="お気に入り" class="heart">
                                 </button>
                             </form>
@@ -37,7 +38,7 @@
                             <form class="favoriteStore storeOrigin{{$item->id}}">
                                 <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                                 <input type="hidden" name="item_id" value="{{$item->id}}">
-                                <button type="submit">
+                                <button type="submit" class="favorite_button">
                                     <img src="{{ asset('svg/clear.svg')}}" alt="お気に入り" class="heart">
                                 </button>
                             </form>
@@ -45,14 +46,14 @@
                             <form class="favoriteDelete delete{{$item->id}} none">
                                 <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                                 <input type="hidden" name="item_id" value="{{$item->id}}">
-                                <button type="submit">
+                                <button type="submit"  class="favorite_button">
                                     <img src="{{ asset('svg/yellow.svg')}}" alt="お気に入り" class="heart">
                                 </button>
                             </form>
                             <form class="favoriteStore store{{$item->id}} none">
                                 <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                                 <input type="hidden" name="item_id" value="{{$item->id}}">
-                                <button type="submit">
+                                <button type="submit" class="favorite_button">
                                     <img src="{{ asset('svg/clear.svg')}}" alt="お気に入り" class="heart">
                                 </button>
                             </form>
@@ -60,32 +61,61 @@
                     </div>
                     <div class="comment">
                         <div><form action="{{route('comment',['id' => $item->id])}}" method="get" name="id">
-                            <button><img src="{{ asset('svg/fukidasi.svg')}}" alt="コメント" class="heart"></button>
+                            <button class="favorite_button"><img src="{{ asset('svg/fukidasi.svg')}}" alt="コメント" class="heart"></button>
                             </form></div>
                     </div>
                 </div>
-                <div>
+                <div class="count">
+                    <div class="favorite-count">{{$favoriteCount}}</div>
+                    <div class="comment-count">{{$commentCount}}</div>
+                </div>
+                <div class="comment-wrap">
                     <div class="review-main">
+                        @foreach($comments as $comment)
                         <div class="review-user">
+                            @if($comment->user->path!=null)
                             <div class="review-user-img">
-                                <img src="storage/sample/ドラム式洗濯機.jpg" alt="">
+                                <img src="{{asset($comment->user->path)}}" alt="">
                             </div>
-                            <p>洗濯機おじさん</p>
-                            <p>2023年7月15日</p>
+                            @endif
+                            @if($comment->user->path==null)
+                            <div class="review-user-img">
+                                <img src="{{asset('storage/sample/noimage.jpg')}}" alt="">
+                            </div>
+                            @endif
+                            <p>{{$comment->user->name}}</p>
+                            <p>{{$comment->updated_at}}</p>
                         </div>
                         <div class="comment-main">
-                            <p>コメント本文</p>
+                            <p>{{$comment->comment}}</p>
                         </div>
+                        @if(Auth::user()->id==$comment->user_id)
+                            <form action="{{route('commentDelete')}}" method="post">
+                                @method('delete')
+                                @csrf
+                                <input type="hidden" value="{{$comment->id}}" name="id">
+                                <input type="hidden" value="{{$comment->item_id}}" name="item_id">
+                                <button class="comment-delete">コメントを削除する</button>
+                            </form>
+                        @endif
+                        @endforeach
                     </div>
                 </div>
+                <!--ペジネーション部分-->
+                {!! $comments->withQueryString()->links('pagination::bootstrap-5') !!}
+                <!--ペジネーション部分終わり-->
                 <div class="comment-post">
                     <p>商品へのコメント</p>
                     <form action="{{route('commentAdd')}}" method="post">
                         @csrf
                         <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                         <input type="hidden" name="item_id" value="{{$item->id}}">
-                        <textarea name="comment" id="" cols="30" rows="10"></textarea>
-                        <button type="submit" id="button">コメントを送信する</button>
+                        <textarea name="comment" id="" cols="20" rows="5"></textarea>
+                        <button type="submit" id="button">
+                        @authコメントする
+                        @elseコメントにはログインが必要です
+                        @endauth
+                        </button>
                     </form>
                 </div>
             </div>
@@ -108,7 +138,9 @@
                 $('.deleteOrigin'+res.item_id).addClass('none');
                 $('.delete'+res.item_id).addClass('none');
                 $('.store'+res.item_id).removeClass('none');
-            }).faile(function(){
+                var favoriteCount = parseInt($('.favorite-count').text());
+                $('.favorite-count').text(favoriteCount - 1);
+                }).faile(function(){
                 alert('通信の失敗をしました');
             });
         });
@@ -129,6 +161,8 @@
                 $('.storeOrigin'+res.item_id).addClass('none');
                 $('.store'+res.item_id).addClass('none');
                 $('.delete'+res.item_id).removeClass('none');
+                var favoriteCount = parseInt($('.favorite-count').text());
+                $('.favorite-count').text(favoriteCount + 1);
             }).faile(function(){
                 alert('通信の失敗をしました');
             });
