@@ -19,6 +19,12 @@ class Item extends Model
         'price',
     ];
 
+    public function scopeItemSearch($query,$name){
+        if(!empty($name)){
+            $query->where('name','like','%'.$name.'%');
+        }
+    }
+
     public function user(){
         return $this->belongsTo(User::class);
     }
@@ -29,5 +35,9 @@ class Item extends Model
 
     public function categories(){
         return $this->hasMany(Category::class);
+    }
+
+    public function purchases(){
+        return $this->hasMany(Purchase::class);
     }
 }

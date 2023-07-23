@@ -1,4 +1,6 @@
-
+#add{
+    display: inline;
+}
 
 .register-form__heading {
     margin-bottom: 20px;

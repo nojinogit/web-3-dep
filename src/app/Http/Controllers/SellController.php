@@ -19,9 +19,10 @@ class SellController extends Controller
     $item=$request->only(['user_id','name','brand','condition','explanation','price']);
     $item['path']='storage/'.$dir.'/'.$image_name;
     $item=Item::create($item);
-    $category=$request->only(['category']);
-    $category['item_id']=$item->id;
-    Category::create($category);
+    $categories = $request->input('category');
+    foreach ($categories as $category) {
+        Category::create(['item_id'=>$item->id,'category' => $category]);
+    }
     return redirect('/myPage');
     }
 }

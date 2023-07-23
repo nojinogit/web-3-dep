@@ -6,11 +6,26 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Item;
+use App\Models\Purchase;
 
 class MyPageController extends Controller
 {
     public function myPage(Request $request){
     $items=Item::with('user')->where('user_id',Auth::user()->id)->get();
+    $user=User::findOrFail(Auth::user()->id);
+    return view('/myPage',compact('items','user'));
+    }
+
+    public function myPagePurchase(Request $request){
+    $purchases=Purchase::where('user_id',Auth::user()->id)->get();
+    $itemIds=[];
+    foreach($purchases as $purchase){
+        $itemIds[]=$purchase->item_id;
+    };
+    $items=[];
+    foreach($itemIds as $itemId){
+        $items[]=Item::with('categories')->findOrFail($itemId);
+    };
     $user=User::findOrFail(Auth::user()->id);
     return view('/myPage',compact('items','user'));
     }

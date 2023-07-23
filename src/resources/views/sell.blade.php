@@ -25,8 +25,9 @@
         <div class="form__group">
             <div class="form__group-content">
                 <p>カテゴリー</p>
-                <div class="form__input--text">
-                    <input type="text" name="category" value="{{ old('category') }}">
+                <button id="add" type="button">記入欄を追加</button>
+                <div class="form__input--text" id="category-input">
+                    <input type="text" name="category[]" value="{{ old('category') }}">
                 </div>
             <div class="form__error">
             @error('name')
@@ -105,13 +106,18 @@
     </form>
 </div>
 <script>
-        $('#file_upload').on('change', function(){
+    $('#file_upload').on('change', function(){
 	var $fr = new FileReader();
 	$fr.onload = function(){
 		$('#preview').attr('src', $fr.result);
 	}
 	$fr.readAsDataURL(this.files[0]);
-});
+    });
+    $(function() {
+        $('#add').click(function() {
+            $('#category-input').append('<input type="text" name="category[]">');
+        });
+    });
 </script>
 
 @endsection

@@ -10,15 +10,17 @@
 
 <div class="login__content">
 <div class="login-form__heading">
-    <h2>住所の変更</h2>
+    <h2>配達先の変更</h2>
 </div>
-<form class="form" action="" method="post">
+<form class="form" action="{{route('addressChange')}}" method="post">
     @csrf
+    <input type="hidden" name="item_id" value="{{$item->id}}">
+    <input type="hidden" name="user_id" value="{{$user->id}}">
     <div class="form__group">
     <div class="form__group-content">
         <p>郵便番号</p>
         <div class="form__input--text">
-        <input type="email" name="email" value="{{ old('email') }}">
+        <input type="text" name="postcode" value="{{$user->postcode }}">
         </div>
         <div class="form__error">
         @error('email')
@@ -31,7 +33,7 @@
     <div class="form__group-content">
         <p>住所</p>
         <div class="form__input--text">
-        <input type="password" name="password">
+        <input  type="text" name="address" value="{{$user->address }}">
         </div>
         <div class="form__error">
         @error('password')
@@ -44,7 +46,7 @@
     <div class="form__group-content">
         <p>建物名</p>
         <div class="form__input--text">
-        <input type="password" name="password">
+        <input  type="text" name="building" value="{{$user->building }}">
         </div>
         <div class="form__error">
         @error('password')

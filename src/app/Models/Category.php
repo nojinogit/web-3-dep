@@ -17,4 +17,10 @@ class Category extends Model
     public function item(){
         return $this->belongsTo(Item::class);
     }
+
+    public function scopeCategorySearch($query,$name){
+        if(!empty($name)){
+            $query->where('category',$name);
+        }
+    }
 }

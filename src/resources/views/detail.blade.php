@@ -68,8 +68,7 @@
                     <div class="favorite-count">{{$favoriteCount}}</div>
                     <div class="comment-count">{{$commentCount}}</div>
                 </div>
-                <form action="" method="post">
-                    @csrf
+                <form action="{{route('purchase',['id' => $item->id])}}" method="get">
                     <button type="submit" id="button">
                         @auth購入する
                         @else購入にはログインが必要です

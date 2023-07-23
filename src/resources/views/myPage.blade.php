@@ -21,7 +21,9 @@
             <form action="{{route('myPage')}}" method="get">
                 <button type="submit">出品した商品</button>
             </form>
-            <button>購入した商品</button>
+            <form action="{{route('myPagePurchase')}}" method="get">
+                <button type="submit">購入した商品</button>
+            </form>
         </div>
         <div class="flex__item shop-wrap">
             @foreach($items as $item)

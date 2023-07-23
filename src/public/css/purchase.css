@@ -45,7 +45,7 @@ p{
 }
 
 .shop-wrap__item-bottom{
-  height: 100px;
+  height: 50px;
 }
 
 .shop-wrap__item-bottom a{
@@ -54,6 +54,10 @@ p{
 
 .shop-wrap__item-bottom div {
   font-weight: bold;
+}
+
+#payment-method{
+  height: 20px;
 }
 
 .payment {
@@ -87,6 +91,18 @@ p{
 
 .condition{
   display: flex;
+}
+
+.address-update{
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  color: blue;
+}
+
+.address-update:hover {
+  color:orangered;
 }
 
 @media screen and (max-width : 768px) {

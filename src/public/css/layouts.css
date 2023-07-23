@@ -44,6 +44,7 @@
 
 .header__sell{
     background-color:white;
+    border-radius: 3px;
     margin-left:40%;
     display: block;
 }

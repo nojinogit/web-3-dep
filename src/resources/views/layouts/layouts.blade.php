@@ -21,9 +21,9 @@
                 </a>
                 <nav>
                     <ul class="header-nav">
-                        <li class="header-nav__item">
-                            <form action="">
-                                <input type="text" onchange="this.form.submit()" placeholder="何をお探しですか？">
+                        <li class="header-nav__item search">
+                            <form action="{{route('search')}}">
+                                <input type="text" name="name" onchange="this.form.submit()" placeholder="何をお探しですか？">
                             </form>
                         </li>
                         @if (Auth::check())
