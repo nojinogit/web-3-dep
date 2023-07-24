@@ -16,9 +16,10 @@
     <header class="header">
         <div class="header__inner">
             <div class="header-utilities">
-                <a class="header__logo" href="/">
-                    COACHTECH
-                </a>
+                <div class="header__logo-box">
+                    <img src="{{asset('storage/sample/ロゴ.jpg')}}" alt="">
+                    <a class="header__logo" href="/">COACHTECH</a>
+                </div>
                 <nav>
                     <ul class="header-nav">
                         <li class="header-nav__item search">

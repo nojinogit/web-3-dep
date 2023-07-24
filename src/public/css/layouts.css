@@ -17,6 +17,17 @@
     color: white;
 }
 
+.header__logo-box {
+    display: flex;
+    white-space: nowrap;
+}
+
+.header__logo-box img{
+    width: 20%;
+    margin-right: 5px;
+    height: 30px;
+}
+
 .header__logo {
     text-decoration: none;
     font-weight: bold;

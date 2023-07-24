@@ -24,6 +24,9 @@
             <form action="{{route('myPagePurchase')}}" method="get">
                 <button type="submit">購入した商品</button>
             </form>
+            <form action="{{route('stripe')}}" method="get">
+                <button type="submit">stripeテスト</button>
+            </form>
         </div>
         <div class="flex__item shop-wrap">
             @foreach($items as $item)
