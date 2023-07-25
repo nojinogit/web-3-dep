@@ -27,6 +27,9 @@
             <form action="{{route('stripe')}}" method="get">
                 <button type="submit">stripeテスト</button>
             </form>
+            <form action="{{route('createPaymentPage')}}" method="get">
+                <button type="submit">振込口座通知</button>
+            </form>
         </div>
         <div class="flex__item shop-wrap">
             @foreach($items as $item)
