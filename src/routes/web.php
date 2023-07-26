@@ -28,7 +28,7 @@ Route::get('/',[ItemController::class,'index'])->name('index');
 Route::get('/search',[ItemController::class,'search'])->name('search');
 Route::get('/detail/{id}',[ItemController::class,'detail'])->name('detail');
 Route::get('/comment/{id}', [CommentController::class,'comment'])->name('comment');
-Route::get('/stripe',[StripeController::class,'stripe'])->name('stripe');
+
 
 Route::middleware(['auth','verified'])->group(function () {
     Route::get('/myList/{id}',[ItemController::class,'myList'])->name('myList');

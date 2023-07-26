@@ -7,6 +7,10 @@ use App\Models\Item;
 use App\Models\User;
 use App\Models\Purchase;
 use Illuminate\Support\Facades\Auth;
+use Stripe\Stripe;
+use Stripe\PaymentIntent;
+use App\Mail\BankTransferMail;
+use Illuminate\Contracts\Mail\Mailer;
 
 class PurchaseController extends Controller
 {
@@ -31,9 +35,41 @@ class PurchaseController extends Controller
     return view('/purchase',compact('item','user'));
     }
 
-    public function confirm(Request $request){
+    public function confirm(Request $request,Mailer $mailer){
     $purchase=$request->only(['user_id','item_id','postcode','address','building','payment']);
     Purchase::create($purchase);
-    return redirect('/myPage/purchase');
+
+    Stripe::setApiKey(config('stripe.stripe_secret_key'));
+    $customer = \Stripe\Customer::create([
+    'name' => 'aaa',
+    'email' => 'nojinonoue@yahoo.co.jp',
+    ]);
+
+    $intent = PaymentIntent::create([
+    'amount' => 19000,
+    'currency' => 'jpy',
+    'customer' => $customer->id,
+    'payment_method_types' => ['customer_balance'],
+    'payment_method_data' => [
+    'type' => 'customer_balance',
+    ],
+    'payment_method_options' => [
+    'customer_balance' => [
+        'funding_type' => 'bank_transfer',
+        'bank_transfer' => [
+        'type' => 'jp_bank_transfer',
+        ],
+    ],
+    ],
+    'confirm' => true,
+    ]);
+
+    $nextAction=$intent->next_action;
+    $item=Item::findOrFail($request->item_id);
+    $user=User::findOrFail($request->user_id);
+
+    $mailer->to($user->email)->send(new BankTransferMail($nextAction,$item,$user));
+
+    return redirect('/myPage');
     }
 }
