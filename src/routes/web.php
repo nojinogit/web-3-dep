@@ -28,6 +28,7 @@ Route::get('/',[ItemController::class,'index'])->name('index');
 Route::get('/search',[ItemController::class,'search'])->name('search');
 Route::get('/detail/{id}',[ItemController::class,'detail'])->name('detail');
 Route::get('/comment/{id}', [CommentController::class,'comment'])->name('comment');
+Route::post('stripe/webhook', 'WebhookController@handleWebhook');
 
 
 Route::middleware(['auth','verified'])->group(function () {

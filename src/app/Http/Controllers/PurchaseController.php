@@ -39,14 +39,17 @@ class PurchaseController extends Controller
     $purchase=$request->only(['user_id','item_id','postcode','address','building','payment']);
     Purchase::create($purchase);
 
+    $item=Item::findOrFail($request->item_id);
+    $user=User::findOrFail(Auth::user()->id);
+
     Stripe::setApiKey(config('stripe.stripe_secret_key'));
     $customer = \Stripe\Customer::create([
-    'name' => 'aaa',
-    'email' => 'nojinonoue@yahoo.co.jp',
+    'name' => $user->name,
+    'email' => $user->email,
     ]);
 
     $intent = PaymentIntent::create([
-    'amount' => 19000,
+    'amount' => $item->price,
     'currency' => 'jpy',
     'customer' => $customer->id,
     'payment_method_types' => ['customer_balance'],
