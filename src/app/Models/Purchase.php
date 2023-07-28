@@ -16,7 +16,8 @@ class Purchase extends Model
         'address',
         'building',
         'payment',
-        'send'
+        'send',
+        'deposited'
     ];
 
     public function user(){

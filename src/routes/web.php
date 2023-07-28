@@ -8,6 +8,7 @@ use App\Http\Controllers\MyPageController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\WebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +29,7 @@ Route::get('/',[ItemController::class,'index'])->name('index');
 Route::get('/search',[ItemController::class,'search'])->name('search');
 Route::get('/detail/{id}',[ItemController::class,'detail'])->name('detail');
 Route::get('/comment/{id}', [CommentController::class,'comment'])->name('comment');
-Route::post('stripe/webhook', 'WebhookController@handleWebhook');
+Route::post('/stripe/webhook', [WebhookController::class,'handlePaymentIntentSucceeded']);
 
 
 Route::middleware(['auth','verified'])->group(function () {
