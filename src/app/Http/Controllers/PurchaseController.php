@@ -36,8 +36,6 @@ class PurchaseController extends Controller
     }
 
     public function confirm(Request $request,Mailer $mailer){
-    $purchase=$request->only(['user_id','item_id','postcode','address','building','payment']);
-    Purchase::create($purchase);
 
     $item=Item::findOrFail($request->item_id);
     $user=User::findOrFail(Auth::user()->id);
@@ -67,9 +65,12 @@ class PurchaseController extends Controller
     'confirm' => true,
     ]);
 
+    $purchase=$request->only(['user_id','item_id','postcode','address','building','payment']);
+    $purchase_id=Purchase::create($purchase);
+
+    Purchase::findOrFail($purchase_id->id)->update(['payment_intent_id' => $intent->id]);
+
     $nextAction=$intent->next_action;
-    $item=Item::findOrFail($request->item_id);
-    $user=User::findOrFail($request->user_id);
 
     $mailer->to($user->email)->send(new BankTransferMail($nextAction,$item,$user));
 

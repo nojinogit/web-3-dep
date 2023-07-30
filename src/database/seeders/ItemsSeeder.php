@@ -59,7 +59,7 @@ class ItemsSeeder extends Seeder
     ];DB::table('items')->insert($param);
     $param = [
         'id' => '5',
-        'user_id' => '1',
+        'user_id' => '2',
         'name' => 'ノートパソコン',
         'path' => 'storage/sample/ノートパソコン.jpg',
         'brand' => 'HP',

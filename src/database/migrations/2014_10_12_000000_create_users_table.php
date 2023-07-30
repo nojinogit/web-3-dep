@@ -21,7 +21,7 @@ return new class extends Migration
             $table->char('postcode',8)->nullable();
             $table->string('address')->nullable();
             $table->string('building')->nullable();
-            $table->integer('role')->nullable();
+            $table->integer('role')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });

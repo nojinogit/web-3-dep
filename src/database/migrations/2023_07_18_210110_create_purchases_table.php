@@ -16,6 +16,11 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('item_id')->constrained('items');
             $table->string('payment');
+            $table->string('payment_intent_id')->nullable();
+            $table->datetime('deposited')->nullable();
+            $table->char('postcode',8);
+            $table->string('address');
+            $table->string('building');
             $table->string('send')->nullable();
             $table->softDeletes();
             $table->timestamps();
