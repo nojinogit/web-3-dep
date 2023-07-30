@@ -38,6 +38,11 @@
                         <li class="header-nav__item">
                             <a class="header-nav__link" href="/myPage">マイページ</a>
                         </li>
+                        @if(Auth::user()->role > 99)
+                        <li class="header-nav__item">
+                            <a class="header-nav__link" href="/management">管理画面</a>
+                        </li>
+                        @endif
                         @endif
                         @unless (Auth::check())
                         <li class="header-nav__item">

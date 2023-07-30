@@ -16,25 +16,18 @@ class ItemController extends Controller
     }
 
     public function search(Request $request){
-    //Itemテーブルから検索
     $ItemItems=Item::ItemSearch($request->name)->get();
-    //Categoryテーブルから検索
     $categories=Category::CategorySearch($request->name)->get();
-    //Categoryテーブルから検索されたレコードのitem_idを取得
     $categoriesItemIds=[];
     foreach($categories as $category){
     $categoriesItemIds[]=$category->item_id;
     }
-    //取得したitem_idからItemテーブルを検索
     $categoriesItems=[];
     foreach($categoriesItemIds as $categoriesItemId){
     $categoriesItems[]=Item::findOrFail($categoriesItemId);
     }
-    //Itemテーブルを検索して取得した配列をコレクションに変換
     $collection_categoriesItems = collect($categoriesItems);
-    //ItemテーブルからのコレクションとCategoryテーブルからのコレクションを結合
     $newItems = collect($ItemItems)->merge($collection_categoriesItems);
-    //結合したコレクションから重複データを削除
     $items = $newItems->unique('id');
     return view('/index',compact('items'));
     }

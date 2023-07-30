@@ -59,4 +59,22 @@ class User extends Authenticatable
     public function purchases(){
         return $this->hasMany(Purchase::class);
     }
+
+    public function scopeNameSearch($query,$name){
+        if(!empty($name)){
+            $query->where('name','like','%'.$name.'%');
+        }
+    }
+
+    public function scopeEmailSearch($query,$email){
+        if(!empty($email)){
+            $query->where('email',$email);
+        }
+    }
+
+    public function scopeRoleSearch($query,$role){
+        if(!empty($role)){
+            $query->where('role',$role);
+        }
+    }
 }

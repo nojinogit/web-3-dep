@@ -1,0 +1,11 @@
+@component('mail::message')
+{{$purchase_data->item->user->name}}さん<br>
+{{$purchase_data->item->name}}について{{$purchase_data->user->name}}さんより{{$purchase_data->item->price}}円の入金が確認されました。<br>
+発送先<br>
+郵便番号：{{$purchase_data->postcode}}<br>
+住所：{{$purchase_data->address}}<br>
+建物：{{$purchase_data->building}}<br>
+氏名：{{$purchase_data->user->name}}<br>
+<br>
+速やかな発送のご協力を宜しくお願い致します。
+@endcomponent

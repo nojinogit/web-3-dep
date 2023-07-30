@@ -9,6 +9,7 @@ use App\Http\Controllers\SellController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\WebhookController;
+use App\Http\Controllers\ManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,5 +51,12 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::post('/purchase/address', [PurchaseController::class,'addressChange'])->name('addressChange');
 });
 
-
+Route::group(['middleware' => ['auth', 'can:admin_only']], function () {
+    Route::get('/management', [ManagementController::class,'management'])->name('management');
+    Route::get('/account', [ManagementController::class,'account'])->name('account');
+    Route::delete('/accountDelete', [ManagementController::class,'accountDelete'])->name('accountDelete');
+    Route::put('/accountRole', [ManagementController::class,'accountRole'])->name('accountRole');
+    Route::put('/accountRoleDelete', [ManagementController::class,'accountRoleDelete'])->name('accountRoleDelete');
+    Route::post('/contactMail', [ManagementController::class,'contactMail'])->name('contactMail');
+});
 
