@@ -11,24 +11,23 @@
     text-align: center;
 }
 
-.profile-img {
+.profile-imgbox {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-around;
 }
 
-.profile-img img{
+.profile-imgbox-img{
     width: 20%;
     border-radius: 50%;
 }
 
-.profile-img input {
+.profile-imgbox-input {
     display: none;
-    /* アップロードボタンのスタイルを無効にする */
 }
 
-label {
+.profile-imgbox-label {
     color: orangered;
     font-weight: bold;
     border: 1px solid orangered;
@@ -41,7 +40,7 @@ label {
     margin-bottom: 5px;
 }
 
-.form__group-content p{
+.form__group-content-p{
     text-align: left;
 }
 
@@ -51,7 +50,7 @@ label {
     text-align: left;
 }
 
-.form__input--text input {
+.form__input--text {
     padding: 10px;
     width: 100%;
     height: 30px;

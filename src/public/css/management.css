@@ -9,22 +9,8 @@
     margin: 50px auto;
 }
 
-.main__search--step-input-day input{
-    width:25%;
-}
-
-.shop-wrap {
-    margin-top: 20px;
-}
-
 .account-email{
     cursor: pointer;
-}
-
-.flex__item {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
 }
 
 .mail-area{
@@ -33,16 +19,16 @@
     margin: 50px auto;
 }
 
-table{
+.table{
     border-collapse: collapse;
     width: 100%;
 }
 
-tr:first-child{
+.table tr:first-child{
     border-bottom: 1px solid black;
 }
 
-.main__add--table td {
+.account--table td {
     padding-top: 10px;
     padding-left: 10px;
     padding-bottom: 10px;
@@ -70,36 +56,6 @@ tr:first-child{
     .default {
         display: none;
     }
-
-    .main__search--step-input-day input {
-        width: 33%;
-    }
-
-    .flex-item__responsive{
-        display: block;
-        max-width: 767px;
-    }
-
-    .shop-wrap__item{
-        width: 80%;
-        margin: 0 auto;
-    }
-}
-
-.main__search--table-area{
-    border-bottom: 1px solid black;
-}
-
-.main__search--table-area:last-child {
-    border: none;
-}
-
-.main__search--table-responsive{
-    border-bottom: 1px solid black;
-}
-
-.main__search--table-responsive:last-child {
-    border: none;
 }
 
 .message__success--p{

@@ -15,15 +15,15 @@
     <form class="form" action="{{route('profileUpdate')}}" method="post"   enctype="multipart/form-data">
         @method('put')
         @csrf
-        <div class="profile-img">
-            <img src="{{asset($user->path)}}" class="shop-wrap__item-eyecatch" id="preview">
-            <label  for="file_upload">画像を選択する<input type="file" name="image" id="file_upload" accept="image/*"></label>
+        <div class="profile-imgbox">
+            <img src="{{asset($user->path)}}" class="profile-imgbox-img" id="preview">
+            <label for="file_upload"  class="profile-imgbox-label">画像を選択する<input type="file" name="image" id="file_upload" accept="image/*" class="profile-imgbox-input"></label>
         </div>
         <div class="form__group">
             <div class="form__group-content">
-                <p>ユーザ名</p>
-                <div class="form__input--text">
-                    <input type="text" name="name" value="{{$user->name}}">
+                <p class="form__group-content-p">ユーザ名</p>
+                <div>
+                    <input type="text" name="name" value="{{$user->name}}"  class="form__input--text">
                 </div>
             <div class="form__error">
             @error('name')
@@ -32,9 +32,9 @@
         </div>
         <div class="form__group">
             <div class="form__group-content">
-                <p>郵便番号</p>
-                <div class="form__input--text">
-                    <input type="text" name="postcode" value="{{$user->postcode}}">
+                <p class="form__group-content-p">郵便番号</p>
+                <div>
+                    <input type="text" name="postcode" value="{{$user->postcode}}" class="form__input--text">
                 </div>
                 <div class="form__error">
                 @error('email')
@@ -45,9 +45,9 @@
         </div>
         <div class="form__group">
             <div class="form__group-content">
-                <p>住所</p>
-                <div class="form__input--text">
-                    <input type="text" name="address" value="{{$user->address}}">
+                <p class="form__group-content-p">住所</p>
+                <div>
+                    <input type="text" name="address" value="{{$user->address}}" class="form__input--text">
                 </div>
                 <div class="form__error">
                 @error('password')
@@ -58,9 +58,9 @@
         </div>
         <div class="form__group">
             <div class="form__group-content">
-                <p>建物名</p>
-                <div class="form__input--text">
-                    <input type="text" name="building"  value="{{$user->building}}">
+                <p class="form__group-content-p">建物名</p>
+                <div>
+                    <input type="text" name="building"  value="{{$user->building}}" class="form__input--text">
                 </div>
             </div>
         </div>

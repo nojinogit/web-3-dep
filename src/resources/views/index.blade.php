@@ -9,17 +9,17 @@
 @section('content')
     <div class="container">
         <div class="item-button">
-            <form action="/"><button>おすすめ</button></form>
+            <form action="/"><button class="item-button-inner">おすすめ</button></form>
             @auth
-            <form action="{{route('myList',['id' => Auth::user()->id])}}" method="get"><button>マイリスト</button></form>
+            <form action="{{route('myList',['id' => Auth::user()->id])}}" method="get"><button  class="item-button-inner">マイリスト</button></form>
             @endauth
         </div>
-        <div class="flex__item shop-wrap">
+        <div class="flex__item item-wrap">
             @foreach($items as $item)
-            <div class="shop-wrap__item">
-                <img src="{{asset($item->path)}}" class="shop-wrap__item-eyecatch">
-                <div class="shop-wrap__item-content">
-                    <div class="shop-wrap__item-top">
+            <div class="item-wrap__item">
+                <img src="{{asset($item->path)}}" class="item-wrap__item-eyecatch">
+                <div class="item-wrap__item-content">
+                    <div class="item-wrap__item-top">
                         <div>
                             <form action="{{route('detail',['id' => $item->id])}}" method="get" name="id">
                             <button class="detail">{{$item->name}}</button>
@@ -37,42 +37,42 @@
                                 <form class="favoriteDelete deleteOrigin{{$item->id}}">
                                     <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                                     <input type="hidden" name="item_id" value="{{$item->id}}">
-                                    <button type="submit">
-                                        <img src="{{ asset('svg/yellow.svg')}}" alt="お気に入り" class="heart">
+                                    <button type="submit" class="icon-button">
+                                        <img src="{{ asset('svg/yellow.svg')}}" alt="お気に入り" class="icon">
                                     </button>
                                 </form>
                                 @else
-                                <form class="favoriteStore storeOrigin{{$item->id}}">
+                                <form class="favoriteItem storeOrigin{{$item->id}}">
                                     <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                                     <input type="hidden" name="item_id" value="{{$item->id}}">
-                                    <button type="submit">
-                                        <img src="{{ asset('svg/clear.svg')}}" alt="お気に入り" class="heart">
+                                    <button type="submit"  class="icon-button">
+                                        <img src="{{ asset('svg/clear.svg')}}" alt="お気に入り" class="icon">
                                     </button>
                                 </form>
                                 @endif
                                 <form class="favoriteDelete delete{{$item->id}} none">
                                     <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                                     <input type="hidden" name="item_id" value="{{$item->id}}">
-                                    <button type="submit">
-                                        <img src="{{ asset('svg/yellow.svg')}}" alt="お気に入り" class="heart">
+                                    <button type="submit"  class="icon-button">
+                                        <img src="{{ asset('svg/yellow.svg')}}" alt="お気に入り" class="icon">
                                     </button>
                                 </form>
-                                <form class="favoriteStore store{{$item->id}} none">
+                                <form class="favoriteItem store{{$item->id}} none">
                                     <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                                     <input type="hidden" name="item_id" value="{{$item->id}}">
-                                    <button type="submit">
-                                        <img src="{{ asset('svg/clear.svg')}}" alt="お気に入り" class="heart">
+                                    <button type="submit"  class="icon-button">
+                                        <img src="{{ asset('svg/clear.svg')}}" alt="お気に入り" class="icon">
                                     </button>
                                 </form>
                         @endauth
                         </div>
                     </div>
                     <div>
-                        <p class="shop-wrap__item-content-tag">￥{{$item->price}}</p>
+                        <p class="item-wrap__item-content-tag">￥{{$item->price}}</p>
                     </div>
                     <div>
                         @foreach($item->categories as $category)
-                        <p class="shop-wrap__item-content-tag">#{{$category->category}}</p>
+                        <p class="item-wrap__item-content-tag">#{{$category->category}}</p>
                         @endforeach
                     </div>
                     
@@ -106,7 +106,7 @@
         $.ajaxSetup({
             headers: { 'X-CSRF-TOKEN': $("[name='csrf-token']").attr("content") },
         })
-        $('.favoriteStore').on('submit', function(event){
+        $('.favoriteItem').on('submit', function(event){
             event.preventDefault();
             const user_id=$(this).find('input[name="user_id"]').val();
             const item_id=$(this).find('input[name="item_id"]').val();

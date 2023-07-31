@@ -18,7 +18,7 @@
         <h2>アカウント検索</h2>
         <form action="{{route('account')}}" method="get" class="default">
             <div class="main__search--step">
-                <table>
+                <table class="table">
                 <tr>
                     <th>お名前</th>
                     <th>メールアドレス</th>
@@ -35,7 +35,6 @@
                         </select>
                         </td>
                         <td><input type="submit" value="検索"></td>
-                    </form>
                 </tr>
                 </table>
             </div>
@@ -72,10 +71,10 @@
     </div>
 
     @isset($accounts)
-    <div class="main__add--table">
+    <div class="account--table">
         <h2>アカウント一覧（メールアドレスをクリックにてメールフォーム開きます）</h2>
         <div>
-            <table>
+            <table class="table">
                 <tr>
                     <th>お名前</th>
                     <th>メールアドレス</th>

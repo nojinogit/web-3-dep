@@ -9,11 +9,11 @@
 
 @section('content')
     <div class="container">
-        <div class="flex__item shop-wrap">
-            <div class="shop-wrap__item">
-                <img src="{{asset($item->path)}}" alt="" class="shop-wrap__item-eyecatch">
+        <div class="flex__item item-wrap">
+            <div class="item-wrap__item">
+                <img src="{{asset($item->path)}}" alt="" class="item-wrap__item-eyecatch">
             </div>
-            <div class="reserve">
+            <div class="detail">
                 <h1>{{$item->name}}</h1>
                 <p>{{$item->brand}}</p>
                 <p>￥{{$item->price}}</p>
@@ -31,15 +31,15 @@
                                 <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                                 <input type="hidden" name="item_id" value="{{$item->id}}">
                                 <button type="submit" class="favorite_button">
-                                    <img src="{{ asset('svg/yellow.svg')}}" alt="お気に入り" class="heart">
+                                    <img src="{{ asset('svg/yellow.svg')}}" alt="お気に入り" class="icon">
                                 </button>
                             </form>
                             @else
-                            <form class="favoriteStore storeOrigin{{$item->id}}">
+                            <form class="favoriteItem storeOrigin{{$item->id}}">
                                 <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                                 <input type="hidden" name="item_id" value="{{$item->id}}">
                                 <button type="submit" class="favorite_button">
-                                    <img src="{{ asset('svg/clear.svg')}}" alt="お気に入り" class="heart">
+                                    <img src="{{ asset('svg/clear.svg')}}" alt="お気に入り" class="icon">
                                 </button>
                             </form>
                             @endif
@@ -47,21 +47,21 @@
                                 <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                                 <input type="hidden" name="item_id" value="{{$item->id}}">
                                 <button type="submit"  class="favorite_button">
-                                    <img src="{{ asset('svg/yellow.svg')}}" alt="お気に入り" class="heart">
+                                    <img src="{{ asset('svg/yellow.svg')}}" alt="お気に入り" class="icon">
                                 </button>
                             </form>
-                            <form class="favoriteStore store{{$item->id}} none">
+                            <form class="favoriteItem store{{$item->id}} none">
                                 <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                                 <input type="hidden" name="item_id" value="{{$item->id}}">
                                 <button type="submit" class="favorite_button">
-                                    <img src="{{ asset('svg/clear.svg')}}" alt="お気に入り" class="heart">
+                                    <img src="{{ asset('svg/clear.svg')}}" alt="お気に入り" class="icon">
                                 </button>
                             </form>
                         @endauth
                     </div>
                     <div class="comment">
                         <div><form action="{{route('comment',['id' => $item->id])}}" method="get" name="id">
-                            <button class="favorite_button"><img src="{{ asset('svg/fukidasi.svg')}}" alt="コメント" class="heart"></button>
+                            <button class="favorite_button"><img src="{{ asset('svg/fukidasi.svg')}}" alt="コメント" class="icon"></button>
                             </form></div>
                     </div>
                 </div>
@@ -74,20 +74,20 @@
                         @foreach($comments as $comment)
                         <div class="review-user">
                             @if($comment->user->path!=null)
-                            <div class="review-user-img">
-                                <img src="{{asset($comment->user->path)}}" alt="">
+                            <div class="review-user-imgbox">
+                                <img src="{{asset($comment->user->path)}}" alt="" class="review-user-imgbox-img">
                             </div>
                             @endif
                             @if($comment->user->path==null)
-                            <div class="review-user-img">
-                                <img src="{{asset('storage/sample/noimage.jpg')}}" alt="">
+                            <div class="review-user-imgbox">
+                                <img src="{{asset('storage/sample/noimage.jpg')}}" alt=""  class="review-user-imgbox-img">
                             </div>
                             @endif
-                            <p>{{$comment->user->name}}</p>
-                            <p>{{$comment->updated_at}}</p>
+                            <p class="review-user-p">{{$comment->user->name}}</p>
+                            <p class="review-user-p">{{$comment->updated_at}}</p>
                         </div>
                         <div class="comment-main">
-                            <p>{{$comment->comment}}</p>
+                            <p class="comment-main-p">{{$comment->comment}}</p>
                         </div>
                         @if(Auth::user()->id==$comment->user_id)
                             <form action="{{route('commentDelete')}}" method="post">
@@ -110,7 +110,7 @@
                         @csrf
                         <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                         <input type="hidden" name="item_id" value="{{$item->id}}">
-                        <textarea name="comment" id="" cols="20" rows="5"></textarea>
+                        <textarea name="comment" id="" cols="20" rows="5" class="textarea"></textarea>
                         <button type="submit" id="button">
                         @authコメントする
                         @elseコメントにはログインが必要です
@@ -148,7 +148,7 @@
         $.ajaxSetup({
             headers: { 'X-CSRF-TOKEN': $("[name='csrf-token']").attr("content") },
         })
-        $('.favoriteStore').on('submit', function(event){
+        $('.favoriteItem').on('submit', function(event){
             event.preventDefault();
             const user_id=$(this).find('input[name="user_id"]').val();
             const item_id=$(this).find('input[name="item_id"]').val();

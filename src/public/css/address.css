@@ -1,5 +1,5 @@
 
-.login-form__heading {
+.address__heading {
     margin-bottom: 20px;
     text-align: center;
 }
@@ -14,11 +14,7 @@
     margin-bottom: 5px;
 }
 
-.form__group-title {
-    text-align: left;
-}
-
-.form__group-content p{
+.form__group-content-p{
     text-align: left;
     font-weight:bold;
 }
@@ -29,7 +25,7 @@
     text-align: left;
 }
 
-.form__input--text input {
+.form__text-input {
     padding: 10px;
     width: 100%;
     height: 30px;
@@ -51,14 +47,4 @@
     background:orangered;
     color: #fff;
     cursor: pointer;
-}
-
-.register__link {
-    margin-top: 20px;
-    text-align: center;
-}
-
-register__button-submit{
-    color: blue;
-    text-decoration: none;
 }

@@ -18,14 +18,14 @@
         <div class="header__inner">
             <div class="header-utilities">
                 <div class="header__logo-box">
-                    <img src="{{asset('storage/sample/ロゴ.jpg')}}" alt="">
-                    <a class="header__logo" href="/">COACHTECH</a>
+                    <img src="{{asset('storage/sample/ロゴ.jpg')}}" alt="" class="header__logo-box-img">
+                    <a class="header__logo header-utilities-a" href="/">COACHTECH</a>
                 </div>
-                <nav>
+                <nav class="header-utilities-nav">
                     <ul class="header-nav">
-                        <li class="header-nav__item search">
+                        <li class="header-nav__item">
                             <form action="{{route('search')}}">
-                                <input type="text" name="name" onchange="this.form.submit()" placeholder="何をお探しですか？">
+                                <input type="text" name="name" onchange="this.form.submit()" placeholder="何をお探しですか？" class="search-input">
                             </form>
                         </li>
                         @if (Auth::check())
@@ -36,11 +36,11 @@
                             </form>
                         </li>
                         <li class="header-nav__item">
-                            <a class="header-nav__link" href="/myPage">マイページ</a>
+                            <a class="header-nav__link header-utilities-a" href="/myPage">マイページ</a>
                         </li>
                         @if(Auth::user()->role > 99)
                         <li class="header-nav__item">
-                            <a class="header-nav__link" href="/management">管理画面</a>
+                            <a class="header-nav__link header-utilities-a" href="/management">管理画面</a>
                         </li>
                         @endif
                         @endif
@@ -51,13 +51,13 @@
                             </form>
                         </li>
                         <li class="header-nav__item">
-                            <a class="header-nav__link" href="/register">会員登録</a>
+                            <a class="header-nav__link header-utilities-a" href="/register">会員登録</a>
                         </li>
                         @endunless
                     </ul>
                 </nav>
                 <div class="header__sell">
-                    <a href="{{route('sell')}}">出品</a>
+                    <a href="{{route('sell')}}" class="header__sell-a">出品</a>
                 </div>
             </div>
         </div>

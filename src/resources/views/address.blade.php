@@ -8,8 +8,8 @@
 
 @section('content')
 
-<div class="login__content">
-<div class="login-form__heading">
+<div class="address__content">
+<div class="address__heading">
     <h2>配達先の変更</h2>
 </div>
 <form class="form" action="{{route('addressChange')}}" method="post">
@@ -18,9 +18,9 @@
     <input type="hidden" name="user_id" value="{{$user->id}}">
     <div class="form__group">
     <div class="form__group-content">
-        <p>郵便番号</p>
-        <div class="form__input--text">
-        <input type="text" name="postcode" value="{{$user->postcode }}">
+        <p class="form__group-content-p">郵便番号</p>
+        <div class="form__text">
+        <input type="text" name="postcode" value="{{$user->postcode }}" class="form__text-input">
         </div>
         <div class="form__error">
         @error('email')
@@ -31,9 +31,9 @@
     </div>
     <div class="form__group">
     <div class="form__group-content">
-        <p>住所</p>
+        <p  class="form__group-content-p">住所</p>
         <div class="form__input--text">
-        <input  type="text" name="address" value="{{$user->address }}">
+        <input  type="text" name="address" value="{{$user->address }}" class="form__text-input">
         </div>
         <div class="form__error">
         @error('password')
@@ -44,9 +44,9 @@
     </div>
     <div class="form__group">
     <div class="form__group-content">
-        <p>建物名</p>
+        <p class="form__group-content-p">建物名</p>
         <div class="form__input--text">
-        <input  type="text" name="building" value="{{$user->building }}">
+        <input  type="text" name="building" value="{{$user->building }}" class="form__text-input">
         </div>
         <div class="form__error">
         @error('password')

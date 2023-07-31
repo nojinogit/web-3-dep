@@ -13,16 +13,16 @@
     align-items: center;
 }
 
-.header-utilities a{
-    color: white;
-}
-
 .header__logo-box {
     display: flex;
     white-space: nowrap;
 }
 
-.header__logo-box img{
+.header-utilities-a{
+    color: white;
+}
+
+.header__logo-box-img{
     width: 20%;
     margin-right: 5px;
     height: 30px;
@@ -34,7 +34,7 @@
     font-size: 24px;
 }
 
-.header-utilities nav {
+.header-utilities-nav {
     width: 18%;
     margin-left: 20%;
 }
@@ -60,7 +60,7 @@
     display: block;
 }
 
-.header__sell a{
+.header__sell-a{
     color:black;
     text-decoration: none;
     padding: 0 10px;

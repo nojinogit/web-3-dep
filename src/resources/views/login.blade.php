@@ -16,9 +16,9 @@
     @csrf
     <div class="form__group">
     <div class="form__group-content">
-        <p>メールアドレス</p>
-        <div class="form__input--text">
-        <input type="email" name="email" value="{{ old('email') }}">
+        <p class="form__group-content-p">メールアドレス</p>
+        <div>
+        <input type="email" name="email" value="{{ old('email') }}"  class="form__input--text">
         </div>
         <div class="form__error">
         @error('email')
@@ -29,9 +29,9 @@
     </div>
     <div class="form__group">
     <div class="form__group-content">
-        <p>パスワード</p>
-        <div class="form__input--text">
-        <input type="password" name="password">
+        <p  class="form__group-content-p">パスワード</p>
+        <div>
+        <input type="password" name="password" class="form__input--text">
         </div>
         <div class="form__error">
         @error('password')
