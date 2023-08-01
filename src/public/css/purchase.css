@@ -1,9 +1,15 @@
-img {
-  width: 100%;
+
+.container {
+  max-width: 1500px;
+  margin: 100px auto;
 }
 
-p{
+.p {
   font-weight: bold;
+}
+
+.item-wrap__item-eyecatch {
+  width: 100%;
 }
 
 .flex__item {
@@ -12,48 +18,40 @@ p{
   flex-wrap: wrap;
 }
 
-.container {
-  max-width: 1500px;
-  margin: 100px auto;
-}
-
-.shop-wrap {
+.item-wrap {
   margin-top: 20px;
 }
 
-.shop-wrap__item {
+.item-wrap__item {
   width: 50%;
 }
 
-.shop-wrap__item-main {
+.item-wrap__item-main {
   width: 100%;
   margin:2%;
   display:flex;
   justify-content:flex-start;
 }
 
-.shop-wrap__item-img {
+.item-wrap__item-img {
   width: 30%;
 }
 
-.shop-wrap__item div{
-  margin-right: 30px;
-}
-
-.shop-wrap__item-content {
-  padding: 5%;
-}
-
-.shop-wrap__item-bottom{
+.item-wrap__item-bottom{
   height: 50px;
-}
-
-.shop-wrap__item-bottom a{
-  text-decoration: none;
-}
-
-.shop-wrap__item-bottom div {
   font-weight: bold;
+}
+
+.address-update {
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  color: blue;
+}
+
+.address-update:hover {
+  color: orangered;
 }
 
 #payment-method{
@@ -67,7 +65,7 @@ p{
   position: relative;
 }
 
-.reserve {
+.payment-area {
   width: 100%;
   display: block;
   border: 1px solid black;
@@ -93,17 +91,7 @@ p{
   display: flex;
 }
 
-.address-update{
-  background-color: white;
-  border: none;
-  cursor: pointer;
-  font-size: 15px;
-  color: blue;
-}
 
-.address-update:hover {
-  color:orangered;
-}
 
 @media screen and (max-width : 768px) {
 
@@ -112,7 +100,7 @@ p{
       display: block;
     }
 
-  .shop-wrap__item {
+  .item-wrap__item {
     width: 80%;
     margin: 2% auto;
     display: block;
@@ -122,21 +110,6 @@ p{
     width: 80%;
     margin: 2% auto;
     }
-
-  .review-area {
-    margin: 50px auto 0;
-    width: 80%;
-  }
-
-  .review-main {
-    width: 80%;
-    padding: 2%;
-    margin: 20px auto 0;
-  }
-
-  textarea{
-    width:100%;
-  }
 }
 
 

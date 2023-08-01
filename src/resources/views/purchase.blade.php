@@ -8,51 +8,51 @@
 
 @section('content')
     <div class="container">
-        <div class="flex__item shop-wrap">
-            <div class="shop-wrap__item">
-                <div  class="shop-wrap__item-main">
-                    <div class="shop-wrap__item-img">
-                        <img src="{{asset($item->path)}}" alt="" class="shop-wrap__item-eyecatch">
+        <div class="flex__item item-wrap">
+            <div class="item-wrap__item">
+                <div class="item-wrap__item-main">
+                    <div class="item-wrap__item-img">
+                        <img src="{{asset($item->path)}}" alt="" class="item-wrap__item-eyecatch">
                     </div>
                     <div>
                         <h1>{{$item->name}}</h1>
-                        <p>￥{{$item->price}}</p>
+                        <p class="p">￥{{$item->price}}</p>
                     </div>
                 </div>
-                <div class="flex__item shop-wrap__item-bottom">
+                <div class="flex__item item-wrap__item-bottom">
                     <div>支払方法</div>
                     <select name="" id="payment-method">
                         <option value="銀行振込">銀行振込</option>
                         <option value="クレジットカード">クレジットカード</option>
                     </select>
                 </div>
-                <div class="flex__item  shop-wrap__item-bottom">
+                <div class="flex__item  item-wrap__item-bottom">
                     <div>配達先</div>
                     <form action="{{route('address',['id' => $item->id])}}">
                         <button type="submit" class="address-update">変更する</button>
                     </form>
                 </div>
                 <div class="flex__item">
-                    <p>〒{{$user->postcode}}</p>
-                    <p>{{$user->address}}</p>
-                    <p>{{$user->building}}</p>
-                    <p>{{$user->name}}様</p>
+                    <p class="p">〒{{$user->postcode}}</p>
+                    <p class="p">{{$user->address}}</p>
+                    <p class="p">{{$user->building}}</p>
+                    <p class="p">{{$user->name}}様</p>
                 </div>
             </div>
             <div class="payment">
-                <div class="reserve">
+                <div class="payment-area">
                     <div class="payment-box">
                         <div  class="condition">
-                            <p>商品代金</p>&emsp;
-                            <p>￥{{$item->price}}</p>
+                            <p class="p">商品代金</p>&emsp;
+                            <p class="p">￥{{$item->price}}</p>
                         </div>
                         <div  class="condition">
-                            <p>支払金額</p>&emsp;
-                            <p>￥{{$item->price}}</p>
+                            <p class="p">支払金額</p>&emsp;
+                            <p class="p">￥{{$item->price}}</p>
                         </div>
                         <div  class="condition">
-                            <p>支払方法</p>&emsp;
-                            <p id="payment-method-display">銀行振込</p>
+                            <p class="p">支払方法</p>&emsp;
+                            <p id="payment-method-display" class="p">銀行振込</p>
                         </div>
                     </div>
                 </div>
