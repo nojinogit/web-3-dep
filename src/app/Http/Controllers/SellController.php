@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Category;
+use App\Http\Requests\SellRequest;
 
 class SellController extends Controller
 {
@@ -12,7 +13,7 @@ class SellController extends Controller
     return view('/sell');
     }
 
-    public function exhibit(Request $request){
+    public function exhibit(SellRequest $request){
         $dir='sample';
         $image_name=$request->file('image')->getClientOriginalName();
         $request->file('image')->storeAs('public/'.$dir,$image_name);

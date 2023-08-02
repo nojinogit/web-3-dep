@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Purchase;
+use App\Http\Requests\ProfileRequest;
 
 class MyPageController extends Controller
 {
@@ -35,7 +36,7 @@ class MyPageController extends Controller
     return view('/profile',compact('user'));
     }
 
-    public function profileUpdate(Request $request){
+    public function profileUpdate(ProfileRequest $request){
     if($request->file('image')!==null){
         $dir='sample';
         $image_name=$request->file('image')->getClientOriginalName();
@@ -46,14 +47,11 @@ class MyPageController extends Controller
     if($request->name!==null){
     $user['name']=$request->name;}
 
-    if($request->postcode!==null){
-    $user['postcode']=$request->postcode;}
+    $user['postcode']=$request->postcode;
 
-    if($request->address!==null){
-    $user['address']=$request->address;}
+    $user['address']=$request->address;
 
-    if($request->building!==null){
-    $user +=array('building'=>$request->building);}
+    $user +=array('building'=>$request->building);
 
     User::findOrFail(Auth::user()->id)->update($user);
     return redirect('/myPage/profile');

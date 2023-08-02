@@ -42,6 +42,10 @@
   font-weight: bold;
 }
 
+.name__price-box{
+  margin-left: 20px;
+}
+
 .address-update {
   background-color: white;
   border: none;
@@ -89,6 +93,12 @@
 
 .condition{
   display: flex;
+}
+
+.form__error {
+  height: 20px;
+  color: #ff0000;
+  text-align: left;
 }
 
 

@@ -47,6 +47,7 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::post('/exhibit', [SellController::class,'exhibit'])->name('exhibit');
     Route::get('/purchase/{id}', [PurchaseController::class,'purchase'])->name('purchase');
     Route::post('/purchase', [PurchaseController::class,'confirm'])->name('confirm');
+    Route::post('/konbini', [PurchaseController::class,'konbini'])->name('konbini');
     Route::get('/purchase/address/{id}', [PurchaseController::class,'address'])->name('address');
     Route::post('/purchase/address', [PurchaseController::class,'addressChange'])->name('addressChange');
 });

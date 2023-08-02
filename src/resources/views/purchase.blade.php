@@ -14,7 +14,7 @@
                     <div class="item-wrap__item-img">
                         <img src="{{asset($item->path)}}" alt="" class="item-wrap__item-eyecatch">
                     </div>
-                    <div>
+                    <div class="name__price-box">
                         <h1>{{$item->name}}</h1>
                         <p class="p">￥{{$item->price}}</p>
                     </div>
@@ -24,6 +24,7 @@
                     <select name="" id="payment-method">
                         <option value="銀行振込">銀行振込</option>
                         <option value="クレジットカード">クレジットカード</option>
+                        <option value="コンビニ払い">コンビニ払い</option>
                     </select>
                 </div>
                 <div class="flex__item  item-wrap__item-bottom">
@@ -68,6 +69,16 @@
                     購入する
                 </button>
                 </form>
+                <div class="form__error">
+                @error('postcode')
+                {{ $message }}
+                @enderror
+                </div>
+                <div class="form__error">
+                @error('address')
+                {{ $message }}
+                @enderror
+                </div>
             </div>
         </div>
     </div>
@@ -76,6 +87,20 @@
     $('#payment-method').on('change',function(){
     $('#payment-method-display').text($(this).val());
     $('#payment-method-input').val($(this).val());
+    });
+
+    $('#payment-method').on('change',function(){
+    var value=$(this).val();
+    if(value=="コンビニ払い"){
+        $('form').attr('action',"{{route('konbini')}}");
+    }
+    });
+
+    $('#payment-method').on('change',function(){
+    var value=$(this).val();
+    if(value=="銀行振込"){
+        $('form').attr('action',"{{route('confirm')}}");
+    }
     });
     });
 </script>

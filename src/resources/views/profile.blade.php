@@ -37,7 +37,7 @@
                     <input type="text" name="postcode" value="{{$user->postcode}}" class="form__input--text">
                 </div>
                 <div class="form__error">
-                @error('email')
+                @error('postcode')
                 {{ $message }}
                 @enderror
                 </div>
@@ -48,11 +48,6 @@
                 <p class="form__group-content-p">住所</p>
                 <div>
                     <input type="text" name="address" value="{{$user->address}}" class="form__input--text">
-                </div>
-                <div class="form__error">
-                @error('password')
-                {{ $message }}
-                @enderror
                 </div>
             </div>
         </div>

@@ -18,14 +18,14 @@
     <input type="hidden" name="user_id" value="{{$user->id}}">
     <div class="form__group">
     <div class="form__group-content">
-        <p class="form__group-content-p">郵便番号</p>
+        <p class="form__group-content-p">郵便番号(ハイフンを入力ください)</p>
         <div class="form__text">
         <input type="text" name="postcode" value="{{$user->postcode }}" class="form__text-input">
         </div>
         <div class="form__error">
-        @error('email')
-        {{ $message }}
-        @enderror
+            @error('postcode')
+            {{ $message }}
+            @enderror
         </div>
     </div>
     </div>
@@ -35,11 +35,11 @@
         <div class="form__input--text">
         <input  type="text" name="address" value="{{$user->address }}" class="form__text-input">
         </div>
-        <div class="form__error">
-        @error('password')
-        {{ $message }}
-        @enderror
-        </div>
+            <div class="form__error">
+                @error('address')
+                {{ $message }}
+                @enderror
+            </div>
     </div>
     </div>
     <div class="form__group">
@@ -47,11 +47,6 @@
         <p class="form__group-content-p">建物名</p>
         <div class="form__input--text">
         <input  type="text" name="building" value="{{$user->building }}" class="form__text-input">
-        </div>
-        <div class="form__error">
-        @error('password')
-        {{ $message }}
-        @enderror
         </div>
     </div>
     </div>

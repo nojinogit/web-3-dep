@@ -19,6 +19,11 @@
             <img id="preview" class="sell-img-img">
             <label  for="file_upload"  class="sell-img-label">画像を選択する<input type="file" name="image" id="file_upload"  class="sell-img-input"></label>
         </div>
+        <div class="form__error">
+            @error('image')
+            {{ $message }}
+            @enderror
+            </div>
         <div class="sell-title">
             <h2>商品の詳細</h2>
         </div>
@@ -29,12 +34,13 @@
                     <button id="add" type="button">記入欄を追加</button>
                 </div>
                 <div id="category-input">
-                    <input type="text" name="category[]" value="{{ old('category') }}" class="form__input--text">
+                    <input type="text" name="category[]" class="form__input--text">
                 </div>
             <div class="form__error">
-            @error('name')
+            @error('category[]')
             {{ $message }}
             @enderror
+            </div>
         </div>
         <div class="form__group">
             <div class="form__group-content-p">
@@ -43,7 +49,7 @@
                     <input type="text" name="condition" value="{{ old('condition') }}" class="form__input--text">
                 </div>
                 <div class="form__error">
-                @error('email')
+                @error('condition')
                 {{ $message }}
                 @enderror
                 </div>
@@ -59,7 +65,7 @@
                     <input type="text" name="name" value="{{ old('name') }}" class="form__input--text">
                 </div>
                 <div class="form__error">
-                @error('password')
+                @error('name')
                 {{ $message }}
                 @enderror
                 </div>
@@ -72,7 +78,7 @@
                     <input type="text" name="brand" value="{{ old('brand') }}" class="form__input--text">
                 </div>
                 <div class="form__error">
-                @error('password')
+                @error('brand')
                 {{ $message }}
                 @enderror
                 </div>
@@ -83,6 +89,11 @@
                 <p class="form__group-content-p">商品の説明</p>
                 <div>
                     <textarea name="explanation" id="" cols="20" rows="5"  value="{{ old('explanation') }}" class="textarea"></textarea>
+                </div>
+                <div class="form__error">
+                @error('explanation')
+                {{ $message }}
+                @enderror
                 </div>
             </div>
         </div>
@@ -96,7 +107,7 @@
                     <input type="number" name="price"  value="{{ old('price') }}" class="form__input--text">
                 </div>
                 <div class="form__error">
-                @error('password')
+                @error('price')
                 {{ $message }}
                 @enderror
                 </div>
