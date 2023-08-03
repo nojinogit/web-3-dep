@@ -4,7 +4,6 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/comment.css')}}">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -58,6 +57,11 @@
                                 </button>
                             </form>
                         @endauth
+                        @guest
+                            <button type="button" class="favorite_button">
+                                <img src="{{ asset('svg/yellow.svg')}}" alt="お気に入り" class="icon">
+                            </button>
+                        @endguest
                     </div>
                     <div class="comment">
                         <div><form action="{{route('comment',['id' => $item->id])}}" method="get" name="id">
@@ -89,6 +93,7 @@
                         <div class="comment-main">
                             <p class="comment-main-p">{{$comment->comment}}</p>
                         </div>
+                        @auth
                         @if(Auth::user()->id==$comment->user_id)
                             <form action="{{route('commentDelete')}}" method="post">
                                 @method('delete')
@@ -98,6 +103,7 @@
                                 <button class="comment-delete">コメントを削除する</button>
                             </form>
                         @endif
+                        @endauth
                         @endforeach
                     </div>
                 </div>
@@ -108,8 +114,10 @@
                     <p>商品へのコメント</p>
                     <form action="{{route('commentAdd')}}" method="post">
                         @csrf
+                        @auth
                         <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                         <input type="hidden" name="item_id" value="{{$item->id}}">
+                        @endauth
                         <textarea name="comment" id="" cols="20" rows="5" class="textarea"></textarea>
                         <button type="submit" id="button">
                         @authコメントする

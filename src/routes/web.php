@@ -10,6 +10,8 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\ManagementController;
+use Illuminate\Http\Request;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +33,14 @@ Route::get('/search',[ItemController::class,'search'])->name('search');
 Route::get('/detail/{id}',[ItemController::class,'detail'])->name('detail');
 Route::get('/comment/{id}', [CommentController::class,'comment'])->name('comment');
 Route::post('/stripe/webhook', [WebhookController::class,'handlePayment']);
+Route::post('/credit', function (Request $request) {
+    $request->user()->charge(
+        100, $request->paymentMethodId
+    );
+
+    return redirect('/');
+
+})->middleware(['auth'])->name('credit');
 
 
 Route::middleware(['auth','verified'])->group(function () {

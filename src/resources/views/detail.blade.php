@@ -57,6 +57,11 @@
                                 </button>
                             </form>
                         @endauth
+                        @guest
+                            <button type="button" class="button">
+                                <img src="{{ asset('svg/yellow.svg')}}" alt="お気に入り" class="icon">
+                            </button>
+                        @endguest
                     </div>
                     <div class="comment">
                         <div><form action="{{route('comment',['id' => $item->id])}}" method="get" name="id">

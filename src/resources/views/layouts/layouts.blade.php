@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{asset('css/sanitize.css')}}"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/layouts.css')}}"/>
     @yield('css')
     @yield('js')
@@ -54,6 +55,7 @@
                             <a class="header-nav__link header-utilities-a" href="/register">会員登録</a>
                         </li>
                         @endunless
+                        
                     </ul>
                 </nav>
                 <div class="header__sell">
