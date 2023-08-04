@@ -11,6 +11,7 @@ use Stripe\Stripe;
 use Stripe\PaymentIntent;
 use App\Mail\BankTransferMail;
 use App\Mail\KonbiniMail;
+use App\Mail\CreditMail;
 use Illuminate\Contracts\Mail\Mailer;
 use App\Http\Requests\PurchaseRequest;
 
@@ -37,7 +38,7 @@ class PurchaseController extends Controller
     return view('/purchase',compact('item','user'));
     }
 
-    public function confirm(PurchaseRequest $request,Mailer $mailer){
+    public function bankTransfer(PurchaseRequest $request,Mailer $mailer){
 
     $item=Item::findOrFail($request->item_id);
     $user=User::findOrFail(Auth::user()->id);
@@ -113,4 +114,45 @@ class PurchaseController extends Controller
 
     return redirect('/myPage');
     }
+
+    public function credit(PurchaseRequest $request,Mailer $mailer){
+
+    $item=Item::findOrFail($request->item_id);
+    $user=User::findOrFail(Auth::user()->id);
+
+    Stripe::setApiKey(config('stripe.stripe_secret_key'));
+
+    $token = $request->input('stripeToken');
+
+    $customer = \Stripe\Customer::create([
+        'name' => $user->name,
+        'email' => $user->email,
+        'source' => $token,
+    ]);
+
+
+    $user->stripe_id = $customer->id;
+    $user->save();
+
+    try {
+        $charge = \Stripe\Charge::create([
+            'amount' => $item->price,
+            'currency' => 'jpy',
+            'customer' => $customer->id,
+            'description' => 'テスト決済'
+        ]);
+
+        $purchase=$request->only(['user_id','item_id','postcode','address','building','payment']);
+        $purchase['payment_intent_id'] = $charge->id;
+        $purchase_id=Purchase::create($purchase);
+
+        $purchase_data=Purchase::with('item.user')->findOrFail($purchase_id->id);
+        $mailer->to($purchase_data->item->user->email)->send(new CreditMail($purchase_data));
+
+        return redirect()->route('myPage');
+    } catch (\Exception $e) {
+
+        return back()->with('error', $e->getMessage());
+    }
+}
 }

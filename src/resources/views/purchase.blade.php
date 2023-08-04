@@ -57,7 +57,7 @@
                         </div>
                     </div>
                 </div>
-                <form action="{{route('confirm')}}" method="post">
+                <form action="{{route('bankTransfer')}}" method="post" class="transfer">
                 @csrf
                 <input type="hidden" name="user_id" value="{{$user->id}}">
                 <input type="hidden" name="item_id" value="{{$item->id}}">
@@ -66,6 +66,22 @@
                 <input type="hidden" name="building" value="{{$user->building}}">
                 <input type="hidden" name="payment" id="payment-method-input" value="銀行振込">
                 <button type="submit" id="button">
+                    購入する
+                </button>
+                </form>
+                <form action="{{route('credit')}}" method="post" class="credit none" id="setup-form">
+                @csrf
+                <input type="hidden" name="user_id" value="{{$user->id}}">
+                <input type="hidden" name="item_id" value="{{$item->id}}">
+                <input type="hidden" name="postcode" value="{{$user->postcode}}">
+                <input type="hidden" name="address" value="{{$user->address}}">
+                <input type="hidden" name="building" value="{{$user->building}}">
+                <input type="hidden" name="payment" value="クレジットカード">
+                <div  class="none credit">
+                    <input id="card-holder-name" type="text" placeholder="カード名義人" name="card-holder-name"/>
+                    <div id="card-element"></div>
+                </div>
+                <button type="submit" id="card-button">
                     購入する
                 </button>
                 </form>
@@ -79,32 +95,11 @@
                 {{ $message }}
                 @enderror
                 </div>
-
-                <div class="py-12">
-                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div class="p-6 bg-white border-b border-gray-200">
-                        <h2>購入</h2>
-                            <form
-                            id="setup-form"
-                            action="{{ route('credit') }}"
-                            method="post"
-                            >
-                            @csrf
-                            <input
-                                id="card-holder-name"
-                                type="text"
-                                placeholder="カード名義人"
-                                name="card-holder-name"
-                            />
-                            <div id="card-element"></div>
-                            <button id="card-button">購入</button>
-                            </form>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-
+                            @if (session('error'))
+                            <div class="alert alert-danger">
+                            {{ session('error') }}
+                            </div>
+                            @endif
             </div>
         </div>
     </div>
@@ -112,46 +107,31 @@
     <script>
     const stripe = Stripe('<?php echo config('stripe.stripe_public_key'); ?>');
     const elements = stripe.elements();
-    const cardElement = elements.create('card');
+    const cardElement = elements.create('card', {hidePostalCode: true,});
     cardElement.mount('#card-element');
 
-    const cardHolderName = document.getElementById('card-holder-name');
     const cardButton = document.getElementById('card-button');
 
     cardButton.addEventListener('click', async (e) => {
     e.preventDefault();
-    const { paymentMethod, error } = await stripe.createPaymentMethod(
-        'card',
-        cardElement,
-        {
-        billing_details: { name: cardHolderName.value },
-        }
-    );
+    const { token, error } = await stripe.createToken(cardElement);
 
     if (error) {
-        // Display "error.message" to the user...
-        console.log(error);
-    } else {
-        // The card has been verified successfully...
-        stripePaymentIdHandler(paymentMethod.id);
+        alert(error.message);
+        return;
     }
-    });
 
-    function stripePaymentIdHandler(paymentMethodId) {
-    // Insert the paymentMethodId into the form so it gets submitted to the server
     const form = document.getElementById('setup-form');
-
     const hiddenInput = document.createElement('input');
     hiddenInput.setAttribute('type', 'hidden');
-    hiddenInput.setAttribute('name', 'paymentMethodId');
-    hiddenInput.setAttribute('value', paymentMethodId);
+    hiddenInput.setAttribute('name', 'stripeToken');
+    hiddenInput.setAttribute('value', token.id);
     form.appendChild(hiddenInput);
 
-    // Submit the form
     form.submit();
-    }
+    });
     </script>
-<script>
+    <script>
     $(function() {
     $('#payment-method').on('change',function(){
     $('#payment-method-display').text($(this).val());
@@ -162,13 +142,25 @@
     var value=$(this).val();
     if(value=="コンビニ払い"){
         $('form').attr('action',"{{route('konbini')}}");
+        $('.credit').addClass('none');
+        $('.transfer').removeClass('none');
     }
     });
 
     $('#payment-method').on('change',function(){
     var value=$(this).val();
     if(value=="銀行振込"){
-        $('form').attr('action',"{{route('confirm')}}");
+        $('form').attr('action',"{{route('bankTransfer')}}");
+        $('.credit').addClass('none');
+        $('.transfer').removeClass('none');
+    }
+    });
+
+    $('#payment-method').on('change',function(){
+    var value=$(this).val();
+    if(value=="クレジットカード"){
+        $('.credit').removeClass('none');
+        $('.transfer').addClass('none');
     }
     });
     });

@@ -13,8 +13,6 @@ class WebhookController extends CashierController
 {
 
 public function handlePayment(Request $request,Mailer $mailer){
-    //Purchase::find(4)->update(['send' => $request->data['object']['id']]);
-    //Purchase::find(1)->update(['deposited' => $request->data['object']['id']]);
     if($request['type']=='payment_intent.succeeded'){
         $purchase=Purchase::where('payment_intent_id',$request->data['object']['id'])->first();
         $purchase->update(['deposited' => Carbon::now()]);
