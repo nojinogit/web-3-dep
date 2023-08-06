@@ -16,7 +16,7 @@
                     </div>
                     <div class="name__price-box">
                         <h1>{{$item->name}}</h1>
-                        <p class="p">￥{{$item->price}}</p>
+                        <p class="p-bold">￥{{$item->price}}</p>
                     </div>
                 </div>
                 <div class="flex__item item-wrap__item-bottom">
@@ -27,6 +27,15 @@
                         <option value="コンビニ払い">コンビニ払い</option>
                     </select>
                 </div>
+                @isset ($card_info)
+                <div class="creditHistory none">
+                    <input type="checkbox">
+                    <label class="creditHistory-label">以前使ったクレジットカードを利用する</label>
+                    <p>カードの種類: {{ $card_info->brand }}</p>
+                    <p>カード番号: **** **** **** {{ $card_info->last4 }}</p>
+                    <p>有効期限: {{ $card_info->exp_year }}年{{ $card_info->exp_month }}月</p>
+                </div>
+                @endisset
                 <div class="flex__item  item-wrap__item-bottom">
                     <div>配達先</div>
                     <form action="{{route('address',['id' => $item->id])}}">
@@ -34,56 +43,68 @@
                     </form>
                 </div>
                 <div class="flex__item">
-                    <p class="p">〒{{$user->postcode}}</p>
-                    <p class="p">{{$user->address}}</p>
-                    <p class="p">{{$user->building}}</p>
-                    <p class="p">{{$user->name}}様</p>
+                    <p class="p-bold">〒{{$user->postcode}}</p>
+                    <p class="p-bold">{{$user->address}}</p>
+                    <p class="p-bold">{{$user->building}}</p>
+                    <p class="p-bold">{{$user->name}}様</p>
                 </div>
             </div>
             <div class="payment">
                 <div class="payment-area">
                     <div class="payment-box">
                         <div  class="condition">
-                            <p class="p">商品代金</p>&emsp;
-                            <p class="p">￥{{$item->price}}</p>
+                            <p class="p-bold">商品代金</p>&emsp;
+                            <p class="p-bold">￥{{$item->price}}</p>
                         </div>
                         <div  class="condition">
-                            <p class="p">支払金額</p>&emsp;
-                            <p class="p">￥{{$item->price}}</p>
+                            <p class="p-bold">支払金額</p>&emsp;
+                            <p class="p-bold">￥{{$item->price}}</p>
                         </div>
                         <div  class="condition">
-                            <p class="p">支払方法</p>&emsp;
-                            <p id="payment-method-display" class="p">銀行振込</p>
+                            <p class="p-bold">支払方法</p>&emsp;
+                            <p id="payment-method-display" class="p-bold">銀行振込</p>
                         </div>
                     </div>
                 </div>
                 <form action="{{route('bankTransfer')}}" method="post" class="transfer">
                 @csrf
-                <input type="hidden" name="user_id" value="{{$user->id}}">
-                <input type="hidden" name="item_id" value="{{$item->id}}">
-                <input type="hidden" name="postcode" value="{{$user->postcode}}">
-                <input type="hidden" name="address" value="{{$user->address}}">
-                <input type="hidden" name="building" value="{{$user->building}}">
-                <input type="hidden" name="payment" id="payment-method-input" value="銀行振込">
-                <button type="submit" id="button">
-                    購入する
-                </button>
+                    <input type="hidden" name="user_id" value="{{$user->id}}">
+                    <input type="hidden" name="item_id" value="{{$item->id}}">
+                    <input type="hidden" name="postcode" value="{{$user->postcode}}">
+                    <input type="hidden" name="address" value="{{$user->address}}">
+                    <input type="hidden" name="building" value="{{$user->building}}">
+                    <input type="hidden" name="payment" id="payment-method-input" value="銀行振込">
+                    <button type="submit" id="button">
+                        購入する
+                    </button>
                 </form>
                 <form action="{{route('credit')}}" method="post" class="credit none" id="setup-form">
                 @csrf
-                <input type="hidden" name="user_id" value="{{$user->id}}">
-                <input type="hidden" name="item_id" value="{{$item->id}}">
-                <input type="hidden" name="postcode" value="{{$user->postcode}}">
-                <input type="hidden" name="address" value="{{$user->address}}">
-                <input type="hidden" name="building" value="{{$user->building}}">
-                <input type="hidden" name="payment" value="クレジットカード">
-                <div  class="none credit">
-                    <input id="card-holder-name" type="text" placeholder="カード名義人" name="card-holder-name"/>
-                    <div id="card-element"></div>
-                </div>
-                <button type="submit" id="card-button">
-                    購入する
-                </button>
+                    <input type="hidden" name="user_id" value="{{$user->id}}">
+                    <input type="hidden" name="item_id" value="{{$item->id}}">
+                    <input type="hidden" name="postcode" value="{{$user->postcode}}">
+                    <input type="hidden" name="address" value="{{$user->address}}">
+                    <input type="hidden" name="building" value="{{$user->building}}">
+                    <input type="hidden" name="payment" value="クレジットカード">
+                    <div  class="none credit">
+                        <input id="card-holder-name" type="text" placeholder="カード名義人" name="card-holder-name"/>
+                        <div id="card-element"></div>
+                    </div>
+                    <button type="submit" id="card-button">
+                        購入する
+                    </button>
+                </form>
+                <form action="{{route('creditReuse')}}" method="post" class="creditReuse none" id="setup-form">
+                    @csrf
+                    <input type="hidden" name="user_id" value="{{$user->id}}">
+                    <input type="hidden" name="item_id" value="{{$item->id}}">
+                    <input type="hidden" name="postcode" value="{{$user->postcode}}">
+                    <input type="hidden" name="address" value="{{$user->address}}">
+                    <input type="hidden" name="building" value="{{$user->building}}">
+                    <input type="hidden" name="payment" value="クレジットカード">
+                    <button type="submit" id="card-button-Reuse">
+                        購入する
+                    </button>
                 </form>
                 <div class="form__error">
                 @error('postcode')
@@ -143,6 +164,7 @@
     if(value=="コンビニ払い"){
         $('form').attr('action',"{{route('konbini')}}");
         $('.credit').addClass('none');
+        $('.creditHistory').addClass('none');
         $('.transfer').removeClass('none');
     }
     });
@@ -152,6 +174,7 @@
     if(value=="銀行振込"){
         $('form').attr('action',"{{route('bankTransfer')}}");
         $('.credit').addClass('none');
+        $('.creditHistory').addClass('none');
         $('.transfer').removeClass('none');
     }
     });
@@ -160,9 +183,23 @@
     var value=$(this).val();
     if(value=="クレジットカード"){
         $('.credit').removeClass('none');
+        $('.creditHistory').removeClass('none');
         $('.transfer').addClass('none');
     }
     });
+
+    var checkbox = $("input[type='checkbox']");
+    checkbox.on("change", function() {
+    if (checkbox.prop("checked")) {
+        $('.credit').addClass('none');
+        $('.creditReuse').removeClass('none');
+    } else {
+        $('.credit').removeClass('none');
+        $('.creditReuse').addClass('none');
+    }
+    });
+
+
     });
 </script>
 

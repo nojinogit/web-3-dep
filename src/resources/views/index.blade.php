@@ -18,6 +18,7 @@
             @foreach($items as $item)
             <div class="item-wrap__item">
                 <img src="{{asset($item->path)}}" class="item-wrap__item-eyecatch">
+                <div class="soldOut">売約済</div>
                 <div class="item-wrap__item-content">
                     <div class="item-wrap__item-top">
                         <div>

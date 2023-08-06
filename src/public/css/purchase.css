@@ -4,7 +4,7 @@
   margin: 100px auto;
 }
 
-.p {
+.p-bold {
   font-weight: bold;
 }
 
@@ -79,7 +79,7 @@
   margin: 20px;
 }
 
-#button,#card-button{
+#button,#card-button,#card-button-Reuse{
   margin-top: 20px;
   color: white;
   border: none;
@@ -111,14 +111,16 @@
   background: white;
 }
 
-
-
 .none{
   display: none;
 }
 
 .credit{
   margin-top: 20px;
+}
+
+.creditHistory-label{
+  margin-bottom: 10px;
 }
 
 @media screen and (max-width : 768px) {

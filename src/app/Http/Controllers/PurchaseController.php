@@ -20,6 +20,13 @@ class PurchaseController extends Controller
     public function purchase($id){
     $item=Item::findOrFail($id);
     $user=User::findOrFail(Auth::user()->id);
+    if($user->stripe_id!==null){
+    Stripe::setApiKey(config('stripe.stripe_secret_key'));
+    $customer = \Stripe\Customer::retrieve(['id' => $user->stripe_id,'expand' => ['sources'],]);
+    $card_id = $customer->default_source;
+    $card_info = $customer->sources->retrieve($card_id);
+    return view('/purchase',compact('item','user','card_info'));
+    }
     return view('/purchase',compact('item','user'));
     }
 
@@ -139,7 +146,7 @@ class PurchaseController extends Controller
             'amount' => $item->price,
             'currency' => 'jpy',
             'customer' => $customer->id,
-            'description' => 'テスト決済'
+            'description' => 'credit決済'
         ]);
 
         $purchase=$request->only(['user_id','item_id','postcode','address','building','payment']);
@@ -154,5 +161,35 @@ class PurchaseController extends Controller
 
         return back()->with('error', $e->getMessage());
     }
-}
+    }
+
+    public function creditReuse(PurchaseRequest $request,Mailer $mailer){
+
+    $item=Item::findOrFail($request->item_id);
+    $user=User::findOrFail(Auth::user()->id);
+
+    Stripe::setApiKey(config('stripe.stripe_secret_key'));
+
+    try {
+        $charge = \Stripe\Charge::create([
+            'amount' => $item->price,
+            'currency' => 'jpy',
+            'customer' => $user->stripe_id,
+            'description' => 'creditReuse決済'
+        ]);
+
+        $purchase=$request->only(['user_id','item_id','postcode','address','building','payment']);
+        $purchase['payment_intent_id'] = $charge->id;
+        $purchase_id=Purchase::create($purchase);
+
+        $purchase_data=Purchase::with('item.user')->findOrFail($purchase_id->id);
+        $mailer->to($purchase_data->item->user->email)->send(new CreditMail($purchase_data));
+
+        return redirect()->route('myPage');
+    } catch (\Exception $e) {
+
+        return back()->with('error', $e->getMessage());
+    }
+    }
+
 }
