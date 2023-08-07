@@ -46,6 +46,7 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::put('/myPage/profile', [MyPageController::class,'profileUpdate'])->name('profileUpdate');
     Route::get('/sell', [SellController::class,'sell'])->name('sell');
     Route::post('/exhibit', [SellController::class,'exhibit'])->name('exhibit');
+    Route::delete('/withdraw/{id}', [SellController::class,'withdraw'])->name('withdraw');
     Route::get('/purchase/{id}', [PurchaseController::class,'purchase'])->name('purchase');
     Route::post('/bankTransfer', [PurchaseController::class,'bankTransfer'])->name('bankTransfer');
     Route::post('/konbini', [PurchaseController::class,'konbini'])->name('konbini');

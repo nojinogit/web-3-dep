@@ -8,10 +8,11 @@ use App\Models\Favorite;
 use App\Models\Comment;
 use App\Models\Category;
 
+
 class ItemController extends Controller
 {
     public function index(Request $request){
-    $items=Item::with('categories')->get();
+    $items=Item::with('categories','purchases')->get();
     return view('/index',compact('items'));
     }
 
@@ -33,7 +34,7 @@ class ItemController extends Controller
     }
 
     public function detail($id){
-    $item=Item::with('categories')->findOrFail($id);
+    $item=Item::with('categories','purchases')->findOrFail($id);
     $favoriteCount=Favorite::where('item_id',$id)->count();
     $commentCount=Comment::where('item_id',$id)->count();
     return view('/detail',compact('item','favoriteCount','commentCount'));

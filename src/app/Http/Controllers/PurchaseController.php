@@ -12,6 +12,7 @@ use Stripe\PaymentIntent;
 use App\Mail\BankTransferMail;
 use App\Mail\KonbiniMail;
 use App\Mail\CreditMail;
+use \Carbon\Carbon;
 use Illuminate\Contracts\Mail\Mailer;
 use App\Http\Requests\PurchaseRequest;
 
@@ -84,7 +85,7 @@ class PurchaseController extends Controller
 
     $mailer->to($user->email)->send(new BankTransferMail($nextAction,$item,$user));
 
-    return redirect('/myPage');
+    return redirect('/myPage/purchase');
     }
 
     public function konbini(PurchaseRequest $request,Mailer $mailer){
@@ -119,7 +120,7 @@ class PurchaseController extends Controller
 
     $mailer->to($user->email)->send(new KonbiniMail($nextAction,$item,$user));
 
-    return redirect('/myPage');
+    return redirect('/myPage/purchase');
     }
 
     public function credit(PurchaseRequest $request,Mailer $mailer){
@@ -151,12 +152,13 @@ class PurchaseController extends Controller
 
         $purchase=$request->only(['user_id','item_id','postcode','address','building','payment']);
         $purchase['payment_intent_id'] = $charge->id;
+        $purchase['deposited'] = Carbon::now();
         $purchase_id=Purchase::create($purchase);
 
         $purchase_data=Purchase::with('item.user')->findOrFail($purchase_id->id);
         $mailer->to($purchase_data->item->user->email)->send(new CreditMail($purchase_data));
 
-        return redirect()->route('myPage');
+        return redirect()->route('myPagePurchase');
     } catch (\Exception $e) {
 
         return back()->with('error', $e->getMessage());
@@ -180,12 +182,13 @@ class PurchaseController extends Controller
 
         $purchase=$request->only(['user_id','item_id','postcode','address','building','payment']);
         $purchase['payment_intent_id'] = $charge->id;
+        $purchase['deposited'] = Carbon::now();
         $purchase_id=Purchase::create($purchase);
 
         $purchase_data=Purchase::with('item.user')->findOrFail($purchase_id->id);
         $mailer->to($purchase_data->item->user->email)->send(new CreditMail($purchase_data));
 
-        return redirect()->route('myPage');
+        return redirect()->route('myPagePurchase');
     } catch (\Exception $e) {
 
         return back()->with('error', $e->getMessage());

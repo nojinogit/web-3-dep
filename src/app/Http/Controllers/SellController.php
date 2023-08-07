@@ -26,4 +26,11 @@ class SellController extends Controller
     }
     return redirect('/myPage');
     }
+
+    public function withdraw($id){
+
+    Item::find($id)->delete();
+
+    return redirect('/myPage');
+    }
 }

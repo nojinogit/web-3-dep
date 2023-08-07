@@ -38,7 +38,7 @@
                 @endisset
                 <div class="flex__item  item-wrap__item-bottom">
                     <div>配達先</div>
-                    <form action="{{route('address',['id' => $item->id])}}">
+                    <form action="{{route('address',['id' => $item->id])}}" method="get">
                         <button type="submit" class="address-update">変更する</button>
                     </form>
                 </div>
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                 </div>
-                <form action="{{route('bankTransfer')}}" method="post" class="transfer">
+                <form action="{{route('bankTransfer')}}" method="post" class="transfer" id="transfer">
                 @csrf
                     <input type="hidden" name="user_id" value="{{$user->id}}">
                     <input type="hidden" name="item_id" value="{{$item->id}}">
@@ -162,7 +162,7 @@
     $('#payment-method').on('change',function(){
     var value=$(this).val();
     if(value=="コンビニ払い"){
-        $('form').attr('action',"{{route('konbini')}}");
+        $('#transfer').attr('action',"{{route('konbini')}}");
         $('.credit').addClass('none');
         $('.creditHistory').addClass('none');
         $('.transfer').removeClass('none');
@@ -172,7 +172,7 @@
     $('#payment-method').on('change',function(){
     var value=$(this).val();
     if(value=="銀行振込"){
-        $('form').attr('action',"{{route('bankTransfer')}}");
+        $('#transfer').attr('action',"{{route('bankTransfer')}}");
         $('.credit').addClass('none');
         $('.creditHistory').addClass('none');
         $('.transfer').removeClass('none');

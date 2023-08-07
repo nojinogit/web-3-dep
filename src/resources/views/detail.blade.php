@@ -11,6 +11,9 @@
         <div class="flex__item item-wrap">
             <div class="item-wrap__item">
                 <img src="{{asset($item->path)}}" alt="" class="item-wrap__item-eyecatch">
+                @unless($item->purchases->isEmpty())
+                <div class="soldOut">売約済</div>
+                @endunless
             </div>
             <div class="detail">
                 <h1 class="detail__h1">{{$item->name}}</h1>
@@ -73,17 +76,33 @@
                     <div class="favorite-count">{{$favoriteCount}}</div>
                     <div class="comment-count">{{$commentCount}}</div>
                 </div>
+                @if(Auth::user()->id==$item->user_id)
+                <form action="{{route('withdraw',['id' => $item->id])}}" method="post">
+                    @csrf
+                    @method('delete')
+                    <button type="submit" class="decision-button">
+                        出品を取り消す
+                    </button>
+                </form>
+                @else
                 <form action="{{route('purchase',['id' => $item->id])}}" method="get">
-                    <button type="submit" id="button">
+                    @if($item->purchases->isEmpty())
+                    <button type="submit" class="decision-button">
                         @auth購入する
                         @else購入にはログインが必要です
                         @endauth
                     </button>
+                    @else
+                    <div class="soloOut-message">
+                        この商品は売約済みです
+                    </div>
+                    @endif
                 </form>
+                @endif
                 <h2  class="detail__h1">商品説明</h2>
                 <p class="p">{{$item->explanation}}</p>
-                <h2  class="detail__h1">商品の情報</h2>
-                <div  class="category">
+                <h2 class="detail__h1">商品の情報</h2>
+                <div class="category">
                     <p class="p">カテゴリー</p>&emsp;
                     @foreach($item->categories as $category)
                     <div class="category-inner">

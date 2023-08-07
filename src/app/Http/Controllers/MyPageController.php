@@ -12,7 +12,7 @@ use App\Http\Requests\ProfileRequest;
 class MyPageController extends Controller
 {
     public function myPage(Request $request){
-    $items=Item::with('user')->where('user_id',Auth::user()->id)->get();
+    $items=Item::with('user','purchases')->where('user_id',Auth::user()->id)->get();
     $user=User::findOrFail(Auth::user()->id);
     return view('/myPage',compact('items','user'));
     }

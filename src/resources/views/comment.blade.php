@@ -11,6 +11,9 @@
         <div class="flex__item item-wrap">
             <div class="item-wrap__item">
                 <img src="{{asset($item->path)}}" alt="" class="item-wrap__item-eyecatch">
+                @unless($item->purchases->isEmpty())
+                <div class="soldOut">売約済</div>
+                @endunless
             </div>
             <div class="detail">
                 <h1>{{$item->name}}</h1>
@@ -107,9 +110,7 @@
                         @endforeach
                     </div>
                 </div>
-                <!--ペジネーション部分-->
                 {!! $comments->withQueryString()->links('pagination::bootstrap-5') !!}
-                <!--ペジネーション部分終わり-->
                 <div class="comment-post">
                     <p>商品へのコメント</p>
                     <form action="{{route('commentAdd')}}" method="post">
@@ -125,6 +126,11 @@
                         @endauth
                         </button>
                     </form>
+                </div>
+                <div class="form__error">
+                @error('comment')
+                {{ $message }}
+                @enderror
                 </div>
             </div>
         </div>

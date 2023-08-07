@@ -29,7 +29,7 @@
         </div>
         <div class="form__group">
             <div class="form__group-content">
-                <div class="flex__item">
+                <div class="flex__item form__group-content-category">
                     <p class="form__group-content-p">カテゴリー</p>
                     <button id="add" type="button">記入欄を追加</button>
                 </div>

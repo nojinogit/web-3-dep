@@ -20,7 +20,7 @@ return new class extends Migration
             $table->datetime('deposited')->nullable();
             $table->char('postcode',8);
             $table->string('address');
-            $table->string('building');
+            $table->string('building')->nullable();
             $table->string('send')->nullable();
             $table->softDeletes();
             $table->timestamps();
