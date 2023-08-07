@@ -76,29 +76,29 @@
                     <div class="favorite-count">{{$favoriteCount}}</div>
                     <div class="comment-count">{{$commentCount}}</div>
                 </div>
-                @if(Auth::user()->id==$item->user_id)
-                <form action="{{route('withdraw',['id' => $item->id])}}" method="post">
-                    @csrf
-                    @method('delete')
-                    <button type="submit" class="decision-button">
-                        出品を取り消す
-                    </button>
-                </form>
-                @else
-                <form action="{{route('purchase',['id' => $item->id])}}" method="get">
-                    @if($item->purchases->isEmpty())
-                    <button type="submit" class="decision-button">
-                        @auth購入する
-                        @else購入にはログインが必要です
-                        @endauth
-                    </button>
-                    @else
+                @unless($item->purchases->isEmpty())
                     <div class="soloOut-message">
-                        この商品は売約済みです
+                            この商品は売約済みです
                     </div>
+                @else
+                    @if(Auth::user()->id==$item->user_id)
+                    <form action="{{route('withdraw',['id' => $item->id])}}" method="post">
+                        @csrf
+                        @method('delete')
+                        <button type="submit" class="decision-button">
+                            出品を取り消す
+                        </button>
+                    </form>
+                    @else
+                    <form action="{{route('purchase',['id' => $item->id])}}" method="get">
+                        <button type="submit" class="decision-button">
+                            @auth購入する
+                            @else購入にはログインが必要です
+                            @endauth
+                        </button>
+                    </form>
                     @endif
-                </form>
-                @endif
+                @endunless
                 <h2  class="detail__h1">商品説明</h2>
                 <p class="p">{{$item->explanation}}</p>
                 <h2 class="detail__h1">商品の情報</h2>
