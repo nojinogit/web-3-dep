@@ -14,6 +14,7 @@ class MyPageController extends Controller
     public function myPage(Request $request){
     $items=Item::with('user','purchases')->where('user_id',Auth::user()->id)->get();
     $user=User::findOrFail(Auth::user()->id);
+    //dd($items);
     return view('/myPage',compact('items','user'));
     }
 

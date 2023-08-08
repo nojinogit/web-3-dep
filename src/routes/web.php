@@ -54,6 +54,7 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::post('/purchase/address', [PurchaseController::class,'addressChange'])->name('addressChange');
     Route::post('/credit', [PurchaseController::class,'credit'])->name('credit');
     Route::post('/creditReuse', [PurchaseController::class,'creditReuse'])->name('creditReuse');
+    Route::put('/send', [PurchaseController::class,'send'])->name('send');
 });
 
 Route::group(['middleware' => ['auth', 'can:admin_only']], function () {

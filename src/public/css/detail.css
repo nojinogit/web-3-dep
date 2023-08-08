@@ -19,7 +19,7 @@
   height: auto;
 }
 
-.soldOut{
+.soldStatus{
   position: absolute;
     top: 30%;
     left: 50%;
@@ -31,6 +31,14 @@
     width: 100%;
     text-align: center;
     font-weight: bold;
+}
+
+.send {
+  color: red;
+}
+
+.end {
+  color: blue;
 }
 
 .p{
@@ -134,6 +142,38 @@
   background-color: white;
   border: none;
   cursor: pointer;
+}
+
+.send-area{
+  border: 1px solid black;
+}
+
+.send-box {
+  padding: 10px;
+}
+
+.send-button {
+  margin-top: 10px;
+  color: white;
+  border: none;
+  background-color: blue;
+  height: 40px;
+  width: 50%;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.thanks-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  color: white;
+  border: none;
+  background-color: blue;
+  height: 40px;
+  width: 50%;
+  border-radius: 5px;
 }
 
 .none{

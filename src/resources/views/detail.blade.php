@@ -12,7 +12,17 @@
             <div class="item-wrap__item">
                 <img src="{{asset($item->path)}}" alt="" class="item-wrap__item-eyecatch">
                 @unless($item->purchases->isEmpty())
-                <div class="soldOut">売約済</div>
+                @foreach($item->purchases as $purchase)
+                @if($purchase->payment!==null && $purchase->deposited!==null && $purchase->send!==null)
+                <div class="soldStatus end">発送済</div>
+                @endif
+                @if($purchase->payment!==null && $purchase->deposited!==null && $purchase->send==null)
+                <div class="soldStatus send">発送待ち</div>
+                @endif
+                @if($purchase->payment!==null && $purchase->deposited==null && $purchase->send==null)
+                <div class="soldStatus">入金待ち</div>
+                @endif
+                @endforeach
                 @endunless
             </div>
             <div class="detail">
@@ -114,6 +124,45 @@
                     <p class="p">商品の状態</p>&emsp;
                     <p class="p">{{$item->condition}}</p>
                 </div>
+                @unless($item->purchases->isEmpty())
+                @foreach($item->purchases as $purchase)
+                @if(Auth::user()->id==$item->user_id && $purchase->payment!==null && $purchase->deposited!==null && $purchase->send==null)
+                    <div class="send-area">
+                        <div class="send-box">
+                            <p>発送先</p>
+                            <p>郵便番号：{{$purchase->postcode}}</p>
+                            <p>住所：{{$purchase->address}}</p>
+                            <p>建物：{{$purchase->building}}</p>
+                            <p>氏名：{{$purchase->user->name}}</p>
+                            <p>速やかな発送のご協力を宜しくお願い致します。</p>
+                            <form action="{{route('send')}}" method="post">
+                                @csrf
+                                @method('put')
+                                <input type="hidden" name="item_id" value="{{$item->id}}">
+                                <button type="submit" class="send-button">発送完了</button>
+                            </form>
+                        </div>
+                    </div>
+                @endif
+                @endforeach
+                @foreach($item->purchases as $purchase)
+                @if(Auth::user()->id==$item->user_id && $purchase->payment!==null && $purchase->deposited!==null && $purchase->send!==null)
+                    <div class="send-area">
+                        <div class="send-box">
+                            発送先<br><br>
+                            郵便番号：{{$purchase->postcode}}<br>
+                            住所：{{$purchase->address}}<br>
+                            建物：{{$purchase->building}}<br>
+                            氏名：{{$purchase->user->name}}<br>
+                            <br>
+                            <div class="thanks-message">
+                                    発送ありがとうございました。
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                @endforeach
+                @endunless
             </div>
         </div>
     </div>

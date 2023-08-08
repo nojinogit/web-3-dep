@@ -13,6 +13,23 @@
                 <img src="{{asset($user->path)}}" alt=""  class="profile-imgbox-img">
             </div>
             <p  class="profile-p">{{$user->name}}</p>
+            @php
+                $found = false;
+            @endphp
+            @foreach($items as $item)
+                @if($found)
+                    @break
+                @endif
+                @foreach($item->purchases as $purchase)
+                    @if($purchase->payment!==null && $purchase->deposited!==null && $purchase->send==null && Auth::user()->id==$item->user_id)
+                        <div class="send-message">発送待ち商品があります。<br>商品詳細から発送先を確認・発送処理をお願いします。</div>
+                        @php
+                            $found = true;
+                        @endphp
+                        @break
+                    @endif
+                @endforeach
+            @endforeach
             <div class="profile-update">
                 <a href="{{route('profile')}}"  class="profile-update-a">プロフィールの編集</a>
             </div>
@@ -31,6 +48,17 @@
                 <img src="{{asset($item->path)}}" class="item-wrap__item-eyecatch">
                 @unless($item->purchases->isEmpty())
                 <div class="soldOut">売約済</div>
+                @foreach($item->purchases as $purchase)
+                @if($purchase->payment!==null && $purchase->deposited!==null && $purchase->send!==null)
+                <div class="soldStatus end">発送済</div>
+                @endif
+                @if($purchase->payment!==null && $purchase->deposited!==null && $purchase->send==null)
+                <div class="soldStatus send">発送待ち</div>
+                @endif
+                @if($purchase->payment!==null && $purchase->deposited==null && $purchase->send==null)
+                <div class="soldStatus">入金待ち</div>
+                @endif
+                @endforeach
                 @endunless
                 <div class="item-wrap__item-content">
                     <div class="item-wrap__item-top">

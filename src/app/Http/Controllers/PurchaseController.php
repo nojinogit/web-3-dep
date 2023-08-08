@@ -12,6 +12,7 @@ use Stripe\PaymentIntent;
 use App\Mail\BankTransferMail;
 use App\Mail\KonbiniMail;
 use App\Mail\CreditMail;
+use App\Mail\SendMail;
 use \Carbon\Carbon;
 use Illuminate\Contracts\Mail\Mailer;
 use App\Http\Requests\PurchaseRequest;
@@ -193,6 +194,16 @@ class PurchaseController extends Controller
 
         return back()->with('error', $e->getMessage());
     }
+    }
+
+    public function send(Request $request,Mailer $mailer){
+
+    Purchase::where('item_id',$request->item_id)->update(['send'=>Carbon::now()]);
+    $purchase=Purchase::where('item_id',$request->item_id)->firstOrFail();
+    $purchase_data=Purchase::with('item.user','user')->findOrFail($purchase->id);
+    $mailer->to($purchase_data->user->email)->send(new SendMail($purchase_data));
+
+    return redirect('/myPage');
     }
 
 }
