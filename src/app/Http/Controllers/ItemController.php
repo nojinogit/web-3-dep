@@ -7,13 +7,38 @@ use App\Models\Item;
 use App\Models\Favorite;
 use App\Models\Comment;
 use App\Models\Category;
+use App\Models\Access;
+use Illuminate\Support\Facades\Auth;
 
 
 class ItemController extends Controller
 {
     public function index(Request $request){
-    $items=Item::with('categories','purchases')->get();
-    return view('/index',compact('items'));
+    if (Auth::check()) {
+        $accesses = Access::with('item.categories')->where('user_id', Auth::user()->id)->first();
+        if ($accesses) {
+            $categories = [];
+            foreach ($accesses->item->categories as $category) {
+                $searchResults = Category::CategorySearch($category->category)->get();
+                foreach ($searchResults as $searchResult) {
+                    $categories[] = $searchResult;
+                }
+            }
+            $categoriesItemIds = [];
+            foreach ($categories as $category) {
+                $categoriesItemIds[] = $category->item_id;
+            }
+            $categoriesItems = [];
+            foreach ($categoriesItemIds as $categoriesItemId) {
+                $categoriesItems[] = Item::findOrFail($categoriesItemId);
+            }
+            $collection_categoriesItems = collect($categoriesItems);
+            $items = $collection_categoriesItems->unique('id');
+            return view('/index', compact('items'));
+        }
+    }
+    $items = Item::with('categories', 'purchases')->get();
+    return view('/index', compact('items'));
     }
 
     public function search(Request $request){
@@ -34,6 +59,14 @@ class ItemController extends Controller
     }
 
     public function detail($id){
+    if(Auth::check()){
+        $access=Access::with('item.categories')->where('user_id',Auth::user()->id)->first();
+        if($access){
+            $access->update(['item_id'=>$id]);
+        } else{
+            Access::create(['user_id'=>Auth::user()->id,'item_id'=>$id]);
+        }
+    }
     $item=Item::with('categories','purchases')->findOrFail($id);
     $favoriteCount=Favorite::where('item_id',$id)->count();
     $commentCount=Comment::where('item_id',$id)->count();

@@ -31,6 +31,14 @@ class Item extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function favorites(){
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function accesses(){
+        return $this->hasMany(Access::class);
+    }
+
     public function comments(){
         return $this->hasMany(Comment::class);
     }
