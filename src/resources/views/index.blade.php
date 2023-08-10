@@ -8,6 +8,11 @@
 
 @section('content')
     <div class="container">
+        @isset($recommendations)
+        <div class="recommendations">
+            {{$recommendations}}
+        </div>
+        @endisset
         <div class="item-button">
             <form action="/"><button class="item-button-inner">おすすめ</button></form>
             @auth

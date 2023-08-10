@@ -24,8 +24,9 @@
                 </div>
                 <nav class="header-utilities-nav">
                     <ul class="header-nav">
+                        <li  class="search-checkbox"><label class="search-checkbox-label"><input type="checkbox">売約済みを含める</label></li>
                         <li class="header-nav__item">
-                            <form action="{{route('search')}}">
+                            <form action="{{route('search')}}" method="get" id="search">
                                 <input type="text" name="name" onchange="this.form.submit()" placeholder="何をお探しですか？" class="search-input">
                             </form>
                         </li>
@@ -55,17 +56,31 @@
                             <a class="header-nav__link header-utilities-a" href="/register">会員登録</a>
                         </li>
                         @endunless
-                        
+                        <li>
+                            <div class="header__sell"><a href="{{route('sell')}}" class="header__sell-a">出品</a></div>
+                        </li>
                     </ul>
                 </nav>
-                <div class="header__sell">
-                    <a href="{{route('sell')}}" class="header__sell-a">出品</a>
-                </div>
             </div>
         </div>
     </header>
     <main>
     @yield('content')
     </main>
+    <script>
+    $(function() {
+
+    var checkbox = $("input[type='checkbox']");
+    checkbox.on("change", function() {
+    if (checkbox.prop("checked")) {
+        $('#search').attr('action',"{{route('searchAll')}}");
+    } else {
+        $('#search').attr('action',"{{route('search')}}");
+    }
+    });
+
+
+    });
+</script>
 </body>
 </html>

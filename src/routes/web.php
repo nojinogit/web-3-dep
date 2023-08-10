@@ -29,6 +29,7 @@ Route::get('/login', function () {return view('/login');})->name('login');
 Route::get('/register', function () {return view('/auth/register');})->name('register');
 Route::get('/',[ItemController::class,'index'])->name('index');
 Route::get('/search',[ItemController::class,'search'])->name('search');
+Route::get('/searchAll',[ItemController::class,'searchAll'])->name('searchAll');
 Route::get('/detail/{id}',[ItemController::class,'detail'])->name('detail');
 Route::get('/comment/{id}', [CommentController::class,'comment'])->name('comment');
 Route::post('/stripe/webhook', [WebhookController::class,'handlePayment']);

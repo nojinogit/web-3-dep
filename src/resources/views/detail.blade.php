@@ -91,6 +91,7 @@
                             この商品は売約済みです
                     </div>
                 @else
+                @if (Auth::check())
                     @if(Auth::user()->id==$item->user_id)
                     <form action="{{route('withdraw',['id' => $item->id])}}" method="post">
                         @csrf
@@ -108,6 +109,7 @@
                         </button>
                     </form>
                     @endif
+                @endif
                 @endunless
                 <h2  class="detail__h1">商品説明</h2>
                 <p class="p">{{$item->explanation}}</p>
@@ -124,6 +126,7 @@
                     <p class="p">商品の状態</p>&emsp;
                     <p class="p">{{$item->condition}}</p>
                 </div>
+                @if (Auth::check())
                 @unless($item->purchases->isEmpty())
                 @foreach($item->purchases as $purchase)
                 @if(Auth::user()->id==$item->user_id && $purchase->payment!==null && $purchase->deposited!==null && $purchase->send==null)
@@ -163,6 +166,7 @@
                 @endif
                 @endforeach
                 @endunless
+                @endif
             </div>
         </div>
     </div>

@@ -3,6 +3,14 @@
   margin: 100px auto;
 }
 
+.recommendations{
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+  font-weight: bold;
+  font-size: x-large;
+}
+
 .item-wrap {
   margin: 15px auto;
   justify-content: space-around;

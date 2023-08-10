@@ -30,18 +30,59 @@ class ItemController extends Controller
             }
             $categoriesItems = [];
             foreach ($categoriesItemIds as $categoriesItemId) {
-                $categoriesItems[] = Item::findOrFail($categoriesItemId);
+                $categoriesItems[] = Item::with('purchases')->findOrFail($categoriesItemId);
             }
             $collection_categoriesItems = collect($categoriesItems);
-            $items = $collection_categoriesItems->unique('id');
-            return view('/index', compact('items'));
+            $uniqueItems = $collection_categoriesItems->unique('id');
+            $items = $uniqueItems->reject(function ($item) {
+            foreach ($item->purchases as $purchase) {
+                if ($purchase->payment != null) {
+                    return true;
+                }
+            }
+            return false;
+            });
+            return view('/index', compact('items'))->with('recommendations','あなたへのおすすめ商品');
         }
     }
-    $items = Item::with('categories', 'purchases')->get();
+    $uniqueItems = Item::with('categories', 'purchases')->get();
+    $items = $uniqueItems->reject(function ($item) {
+    foreach ($item->purchases as $purchase) {
+        if ($purchase->payment != null) {
+            return true;
+        }
+    }
+    return false;
+    });
     return view('/index', compact('items'));
     }
 
     public function search(Request $request){
+    $ItemItems=Item::with('purchases')->ItemSearch($request->name)->get();
+    $categories=Category::CategorySearch($request->name)->get();
+    $categoriesItemIds=[];
+    foreach($categories as $category){
+    $categoriesItemIds[]=$category->item_id;
+    }
+    $categoriesItems=[];
+    foreach($categoriesItemIds as $categoriesItemId){
+    $categoriesItems[]=Item::with('purchases')->findOrFail($categoriesItemId);
+    }
+    $collection_categoriesItems = collect($categoriesItems);
+    $newItems = collect($ItemItems)->merge($collection_categoriesItems);
+    $uniqueItems = $newItems->unique('id');
+    $items = $uniqueItems->reject(function ($item) {
+    foreach ($item->purchases as $purchase) {
+        if ($purchase->payment != null) {
+            return true;
+        }
+    }
+    return false;
+    });
+    return view('/index',compact('items'));
+    }
+
+    public function searchAll(Request $request){
     $ItemItems=Item::ItemSearch($request->name)->get();
     $categories=Category::CategorySearch($request->name)->get();
     $categoriesItemIds=[];
