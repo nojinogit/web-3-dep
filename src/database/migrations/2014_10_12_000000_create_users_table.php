@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('building')->nullable();
             $table->integer('role')->default(1);
+            $table->integer('point')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -26,7 +26,8 @@ class User extends Authenticatable
         'address',
         'building',
         'path',
-        'stripe_id'
+        'stripe_id',
+        'point'
     ];
 
     /**

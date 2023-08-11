@@ -26,6 +26,16 @@
   width: 50%;
 }
 
+.point{
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.point-input{
+  height:22px;
+  width:115px;
+}
+
 .item-wrap__item-main {
   width: 100%;
   margin:2%;

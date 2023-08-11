@@ -19,6 +19,8 @@ class Purchase extends Model
         'deposited',
         'payment_intent_id',
         'send',
+        'point',
+        'cash'
     ];
 
     public function user(){

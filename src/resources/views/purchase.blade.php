@@ -36,6 +36,10 @@
                     <p>有効期限: {{ $card_info->exp_year }}年{{ $card_info->exp_month }}月</p>
                 </div>
                 @endisset
+                <div class="flex__item point">
+                    <div>ポイントを利用する　残高 {{$user->point}} ポイント</div>
+                    <input type="number" class="point-input" id="point" min="0" max="{{$user->point}}">
+                </div>
                 <div class="flex__item  item-wrap__item-bottom">
                     <div>配達先</div>
                     <form action="{{route('address',['id' => $item->id])}}" method="get">
@@ -57,8 +61,16 @@
                             <p class="p-bold">￥{{$item->price}}</p>
                         </div>
                         <div  class="condition">
+                            <p class="p-bold">利用ポイント</p>&emsp;
+                            <p class="p-bold"><label id="use-point">0</label> ポイント</p>
+                        </div>
+                        <div  class="condition">
                             <p class="p-bold">支払金額</p>&emsp;
-                            <p class="p-bold">￥{{$item->price}}</p>
+                            <p class="p-bold">￥<label id="total">{{$item->price}}</label></p>
+                        </div>
+                        <div  class="condition">
+                            <p class="p-bold">獲得ポイント</p>&emsp;
+                            <p class="p-bold"><label id="get-point">{{$item->price*0.01}}</label> ポイント</p>
                         </div>
                         <div  class="condition">
                             <p class="p-bold">支払方法</p>&emsp;
@@ -70,6 +82,9 @@
                 @csrf
                     <input type="hidden" name="user_id" value="{{$user->id}}">
                     <input type="hidden" name="item_id" value="{{$item->id}}">
+                    <input type="hidden" name="cash" value="{{$item->price}}" class="cash">
+                    <input type="hidden" name="usePoint" value="0" class="use-point">
+                    <input type="hidden" name="getPoint" value="0" class="get-point">
                     <input type="hidden" name="postcode" value="{{$user->postcode}}">
                     <input type="hidden" name="address" value="{{$user->address}}">
                     <input type="hidden" name="building" value="{{$user->building}}">
@@ -82,6 +97,9 @@
                 @csrf
                     <input type="hidden" name="user_id" value="{{$user->id}}">
                     <input type="hidden" name="item_id" value="{{$item->id}}">
+                    <input type="hidden" name="cash" value="{{$item->price}}" class="cash">
+                    <input type="hidden" name="usePoint" value="0" class="use-point">
+                    <input type="hidden" name="getPoint" value="0" class="get-point">
                     <input type="hidden" name="postcode" value="{{$user->postcode}}">
                     <input type="hidden" name="address" value="{{$user->address}}">
                     <input type="hidden" name="building" value="{{$user->building}}">
@@ -98,6 +116,9 @@
                     @csrf
                     <input type="hidden" name="user_id" value="{{$user->id}}">
                     <input type="hidden" name="item_id" value="{{$item->id}}">
+                    <input type="hidden" name="cash" value="{{$item->price}}" class="cash">
+                    <input type="hidden" name="usePoint" value="0" class="use-point">
+                    <input type="hidden" name="getPoint" value="0" class="get-point">
                     <input type="hidden" name="postcode" value="{{$user->postcode}}">
                     <input type="hidden" name="address" value="{{$user->address}}">
                     <input type="hidden" name="building" value="{{$user->building}}">
@@ -157,6 +178,23 @@
     $('#payment-method').on('change',function(){
     $('#payment-method-display').text($(this).val());
     $('#payment-method-input').val($(this).val());
+    });
+
+    $('#point').on('input',function(){
+    var value=$(this).val();
+        $('#use-point').text(value);
+        $('.use-point').val(value);
+    });
+
+    $('#point').on('input', function() {
+        var point = parseInt($(this).val());
+        var price = parseInt('{{$item->price}}');
+        var total = price - point;
+        var get = Math.floor(total * 0.01);
+        $('#total').text(total);
+        $('#get-point').text(get);
+        $('.cash').val(total);
+        $('.get-point').val(get);
     });
 
     $('#payment-method').on('change',function(){

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('payment');
             $table->string('payment_intent_id')->nullable();
             $table->datetime('deposited')->nullable();
+            $table->integer('cash')->nullable();
+            $table->integer('point')->nullable();
             $table->char('postcode',8);
             $table->string('address');
             $table->string('building')->nullable();

@@ -16,6 +16,7 @@ use App\Mail\SendMail;
 use \Carbon\Carbon;
 use Illuminate\Contracts\Mail\Mailer;
 use App\Http\Requests\PurchaseRequest;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
@@ -59,7 +60,7 @@ class PurchaseController extends Controller
     ]);
 
     $intent = PaymentIntent::create([
-    'amount' => $item->price,
+    'amount' => $request->cash,
     'currency' => 'jpy',
     'customer' => $customer->id,
     'payment_method_types' => ['customer_balance'],
@@ -77,10 +78,22 @@ class PurchaseController extends Controller
     'confirm' => true,
     ]);
 
-    $purchase=$request->only(['user_id','item_id','postcode','address','building','payment']);
+    $purchase=$request->only(['user_id','item_id','postcode','address','building','payment','cash']);
+    $purchase['point'] = $request->usePoint;
     $purchase_id=Purchase::create($purchase);
 
     Purchase::findOrFail($purchase_id->id)->update(['payment_intent_id' => $intent->id]);
+
+    DB::transaction(function () use ($user, $request) {
+    $point = intval($user->point);
+    $usePoint = intval($request->usePoint);
+    $getPoint = intval($request->getPoint);
+
+    $newPoint = $point - $usePoint + $getPoint;
+
+    $user->point = $newPoint;
+    $user->save();
+    });
 
     $nextAction=$intent->next_action;
 
