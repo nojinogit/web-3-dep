@@ -36,6 +36,7 @@ Route::post('/stripe/webhook', [WebhookController::class,'handlePayment']);
 
 
 Route::middleware(['auth','verified'])->group(function () {
+    Route::get('/recommendation',[ItemController::class,'recommendation'])->name('recommendation');
     Route::get('/myList/{id}',[ItemController::class,'myList'])->name('myList');
     Route::post('/favoriteStore',[FavoriteController::class,'favoriteStore'])->name('favoriteStore');
     Route::delete('/favoriteDelete',[FavoriteController::class,'favoriteDelete'])->name('favoriteDelete');

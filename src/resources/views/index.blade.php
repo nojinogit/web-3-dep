@@ -14,7 +14,7 @@
         </div>
         @endisset
         <div class="item-button">
-            <form action="/"><button class="item-button-inner">おすすめ</button></form>
+            <form action="{{route('recommendation')}}"><button class="item-button-inner">おすすめ</button></form>
             @auth
             <form action="{{route('myList',['id' => Auth::user()->id])}}" method="get"><button  class="item-button-inner">マイリスト</button></form>
             @endauth

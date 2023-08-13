@@ -14,17 +14,17 @@ class BankTransferMail extends Mailable
     use Queueable, SerializesModels;
 
     public $nextAction;
-    public $item;
     public $user;
+    public $cash;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($nextAction,$item,$user)
+    public function __construct($nextAction,$user,$cash)
     {
         $this->nextAction=$nextAction;
-        $this->item=$item;
         $this->user=$user;
+        $this->cash=$cash;
     }
 
     /**

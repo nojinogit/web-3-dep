@@ -13,6 +13,7 @@
                 <img src="{{asset($user->path)}}" alt=""  class="profile-imgbox-img">
             </div>
             <p  class="profile-p">{{$user->name}}</p>
+            <p  class="profile-p">ポイント残高：{{$user->point}}</p>
             @php
                 $found = false;
             @endphp

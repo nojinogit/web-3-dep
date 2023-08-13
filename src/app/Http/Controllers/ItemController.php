@@ -14,6 +14,19 @@ use Illuminate\Support\Facades\Auth;
 class ItemController extends Controller
 {
     public function index(Request $request){
+    $uniqueItems = Item::with('categories', 'purchases')->get();
+    $items = $uniqueItems->reject(function ($item) {
+            foreach ($item->purchases as $purchase) {
+                if ($purchase->payment != null) {
+                    return true;
+                }
+            }
+            return false;
+            });
+    return view('/index', compact('items'));
+    }
+
+    public function recommendation(Request $request){
     if (Auth::check()) {
         $accesses = Access::with('item.categories')->where('user_id', Auth::user()->id)->first();
         if ($accesses) {

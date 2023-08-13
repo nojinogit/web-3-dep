@@ -29,7 +29,7 @@
                 </div>
                 @isset ($card_info)
                 <div class="creditHistory none">
-                    <input type="checkbox">
+                    <input type="checkbox" id="reuse">
                     <label class="creditHistory-label">以前使ったクレジットカードを利用する</label>
                     <p>カードの種類: {{ $card_info->brand }}</p>
                     <p>カード番号: **** **** **** {{ $card_info->last4 }}</p>
@@ -84,7 +84,7 @@
                     <input type="hidden" name="item_id" value="{{$item->id}}">
                     <input type="hidden" name="cash" value="{{$item->price}}" class="cash">
                     <input type="hidden" name="usePoint" value="0" class="use-point">
-                    <input type="hidden" name="getPoint" value="0" class="get-point">
+                    <input type="hidden" name="getPoint" value="{{floor($item->price*0.01)}}" class="get-point">
                     <input type="hidden" name="postcode" value="{{$user->postcode}}">
                     <input type="hidden" name="address" value="{{$user->address}}">
                     <input type="hidden" name="building" value="{{$user->building}}">
@@ -99,7 +99,7 @@
                     <input type="hidden" name="item_id" value="{{$item->id}}">
                     <input type="hidden" name="cash" value="{{$item->price}}" class="cash">
                     <input type="hidden" name="usePoint" value="0" class="use-point">
-                    <input type="hidden" name="getPoint" value="0" class="get-point">
+                    <input type="hidden" name="getPoint" value="{{floor($item->price*0.01)}}" class="get-point">
                     <input type="hidden" name="postcode" value="{{$user->postcode}}">
                     <input type="hidden" name="address" value="{{$user->address}}">
                     <input type="hidden" name="building" value="{{$user->building}}">
@@ -118,7 +118,7 @@
                     <input type="hidden" name="item_id" value="{{$item->id}}">
                     <input type="hidden" name="cash" value="{{$item->price}}" class="cash">
                     <input type="hidden" name="usePoint" value="0" class="use-point">
-                    <input type="hidden" name="getPoint" value="0" class="get-point">
+                    <input type="hidden" name="getPoint" value="{{floor($item->price*0.01)}}" class="get-point">
                     <input type="hidden" name="postcode" value="{{$user->postcode}}">
                     <input type="hidden" name="address" value="{{$user->address}}">
                     <input type="hidden" name="building" value="{{$user->building}}">
@@ -137,11 +137,11 @@
                 {{ $message }}
                 @enderror
                 </div>
-                            @if (session('error'))
-                            <div class="alert alert-danger">
-                            {{ session('error') }}
-                            </div>
-                            @endif
+                <div class="form__error">
+                @error('usePoint')
+                {{ $message }}
+                @enderror
+                </div>
             </div>
         </div>
     </div>
@@ -226,7 +226,7 @@
     }
     });
 
-    var checkbox = $("input[type='checkbox']");
+    var checkbox = $("#reuse");
     checkbox.on("change", function() {
     if (checkbox.prop("checked")) {
         $('.credit').addClass('none');
