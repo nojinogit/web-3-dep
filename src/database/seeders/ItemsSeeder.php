@@ -68,5 +68,61 @@ class ItemsSeeder extends Seeder
         'price' => '50000',
         'created_at' => now(),
     ];DB::table('items')->insert($param);
+    $param = [
+        'id' => '6',
+        'user_id' => '2',
+        'name' => 'テレビ',
+        'path' => 'storage/sample/液晶テレビ.jpg',
+        'brand' => 'SONY',
+        'condition' => '良',
+        'explanation' => '2年前購入です',
+        'price' => '60000',
+        'created_at' => now(),
+    ];DB::table('items')->insert($param);
+    $param = [
+        'id' => '7',
+        'user_id' => '2',
+        'name' => '電球',
+        'path' => 'storage/sample/電球.jpg',
+        'brand' => 'toshiba',
+        'condition' => '新品',
+        'explanation' => '新品です',
+        'price' => '200',
+        'created_at' => now(),
+    ];DB::table('items')->insert($param);
+    $param = [
+        'id' => '8',
+        'user_id' => '3',
+        'name' => 'スマートフォン',
+        'path' => 'storage/sample/スマートフォン.jpg',
+        'brand' => 'toshiba',
+        'condition' => 'とても良い',
+        'explanation' => '１か月前購入',
+        'price' => '50000',
+        'created_at' => now(),
+    ];DB::table('items')->insert($param);
+    $param = [
+        'id' => '9',
+        'user_id' => '3',
+        'name' => 'エアコン',
+        'path' => 'storage/sample/エアコン.jpg',
+        'brand' => 'toshiba',
+        'condition' => '可',
+        'explanation' => '３年前購入、取付は自力でお願いします。',
+        'price' => '10000',
+        'created_at' => now(),
+    ];DB::table('items')->insert($param);
+    $param = [
+        'id' => '10',
+        'user_id' => '4',
+        'name' => '硬球',
+        'path' => 'storage/sample/硬球.jpg',
+        'brand' => 'mizuno',
+        'condition' => '新品',
+        'explanation' => '新品です',
+        'price' => '300',
+        'created_at' => now(),
+    ];DB::table('items')->insert($param);
+
     }
 }

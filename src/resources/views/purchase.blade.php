@@ -38,7 +38,7 @@
                 @endisset
                 <div class="flex__item point">
                     <div>ポイントを利用する　残高 {{$user->point}} ポイント</div>
-                    <input type="number" class="point-input" id="point" min="0" max="{{$user->point}}">
+                    <input type="number" class="point-input" id="point" min="0" max="{{$user->point}}" default="0">
                 </div>
                 <div class="flex__item  item-wrap__item-bottom">
                     <div>配達先</div>

@@ -95,20 +95,32 @@
                             一般ユーザ
                             @endif
                         </td>
+                        @if($account->id==Auth::user()->id)
+                        <td><button type="button">自分の削除はできません</button></td>
+                        @else
                         <td><button type="submit">アカウントを削除</button></td>
+                        @endif
                     </form>
+                    @if($account->role==1)
                     <form  method="POST" action="{{route('accountRole')}}">
                         @method('put')
                         @csrf
                         <input type="hidden" name="id" value="{{$account->id}}">
-                        <td><button type="submit">管理者権限を追加する</button></td>
+                        <td><button type="submit">管理者権限を<span class="role-put">追加</span>する</button></td>
                     </form>
+                    @endif
+                    @if($account->role==100)
+                    @if($account->id==Auth::user()->id)
+                    <td><button type="button">自分の権限設定はできません</button></td>
+                    @else
                     <form  method="POST" action="{{route('accountRoleDelete')}}">
                         @method('put')
                         @csrf
                         <input type="hidden" name="id" value="{{$account->id}}">
-                        <td><button type="submit">管理者権限を削除する</button></td>
+                        <td><button type="submit">管理者権限を<span class="role-delete">削除</span>する</button></td>
                     </form>
+                    @endif
+                    @endif
                 </tr>
                 @endforeach
             </table>

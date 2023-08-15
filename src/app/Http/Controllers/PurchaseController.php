@@ -16,6 +16,7 @@ use App\Mail\SendMail;
 use \Carbon\Carbon;
 use Illuminate\Contracts\Mail\Mailer;
 use App\Http\Requests\PurchaseRequest;
+use App\Http\Requests\SendRequest;
 use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
@@ -39,12 +40,19 @@ class PurchaseController extends Controller
     return view('/address',compact('item','user'));
     }
 
-    public function addressChange(PurchaseRequest $request){
+    public function addressChange(SendRequest $request){
     $item=Item::findOrFail($request->item_id);
-    $user=User::findOrFail($request->user_id);
+    $user=User::findOrFail(Auth::user()->id);
     $user['postcode']=$request->postcode;
     $user['address']=$request->address;
     $user['building']=$request->building;
+    if($user->stripe_id!==null){
+    Stripe::setApiKey(config('stripe.stripe_secret_key'));
+    $customer = \Stripe\Customer::retrieve(['id' => $user->stripe_id,'expand' => ['sources'],]);
+    $card_id = $customer->default_source;
+    $card_info = $customer->sources->retrieve($card_id);
+    return view('/purchase',compact('item','user','card_info'));
+    }
     return view('/purchase',compact('item','user'));
     }
 

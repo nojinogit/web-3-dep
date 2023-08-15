@@ -28,13 +28,15 @@ class ItemController extends Controller
 
     public function recommendation(Request $request){
     if (Auth::check()) {
-        $accesses = Access::with('item.categories')->where('user_id', Auth::user()->id)->first();
+        $accesses = Access::with('item.categories')->where('user_id', Auth::user()->id)->get();
         if ($accesses) {
             $categories = [];
-            foreach ($accesses->item->categories as $category) {
-                $searchResults = Category::CategorySearch($category->category)->get();
-                foreach ($searchResults as $searchResult) {
-                    $categories[] = $searchResult;
+            foreach ($accesses as $access) {
+                foreach ($access->item->categories as $category) {
+                    $searchResults = Category::CategorySearch($category->category)->get();
+                    foreach ($searchResults as $searchResult) {
+                        $categories[] = $searchResult;
+                    }
                 }
             }
             $categoriesItemIds = [];
@@ -47,7 +49,7 @@ class ItemController extends Controller
             }
             $collection_categoriesItems = collect($categoriesItems);
             $uniqueItems = $collection_categoriesItems->unique('id');
-            $items = $uniqueItems->reject(function ($item) {
+            $paymentItems = $uniqueItems->reject(function ($item) {
             foreach ($item->purchases as $purchase) {
                 if ($purchase->payment != null) {
                     return true;
@@ -55,19 +57,15 @@ class ItemController extends Controller
             }
             return false;
             });
+            $items = $paymentItems->reject(function ($item) {
+                if ($item->user_id == Auth::user()->id) {
+                    return true;
+                }
+                return false;
+            });
             return view('/index', compact('items'))->with('recommendations','あなたへのおすすめ商品');
         }
     }
-    $uniqueItems = Item::with('categories', 'purchases')->get();
-    $items = $uniqueItems->reject(function ($item) {
-    foreach ($item->purchases as $purchase) {
-        if ($purchase->payment != null) {
-            return true;
-        }
-    }
-    return false;
-    });
-    return view('/index', compact('items'));
     }
 
     public function search(Request $request){
@@ -113,14 +111,16 @@ class ItemController extends Controller
     }
 
     public function detail($id){
-    if(Auth::check()){
-        $access=Access::with('item.categories')->where('user_id',Auth::user()->id)->first();
-        if($access){
-            $access->update(['item_id'=>$id]);
-        } else{
-            Access::create(['user_id'=>Auth::user()->id,'item_id'=>$id]);
+
+    if (Auth::check()) {
+        $accesses = Access::with('item.categories')->where('user_id', Auth::user()->id)->orderBy('updated_at', 'asc')->get();
+        if ($accesses->count() >= 2) {
+            $accesses[0]->update(['item_id' => $id]);
+        } else {
+            Access::create(['user_id' => Auth::user()->id, 'item_id' => $id]);
         }
     }
+
     $item=Item::with('categories','purchases')->findOrFail($id);
     $favoriteCount=Favorite::where('item_id',$id)->count();
     $commentCount=Comment::where('item_id',$id)->count();

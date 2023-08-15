@@ -85,5 +85,84 @@ class CategoriesSeeder extends Seeder
         'category' => '安い',
         'created_at' => now(),
     ];DB::table('categories')->insert($param);
+    $param = [
+        'id' => '13',
+        'item_id' => '6',
+        'category' => '安い',
+        'created_at' => now(),
+    ];DB::table('categories')->insert($param);
+    $param = [
+        'id' => '14',
+        'item_id' => '6',
+        'category' => '家電',
+        'created_at' => now(),
+    ];DB::table('categories')->insert($param);
+    $param = [
+        'id' => '15',
+        'item_id' => '6',
+        'category' => 'テレビ',
+        'created_at' => now(),
+    ];DB::table('categories')->insert($param);
+    $param = [
+        'id' => '16',
+        'item_id' => '7',
+        'category' => '安い',
+        'created_at' => now(),
+    ];DB::table('categories')->insert($param);
+    $param = [
+        'id' => '17',
+        'item_id' => '7',
+        'category' => '家電',
+        'created_at' => now(),
+    ];DB::table('categories')->insert($param);
+    $param = [
+        'id' => '18',
+        'item_id' => '8',
+        'category' => '安い',
+        'created_at' => now(),
+    ];DB::table('categories')->insert($param);
+    $param = [
+        'id' => '19',
+        'item_id' => '8',
+        'category' => '家電',
+        'created_at' => now(),
+    ];DB::table('categories')->insert($param);
+    $param = [
+        'id' => '20',
+        'item_id' => '8',
+        'category' => 'スマートフォン',
+        'created_at' => now(),
+    ];DB::table('categories')->insert($param);
+    $param = [
+        'id' => '21',
+        'item_id' => '9',
+        'category' => '安い',
+        'created_at' => now(),
+    ];DB::table('categories')->insert($param);
+    $param = [
+        'id' => '22',
+        'item_id' => '9',
+        'category' => '家電',
+        'created_at' => now(),
+    ];DB::table('categories')->insert($param);
+    $param = [
+        'id' => '23',
+        'item_id' => '9',
+        'category' => 'エアコン',
+        'created_at' => now(),
+    ];DB::table('categories')->insert($param);
+    $param = [
+        'id' => '24',
+        'item_id' => '10',
+        'category' => '安い',
+        'created_at' => now(),
+    ];DB::table('categories')->insert($param);
+    $param = [
+        'id' => '25',
+        'item_id' => '10',
+        'category' => '新品',
+        'created_at' => now(),
+    ];DB::table('categories')->insert($param);
+
     }
 }
