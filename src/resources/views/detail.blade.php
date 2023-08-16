@@ -28,7 +28,7 @@
             <div class="detail">
                 <h1 class="detail__h1">{{$item->name}}</h1>
                 <p class="p">{{$item->brand}}</p>
-                <p class="p">￥{{$item->price}}</p>
+                <p class="p">￥{{ number_format($item->price) }}</p>
                 <div class="favorite__comment">
                     <div class="favorite">
                         @auth

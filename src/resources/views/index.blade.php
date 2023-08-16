@@ -76,7 +76,7 @@
                         </div>
                     </div>
                     <div>
-                        <p class="item-wrap__item-content-tag">￥{{$item->price}}</p>
+                        <p class="item-wrap__item-content-tag">￥{{ number_format($item->price) }}</p>
                     </div>
                     <div>
                         @foreach($item->categories as $category)

@@ -16,7 +16,7 @@
                     </div>
                     <div class="name__price-box">
                         <h1>{{$item->name}}</h1>
-                        <p class="p-bold">￥{{$item->price}}</p>
+                        <p class="p-bold">￥{{ number_format($item->price) }}</p>
                     </div>
                 </div>
                 <div class="flex__item item-wrap__item-bottom">
@@ -58,7 +58,7 @@
                     <div class="payment-box">
                         <div  class="condition">
                             <p class="p-bold">商品代金</p>&emsp;
-                            <p class="p-bold">￥{{$item->price}}</p>
+                            <p class="p-bold">￥{{ number_format($item->price) }}</p>
                         </div>
                         <div  class="condition">
                             <p class="p-bold">利用ポイント</p>&emsp;
@@ -66,7 +66,7 @@
                         </div>
                         <div  class="condition">
                             <p class="p-bold">支払金額</p>&emsp;
-                            <p class="p-bold">￥<label id="total">{{$item->price}}</label></p>
+                            <p class="p-bold">￥<label id="total">{{ number_format($item->price) }}</label></p>
                         </div>
                         <div  class="condition">
                             <p class="p-bold">獲得ポイント</p>&emsp;
@@ -187,11 +187,11 @@
     });
 
     $('#point').on('input', function() {
-        var point = parseInt($(this).val());
+        var point = parseInt($(this).val()) || 0;
         var price = parseInt('{{$item->price}}');
         var total = price - point;
         var get = Math.floor(total * 0.01);
-        $('#total').text(total);
+        $('#total').text(total.toLocaleString());
         $('#get-point').text(get);
         $('.cash').val(total);
         $('.get-point').val(get);

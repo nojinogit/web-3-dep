@@ -30,12 +30,13 @@
         <div class="form__group">
             <div class="form__group-content">
                 <div class="flex__item form__group-content-category">
-                    <p class="form__group-content-p">カテゴリー</p>
+                    <p class="form__group-content-p">カテゴリー　※カテゴリー登録は5個までとなります</p>
                     <button id="add" type="button">記入欄を追加</button>
                 </div>
                 <div id="category-input">
                     <input type="text" name="category[]" class="form__input--text">
                 </div>
+            </div>
             <div class="form__error">
             @error('category[]')
             {{ $message }}
@@ -127,9 +128,13 @@
 	$fr.readAsDataURL(this.files[0]);
     });
     $(function() {
-        $('#add').click(function() {
+    var count = 0;
+    $('#add').click(function() {
+        if (count < 4) {
             $('#category-input').append('<input type="text" name="category[]" class="form__input--text">');
-        });
+            count++;
+        }
+    });
     });
 </script>
 
