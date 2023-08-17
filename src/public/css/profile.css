@@ -74,16 +74,8 @@
     cursor: pointer;
 }
 
-.login__link {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.login__button-submit {
+.key{
     color: blue;
-    cursor: pointer;
 }
-
-
 
 

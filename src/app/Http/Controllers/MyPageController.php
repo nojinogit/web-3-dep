@@ -54,6 +54,6 @@ class MyPageController extends Controller
     $user +=array('building'=>$request->building);
 
     User::findOrFail(Auth::user()->id)->update($user);
-    return redirect('/myPage/profile');
+    return redirect('/myPage/profile')->with('key','登録が完了しました');
     }
 }

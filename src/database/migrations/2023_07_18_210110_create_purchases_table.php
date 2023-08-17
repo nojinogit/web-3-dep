@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('address');
             $table->string('building')->nullable();
             $table->string('send')->nullable();
-            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -63,6 +63,9 @@
             <button class="form__button-submit" type="submit">更新する</button>
         </div>
     </form>
+    @if (session('key'))
+    <div class="key">{{ session('key') }}</div>
+    @endif
 </div>
 <script>
         $('#file_upload').on('change', function(){
