@@ -34,6 +34,9 @@
             <div class="profile-update">
                 <a href="{{route('profile')}}"  class="profile-update-a">プロフィールの編集</a>
             </div>
+            <div class="profile-update">
+                <a href="{{route('bankNumber')}}"  class="profile-update-a">入金口座の登録</a>
+            </div>
         </div>
         <div class="merchandise-buttonbox">
             <form action="{{route('myPage')}}" method="get">

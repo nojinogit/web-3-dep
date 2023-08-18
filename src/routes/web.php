@@ -46,6 +46,8 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::get('/myPage/purchase', [MyPageController::class,'myPagePurchase'])->name('myPagePurchase');
     Route::get('/myPage/profile', [MyPageController::class,'profile'])->name('profile');
     Route::put('/myPage/profile', [MyPageController::class,'profileUpdate'])->name('profileUpdate');
+    Route::get('/myPage/bankNumber', [MyPageController::class,'bankNumber'])->name('bankNumber');
+    Route::put('/myPage/bankNumber', [MyPageController::class,'bankNumberUpdate'])->name('bankNumberUpdate');
     Route::get('/sell', [SellController::class,'sell'])->name('sell');
     Route::post('/exhibit', [SellController::class,'exhibit'])->name('exhibit');
     Route::delete('/withdraw/{id}', [SellController::class,'withdraw'])->name('withdraw');
@@ -66,5 +68,8 @@ Route::group(['middleware' => ['auth', 'can:admin_only']], function () {
     Route::put('/accountRole', [ManagementController::class,'accountRole'])->name('accountRole');
     Route::put('/accountRoleDelete', [ManagementController::class,'accountRoleDelete'])->name('accountRoleDelete');
     Route::post('/contactMail', [ManagementController::class,'contactMail'])->name('contactMail');
+    Route::get('/itemSearch', [ManagementController::class,'itemSearch'])->name('itemSearch');
+    Route::get('/proceed', [ManagementController::class,'proceed'])->name('proceed');
+    Route::put('/proceed', [ManagementController::class,'proceedComplete'])->name('proceedComplete');
 });
 

@@ -56,4 +56,24 @@ class MyPageController extends Controller
     User::findOrFail(Auth::user()->id)->update($user);
     return redirect('/myPage/profile')->with('key','登録が完了しました');
     }
+
+    public function bankNumber(Request $request){
+    $user=User::findOrFail(Auth::user()->id);
+    return view('/bankNumber',compact('user'));
+    }
+
+    public function bankNumberUpdate(Request $request){
+
+    $user['bank']=$request->bank;
+
+    $user['bank_branch']=$request->bank_branch;
+
+    $user['bank_type']=$request->bank_type;
+
+    $user['bank_number']=$request->bank_number;
+
+    User::findOrFail(Auth::user()->id)->update($user);
+    return redirect('/myPage/bankNumber')->with('key','登録が完了しました');
+    }
+
 }

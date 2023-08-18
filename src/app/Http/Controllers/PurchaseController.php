@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\User;
 use App\Models\Purchase;
+use App\Models\Proceed;
 use Illuminate\Support\Facades\Auth;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
@@ -107,6 +108,10 @@ class PurchaseController extends Controller
     $cash=$request->cash;
     $mailer->to($user->email)->send(new BankTransferMail($nextAction,$user,$cash));
 
+
+    $proceed=['user_id'=>$item->user_id,'item_id'=>$request->item_id,'proceed'=>$item->price];
+    Proceed::create($proceed);
+
     return redirect('/myPage/purchase');
     }
 
@@ -153,6 +158,9 @@ class PurchaseController extends Controller
     $nextAction=$intent->next_action;
     $cash=$request->cash;
     $mailer->to($user->email)->send(new KonbiniMail($nextAction,$user,$cash));
+
+    $proceed=['user_id'=>$item->user_id,'item_id'=>$request->item_id,'proceed'=>$item->price];
+    Proceed::create($proceed);
 
     return redirect('/myPage/purchase');
     }
@@ -204,6 +212,9 @@ class PurchaseController extends Controller
         $purchase_data=Purchase::with('item.user')->findOrFail($purchase_id->id);
         $mailer->to($purchase_data->item->user->email)->send(new CreditMail($purchase_data));
 
+        $proceed=['user_id'=>$item->user_id,'item_id'=>$request->item_id,'proceed'=>$item->price];
+        Proceed::create($proceed);
+
         return redirect()->route('myPagePurchase');
     } catch (\Exception $e) {
 
@@ -245,6 +256,9 @@ class PurchaseController extends Controller
 
         $purchase_data=Purchase::with('item.user')->findOrFail($purchase_id->id);
         $mailer->to($purchase_data->item->user->email)->send(new CreditMail($purchase_data));
+
+        $proceed=['user_id'=>$item->user_id,'item_id'=>$request->item_id,'proceed'=>$item->price];
+        Proceed::create($proceed);
 
         return redirect()->route('myPagePurchase');
     } catch (\Exception $e) {

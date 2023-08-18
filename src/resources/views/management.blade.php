@@ -68,6 +68,40 @@
                 <input type="submit" value="検索">
             </div>
         </form>
+        <h2>商品検索</h2>
+        <form action="{{route('itemSearch')}}" method="get" class="default">
+            <div class="main__search--step">
+                <table class="table">
+                <tr>
+                    <th>商品名・タグ名</th>
+                </tr>
+                <tr>
+                        <td><input type="text" name="name"></td>
+                        <td><input type="submit" value="検索"></td>
+                </tr>
+                </table>
+            </div>
+        </form>
+        <h2>送金検索</h2>
+        <form action="{{route('proceed')}}" method="get" class="default">
+            <div class="main__search--step">
+                <table class="table">
+                <tr>
+                    <th>お名前</th>
+                    <th>メールアドレス</th>
+                    <th>送金残高</th>
+                </tr>
+                <tr>
+                        <td><input type="text" name="name"></td>
+                        <td><input type="email" name="email"></td>
+                        <td>
+                            <label class="search-checkbox-label"><input type="checkbox">残高有に限る</label>
+                        </td>
+                        <td><input type="submit" value="検索"></td>
+                </tr>
+                </table>
+            </div>
+        </form>
     </div>
 
     @isset($accounts)
@@ -121,6 +155,102 @@
                     </form>
                     @endif
                     @endif
+                </tr>
+                @endforeach
+            </table>
+        </div>
+    </div>
+    @endisset
+
+    @isset($items)
+    <div class="account--table">
+        <h2>商品一覧</h2>
+        <div>
+            <table class="table">
+                <tr>
+                    <th>商品名</th>
+                    <th>出品者</th>
+                    <th>購入者</th>
+                    <th>売約記録</th>
+                    <th>発送記録</th>
+                </tr>
+                @foreach($items as $item)
+                <tr>
+                    <form  method="get" action="{{route('detail',['id' => $item->id])}}">
+                        <td class="item-item">{{$item->name}}</td>
+                        <td class="item-item">{{$item->user->name}}</td>
+                        <td class="item-item">
+                            @unless($item->purchases->isEmpty())
+                            @foreach($item->purchases as $purchase)
+                            <div class="item-item">{{$purchase->user->name}}</div>
+                            @endforeach
+                            @endunless
+                            @if($item->purchases->isEmpty())
+                            <div class="item-item">-</div>
+                            @endif
+                        </td>
+                        <td class="item-item">
+                            @unless($item->purchases->isEmpty())
+                            @foreach($item->purchases as $purchase)
+                            <div class="item-item">{{$purchase->created_at}}</div>
+                            @endforeach
+                            @endunless
+                            @if($item->purchases->isEmpty())
+                            <div class="item-item">-</div>
+                            @endif
+                        </td>
+                        <td class="item-item">
+                            @unless($item->purchases->isEmpty())
+                            @foreach($item->purchases as $purchase)
+                            @if($purchase->send)
+                            <div class="item-item">{{$purchase->send}}</div>
+                            @else
+                            <div class="item-item">-</div>
+                            @endif
+                            @endforeach
+                            @endunless
+                            @if($item->purchases->isEmpty())
+                            <div class="item-item">-</div>
+                            @endif
+                        </td>
+                        <td><button type="submit">商品詳細へ</button></td>
+                    </form>
+                </tr>
+                @endforeach
+            </table>
+        </div>
+    </div>
+    @endisset
+
+    @isset($proceedUsers)
+    <div class="account--table">
+        <h2>アカウント別送金一覧</h2>
+        <div>
+            <table class="table">
+                <tr>
+                    <th>お名前</th>
+                    <th>送金口座</th>
+                    <th>送金残高</th>
+                </tr>
+                @foreach($proceedUsers as $proceedUser)
+                <tr>
+                    <form  method="POST" action="{{route('proceedComplete')}}">
+                        @method('put')
+                        @csrf
+                        <input type="hidden" name="id" value="{{$proceedUser->id}}">
+                        <td class="proceed-item">{{$proceedUser->name}}</td>
+                        <td class="proceed-item">{{$proceedUser->bank}} {{$proceedUser->bank_branch}} {{$proceedUser->bank_type}} {{$proceedUser->bank_number}}</td>
+                        @php
+                            $total = 0;
+                        @endphp
+                        @foreach($proceedUser->proceeds as $proceed)
+                            @php
+                                $total += $proceed->proceed;
+                            @endphp
+                        @endforeach
+                        <td class="proceed-total">{{number_format($total)}}円</td>
+                        <td><button type="submit">送金完了</button></td>
+                    </form>
                 </tr>
                 @endforeach
             </table>

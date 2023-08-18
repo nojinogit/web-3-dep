@@ -27,7 +27,11 @@ class User extends Authenticatable
         'building',
         'path',
         'stripe_id',
-        'point'
+        'point',
+        'bank',
+        'bank_branch',
+        'bank_type',
+        'bank_number'
     ];
 
     /**
@@ -68,6 +72,10 @@ class User extends Authenticatable
 
     public function purchases(){
         return $this->hasMany(Purchase::class);
+    }
+
+    public function proceeds(){
+        return $this->hasMany(Proceed::class);
     }
 
     public function scopeNameSearch($query,$name){

@@ -23,6 +23,10 @@ return new class extends Migration
             $table->string('building')->nullable();
             $table->integer('role')->default(1);
             $table->integer('point')->default(0);
+            $table->string('bank')->nullable();
+            $table->string('bank_branch')->nullable();
+            $table->string('bank_type')->nullable();
+            $table->integer('bank_number')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

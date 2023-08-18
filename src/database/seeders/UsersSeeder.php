@@ -20,6 +20,12 @@ class UsersSeeder extends Seeder
         'password' => bcrypt('123456789'),
         'role' => '100',
         'point' => '100',
+        'postcode' => '111-1111',
+        'address' => 'アメリカ',
+        'bank' => 'みずほ銀行',
+        'bank_branch' => 'いろは支店',
+        'bank_type' => '普通',
+        'bank_number' => '1234567',
         'created_at' => now(),
         ];DB::table('users')->insert($param);
 

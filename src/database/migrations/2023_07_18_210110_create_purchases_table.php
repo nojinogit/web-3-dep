@@ -23,7 +23,7 @@ return new class extends Migration
             $table->char('postcode',8);
             $table->string('address');
             $table->string('building')->nullable();
-            $table->string('send')->nullable();
+            $table->datetime('send')->nullable();
             $table->timestamps();
         });
     }
