@@ -29,7 +29,7 @@ class DepositedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: '入金確認のお知らせ',
+            subject: '購入者からの入金確認のお知らせ',
         );
     }
 

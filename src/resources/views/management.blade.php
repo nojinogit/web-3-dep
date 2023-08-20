@@ -83,7 +83,7 @@
             </div>
         </form>
         <h2>送金検索</h2>
-        <form action="{{route('proceed')}}" method="get" class="default">
+        <form action="{{route('proceed')}}" method="get" class="default" id="proceed">
             <div class="main__search--step">
                 <table class="table">
                 <tr>
@@ -95,7 +95,7 @@
                         <td><input type="text" name="name"></td>
                         <td><input type="email" name="email"></td>
                         <td>
-                            <label class="search-checkbox-label"><input type="checkbox">残高有に限る</label>
+                            <label class="search-checkbox-label"><input type="checkbox" id="onlyPayment">残高有に限る</label>
                         </td>
                         <td><input type="submit" value="検索"></td>
                 </tr>
@@ -237,19 +237,26 @@
                     <form  method="POST" action="{{route('proceedComplete')}}">
                         @method('put')
                         @csrf
-                        <input type="hidden" name="id" value="{{$proceedUser->id}}">
+                        <input type="hidden" name="user_id" value="{{$proceedUser->id}}">
                         <td class="proceed-item">{{$proceedUser->name}}</td>
                         <td class="proceed-item">{{$proceedUser->bank}} {{$proceedUser->bank_branch}} {{$proceedUser->bank_type}} {{$proceedUser->bank_number}}</td>
                         @php
                             $total = 0;
                         @endphp
                         @foreach($proceedUser->proceeds as $proceed)
+                            @unless($proceed->complete)
                             @php
                                 $total += $proceed->proceed;
                             @endphp
+                            @endunless
                         @endforeach
                         <td class="proceed-total">{{number_format($total)}}円</td>
-                        <td><button type="submit">送金完了</button></td>
+                        <input type="hidden" name="total" value="{{$total}}">
+                        @if($total > 0)
+                            <td><button type="submit">送金完了</button></td>
+                        @else
+                            <td>残高なし</td>
+                        @endif
                     </form>
                 </tr>
                 @endforeach
@@ -301,6 +308,20 @@
     var name = $(this).siblings('.account-name').text();
     $('.name').val(name);
     });
+    });
+
+    $(function() {
+
+    var checkbox = $("#onlyPayment");
+    checkbox.on("change", function() {
+    if (checkbox.prop("checked")) {
+        $('#proceed').attr('action',"{{route('proceedOnly')}}");
+    } else {
+        $('#proceed').attr('action',"{{route('proceed')}}");
+    }
+    });
+
+
     });
 </script>
 

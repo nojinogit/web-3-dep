@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Category;
+use App\Models\Proceed;
+use \Carbon\Carbon;
 use App\Mail\ContactMail;
+use App\Mail\NoticeOfPaymentMail;
 use Illuminate\Contracts\Mail\Mailer;
 
 
@@ -69,5 +72,20 @@ class ManagementController extends Controller
     public function proceed(Request $request){
     $proceedUsers=User::with('proceeds')->NameSearch($request->name)->EmailSearch($request->email)->get();
     return view('/management',compact('proceedUsers'));
+    }
+
+    public function proceedOnly(Request $request){
+    $proceedUsers = User::whereHas('proceeds', function ($query) {
+    $query->whereNull('complete');
+    })->NameSearch($request->name)->EmailSearch($request->email)->get();
+    return view('/management',compact('proceedUsers'));
+    }
+
+    public function proceedComplete(Request $request,Mailer $mailer){
+    Proceed::where('user_id',$request->user_id)->whereNull('complete')->update(['complete'=>Carbon::now()]);
+    $user=User::findOrFail($request->user_id);
+    $total=$request->total;
+    $mailer->to($user->email)->send(new NoticeOfPaymentMail($total,$user));
+    return redirect('/management');
     }
 }

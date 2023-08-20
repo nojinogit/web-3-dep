@@ -70,6 +70,7 @@ Route::group(['middleware' => ['auth', 'can:admin_only']], function () {
     Route::post('/contactMail', [ManagementController::class,'contactMail'])->name('contactMail');
     Route::get('/itemSearch', [ManagementController::class,'itemSearch'])->name('itemSearch');
     Route::get('/proceed', [ManagementController::class,'proceed'])->name('proceed');
+    Route::get('/proceedOnly', [ManagementController::class,'proceedOnly'])->name('proceedOnly');
     Route::put('/proceed', [ManagementController::class,'proceedComplete'])->name('proceedComplete');
 });
 
