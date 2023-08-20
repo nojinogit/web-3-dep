@@ -17,7 +17,6 @@ use App\Mail\SendMail;
 use \Carbon\Carbon;
 use Illuminate\Contracts\Mail\Mailer;
 use App\Http\Requests\PurchaseRequest;
-use App\Http\Requests\SendRequest;
 use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
@@ -108,10 +107,6 @@ class PurchaseController extends Controller
     $cash=$request->cash;
     $mailer->to($user->email)->send(new BankTransferMail($nextAction,$user,$cash));
 
-
-    $proceed=['user_id'=>$item->user_id,'item_id'=>$request->item_id,'proceed'=>$item->price];
-    Proceed::create($proceed);
-
     return redirect('/myPage/purchase');
     }
 
@@ -158,9 +153,6 @@ class PurchaseController extends Controller
     $nextAction=$intent->next_action;
     $cash=$request->cash;
     $mailer->to($user->email)->send(new KonbiniMail($nextAction,$user,$cash));
-
-    $proceed=['user_id'=>$item->user_id,'item_id'=>$request->item_id,'proceed'=>$item->price];
-    Proceed::create($proceed);
 
     return redirect('/myPage/purchase');
     }

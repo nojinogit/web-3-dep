@@ -82,8 +82,21 @@
                 </table>
             </div>
         </form>
+        <form action="{{route('itemSearch')}}" method="get" class="responsive">
+            <div class="main__search--step-responsive">
+                    <div class="main__search--step-title-responsive">
+                        商品名・タグ名
+                    </div>
+                    <div  class="main__search--step-input-responsive">
+                        <input type="text" name="name">
+                    </div>
+            </div>
+            <div class="main__search--submit">
+                <input type="submit" value="検索">
+            </div>
+        </form>
         <h2>送金検索</h2>
-        <form action="{{route('proceed')}}" method="get" class="default" id="proceed">
+        <form action="{{route('proceed')}}" method="get" class="default proceed">
             <div class="main__search--step">
                 <table class="table">
                 <tr>
@@ -95,11 +108,36 @@
                         <td><input type="text" name="name"></td>
                         <td><input type="email" name="email"></td>
                         <td>
-                            <label class="search-checkbox-label"><input type="checkbox" id="onlyPayment">残高有に限る</label>
+                            <label class="search-checkbox-label"><input type="checkbox" class="onlyPayment">残高有に限る</label>
                         </td>
                         <td><input type="submit" value="検索"></td>
                 </tr>
                 </table>
+            </div>
+        </form>
+        <form action="{{route('proceed')}}" method="get" class="responsive proceed">
+            <div class="main__search--step-responsive">
+                    <div class="main__search--step-title-responsive">
+                        お名前
+                    </div>
+                    <div  class="main__search--step-input-responsive">
+                        <input type="text" name="name">
+                    </div>
+                    <div class="main__search--step-title-responsive">
+                        メールアドレス
+                    </div>
+                    <div  class="main__search--step-input-responsive">
+                        <input type="email" name="email">
+                    </div>
+                    <div class="main__search--step-title-responsive">
+                        送金残高
+                    </div>
+                    <div  class="main__search--step-input-responsive">
+                        <label class="search-checkbox-label"><input type="checkbox" class="onlyPayment">残高有に限る</label>
+                    </div>
+            </div>
+            <div class="main__search--submit">
+                <input type="submit" value="検索">
             </div>
         </form>
     </div>
@@ -293,7 +331,7 @@
                 <p>タイトル</p>
                 <p><input type="text" name="title"></p>
                 <p>本文</p>
-                <p><textarea name="main" cols="100" rows="10"></textarea></p>
+                <p><textarea name="main" cols="100" rows="10" id="textarea"></textarea></p>
                 <p><button type="submit">送信</button></p>
             </form>
         </div>
@@ -312,14 +350,14 @@
 
     $(function() {
 
-    var checkbox = $("#onlyPayment");
-    checkbox.on("change", function() {
-    if (checkbox.prop("checked")) {
-        $('#proceed').attr('action',"{{route('proceedOnly')}}");
+    var checkboxes = $(".onlyPayment");
+    checkboxes.on("change", function() {
+    if ($(this).prop("checked")) {
+        $(this).closest('form').attr('action',"{{route('proceedOnly')}}");
     } else {
-        $('#proceed').attr('action',"{{route('proceed')}}");
+        $(this).closest('form').attr('action',"{{route('proceed')}}");
     }
-    });
+});
 
 
     });

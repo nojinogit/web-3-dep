@@ -41,6 +41,9 @@ class PurchaseRequest extends FormRequest
         if ($usePoint < 0) {
             $validator->errors()->add('usePoint', 'ポイント利用の最小値は0です。');
         }
+        if ($usePoint >= request()->price) {
+            $validator->errors()->add('usePoint', '購入には１円以上の支払が必要となります。');
+        }
     });
     }
 

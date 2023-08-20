@@ -140,16 +140,23 @@
       display: block;
     }
 
-  .item-wrap__item {
-    width: 80%;
-    margin: 2% auto;
-    display: block;
-  }
-
-  .reserve {
-    width: 80%;
-    margin: 2% auto;
+    .item-wrap__item {
+      width: 500px;
+      margin: 2% auto;
+      display: block;
     }
+
+    .payment {
+      width: 500px;
+      margin: 2% auto;
+      display: block;
+    }
+
+    .item-wrap__item-img {
+      width: 70%;
+    }
+
+
 }
 
 

@@ -22,6 +22,38 @@
                     <img src="{{asset('storage/sample/ロゴ.jpg')}}" alt="" class="header__logo-box-img">
                     <a class="header__logo header-utilities-a" href="/">COACHTECH</a>
                 </div>
+                <div class="responsive">
+                            <span class="nav_toggle">
+                                <i></i>
+                                <i></i>
+                                <i></i>
+                            </span>
+                            @auth
+                            <nav class="nav">
+                                <ul class="nav_menu_ul">
+                                    <li class="nav_menu_li">
+                                        <form class="form" action="/logout" method="post">
+                                        @csrf
+                                        <a href="#" onclick="this.closest('form').submit();return false;" class="logout">ログアウト</a>
+                                        </form>
+                                    </li>
+                                    <li class="nav_menu_li"><a href="/myPage">マイページ</a></li>
+                                    @if(Auth::user()->role > 99)
+                                    <li class="nav_menu_li"><a href="/management">管理画面</a></li>
+                                    @endif
+                                    <li class="nav_menu_li"><a href="{{route('sell')}}">出品</a></li>
+                                </ul>
+                            </nav>
+                            @else
+                            <nav class="nav">
+                                <ul class="nav_menu_ul">
+                                    <li class="nav_menu_li"><a href="/login">ログイン</a></li>
+                                    <li class="nav_menu_li"><a href="/register">会員登録</a></li>
+                                    <li class="nav_menu_li"><a href="{{route('sell')}}">出品</a></li>
+                                </ul>
+                            </nav>
+                            @endauth
+                        </div>
                 <nav class="header-utilities-nav">
                     <ul class="header-nav">
                         <li  class="search-checkbox"><label class="search-checkbox-label"><input type="checkbox">売約済みを含める</label></li>
@@ -31,33 +63,33 @@
                             </form>
                         </li>
                         @if (Auth::check())
-                        <li class="header-nav__item">
+                        <li class="header-nav__item default">
                             <form class="form" action="/logout" method="post">
                                 @csrf
                                 <button class="header-nav__button">ログアウト</button>
                             </form>
                         </li>
-                        <li class="header-nav__item">
+                        <li class="header-nav__item default">
                             <a class="header-nav__link header-utilities-a" href="/myPage">マイページ</a>
                         </li>
                         @if(Auth::user()->role > 99)
-                        <li class="header-nav__item">
+                        <li class="header-nav__item default">
                             <a class="header-nav__link header-utilities-a" href="/management">管理画面</a>
                         </li>
                         @endif
                         @endif
                         @unless (Auth::check())
-                        <li class="header-nav__item">
+                        <li class="header-nav__item default">
                             <form class="form" action="/login" method="get">
                                 <button class="header-nav__button">ログイン</button>
                             </form>
                         </li>
-                        <li class="header-nav__item">
+                        <li class="header-nav__item default">
                             <a class="header-nav__link header-utilities-a" href="/register">会員登録</a>
                         </li>
                         @endunless
                         <li>
-                            <div class="header__sell"><a href="{{route('sell')}}" class="header__sell-a">出品</a></div>
+                            <div class="header__sell default"><a href="{{route('sell')}}" class="header__sell-a">出品</a></div>
                         </li>
                     </ul>
                 </nav>
@@ -79,6 +111,9 @@
     }
     });
 
+    $(".nav_toggle").on("click", function () {
+    $(".nav_toggle, .nav").toggleClass("show");
+    });
 
     });
 </script>

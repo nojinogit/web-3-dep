@@ -82,6 +82,7 @@
                 @csrf
                     <input type="hidden" name="user_id" value="{{$user->id}}">
                     <input type="hidden" name="item_id" value="{{$item->id}}">
+                    <input type="hidden" name="price" value="{{$item->price}}">
                     <input type="hidden" name="cash" value="{{$item->price}}" class="cash">
                     <input type="hidden" name="usePoint" value="0" class="use-point">
                     <input type="hidden" name="getPoint" value="{{floor($item->price*0.01)}}" class="get-point">
@@ -97,6 +98,7 @@
                 @csrf
                     <input type="hidden" name="user_id" value="{{$user->id}}">
                     <input type="hidden" name="item_id" value="{{$item->id}}">
+                    <input type="hidden" name="price" value="{{$item->price}}">
                     <input type="hidden" name="cash" value="{{$item->price}}" class="cash">
                     <input type="hidden" name="usePoint" value="0" class="use-point">
                     <input type="hidden" name="getPoint" value="{{floor($item->price*0.01)}}" class="get-point">
@@ -116,6 +118,7 @@
                     @csrf
                     <input type="hidden" name="user_id" value="{{$user->id}}">
                     <input type="hidden" name="item_id" value="{{$item->id}}">
+                    <input type="hidden" name="price" value="{{$item->price}}">
                     <input type="hidden" name="cash" value="{{$item->price}}" class="cash">
                     <input type="hidden" name="usePoint" value="0" class="use-point">
                     <input type="hidden" name="getPoint" value="{{floor($item->price*0.01)}}" class="get-point">

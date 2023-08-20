@@ -51,6 +51,11 @@
     .responsive {
         display: block;
         text-align: center;
+        margin: 20px 0;
+    }
+
+    #textarea{
+        width:400px;
     }
 
     .default {

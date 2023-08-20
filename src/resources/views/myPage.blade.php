@@ -8,12 +8,14 @@
 
 @section('content')
     <div class="container">
-        <div class="profile">
+        <div class="profile default">
             <div class="profile-imgbox">
                 <img src="{{asset($user->path)}}" alt=""  class="profile-imgbox-img">
             </div>
-            <p  class="profile-p">{{$user->name}}</p>
-            <p  class="profile-p">ポイント残高：{{$user->point}}</p>
+            <div>
+                <p  class="profile-p">{{$user->name}}</p>
+                <p  class="profile-p">ポイント残高：{{$user->point}}</p>
+            </div>
             @php
                 $found = false;
             @endphp
@@ -31,11 +33,47 @@
                     @endif
                 @endforeach
             @endforeach
-            <div class="profile-update">
-                <a href="{{route('profile')}}"  class="profile-update-a">プロフィールの編集</a>
+            <div>
+                <div class="profile-update">
+                    <a href="{{route('profile')}}"  class="profile-update-a">プロフィールの編集</a>
+                </div>
+                <div class="profile-update">
+                    <a href="{{route('bankNumber')}}"  class="profile-update-a">入金口座の登録</a>
+                </div>
             </div>
-            <div class="profile-update">
-                <a href="{{route('bankNumber')}}"  class="profile-update-a">入金口座の登録</a>
+        </div>
+        <div class="profile responsive">
+            <div class="profile-imgbox">
+                <img src="{{asset($user->path)}}" alt=""  class="profile-imgbox-img">
+                <p  class="profile-p">{{$user->name}}</p>
+                <p  class="profile-p">ポイント残高：{{$user->point}}</p>
+            </div>
+            <div>
+                @php
+                    $found = false;
+                @endphp
+                @foreach($items as $item)
+                    @if($found)
+                        @break
+                    @endif
+                    @foreach($item->purchases as $purchase)
+                        @if($purchase->payment!==null && $purchase->deposited!==null && $purchase->send==null && Auth::user()->id==$item->user_id)
+                            <div class="send-message">発送待ち商品があります。<br>商品詳細から発送先を確認・発送処理をお願いします。</div>
+                            @php
+                                $found = true;
+                            @endphp
+                            @break
+                        @endif
+                    @endforeach
+                @endforeach
+            </div>
+            <div>
+                <div class="profile-update">
+                    <a href="{{route('profile')}}"  class="profile-update-a">プロフィールの編集</a>
+                </div>
+                <div class="profile-update">
+                    <a href="{{route('bankNumber')}}"  class="profile-update-a">入金口座の登録</a>
+                </div>
             </div>
         </div>
         <div class="merchandise-buttonbox">
