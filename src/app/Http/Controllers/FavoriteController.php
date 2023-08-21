@@ -7,7 +7,7 @@ use App\Models\Favorite;
 
 class FavoriteController extends Controller
 {
-    
+
     public function favoriteStore(Request $request){
         $favorite=$request->only(['user_id','item_id']);
         Favorite::create($favorite);

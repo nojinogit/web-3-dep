@@ -57,61 +57,59 @@ class PurchaseController extends Controller
     }
 
     public function bankTransfer(PurchaseRequest $request,Mailer $mailer){
+    DB::transaction(function () use ($request, $mailer) {
+        $item=Item::findOrFail($request->item_id);
+        $user=User::findOrFail(Auth::user()->id);
 
-    $item=Item::findOrFail($request->item_id);
-    $user=User::findOrFail(Auth::user()->id);
+        Stripe::setApiKey(config('stripe.stripe_secret_key'));
+        $customer = \Stripe\Customer::create([
+            'name' => $user->name,
+            'email' => $user->email,
+        ]);
 
-    Stripe::setApiKey(config('stripe.stripe_secret_key'));
-    $customer = \Stripe\Customer::create([
-    'name' => $user->name,
-    'email' => $user->email,
-    ]);
+        $intent = PaymentIntent::create([
+            'amount' => $request->cash,
+            'currency' => 'jpy',
+            'customer' => $customer->id,
+            'payment_method_types' => ['customer_balance'],
+            'payment_method_data' => [
+                'type' => 'customer_balance',
+            ],
+            'payment_method_options' => [
+                'customer_balance' => [
+                    'funding_type' => 'bank_transfer',
+                    'bank_transfer' => [
+                        'type' => 'jp_bank_transfer',
+                    ],
+                ],
+            ],
+            'confirm' => true,
+        ]);
 
-    $intent = PaymentIntent::create([
-    'amount' => $request->cash,
-    'currency' => 'jpy',
-    'customer' => $customer->id,
-    'payment_method_types' => ['customer_balance'],
-    'payment_method_data' => [
-    'type' => 'customer_balance',
-    ],
-    'payment_method_options' => [
-    'customer_balance' => [
-        'funding_type' => 'bank_transfer',
-        'bank_transfer' => [
-        'type' => 'jp_bank_transfer',
-        ],
-    ],
-    ],
-    'confirm' => true,
-    ]);
+        $purchase=$request->only(['user_id','item_id','postcode','address','building','payment','cash']);
+        $purchase['point'] = $request->usePoint;
+        $purchase_id=Purchase::create($purchase);
 
-    $purchase=$request->only(['user_id','item_id','postcode','address','building','payment','cash']);
-    $purchase['point'] = $request->usePoint;
-    $purchase_id=Purchase::create($purchase);
+        Purchase::findOrFail($purchase_id->id)->update(['payment_intent_id' => $intent->id]);
 
-    Purchase::findOrFail($purchase_id->id)->update(['payment_intent_id' => $intent->id]);
+        $point = intval($user->point);
+        $usePoint = intval($request->usePoint);
+        $getPoint = intval($request->getPoint);
 
-    DB::transaction(function () use ($user, $request) {
-    $point = intval($user->point);
-    $usePoint = intval($request->usePoint);
-    $getPoint = intval($request->getPoint);
+        $newPoint = $point - $usePoint + $getPoint;
 
-    $newPoint = $point - $usePoint + $getPoint;
+        $user->point = $newPoint;
+        $user->save();
 
-    $user->point = $newPoint;
-    $user->save();
-    });
-
-    $nextAction=$intent->next_action;
-    $cash=$request->cash;
-    $mailer->to($user->email)->send(new BankTransferMail($nextAction,$user,$cash));
-
-    return redirect('/myPage/purchase');
+        $nextAction=$intent->next_action;
+        $cash=$request->cash;
+        $mailer->to($user->email)->send(new BankTransferMail($nextAction,$user,$cash));
+        });
+        return redirect('/myPage/purchase');
     }
 
     public function konbini(PurchaseRequest $request,Mailer $mailer){
-
+    DB::transaction(function () use ($request, $mailer) {
     $item=Item::findOrFail($request->item_id);
     $user=User::findOrFail(Auth::user()->id);
 
@@ -139,7 +137,6 @@ class PurchaseController extends Controller
 
     Purchase::findOrFail($purchase_id->id)->update(['payment_intent_id' => $intent->id]);
 
-    DB::transaction(function () use ($user, $request) {
     $point = intval($user->point);
     $usePoint = intval($request->usePoint);
     $getPoint = intval($request->getPoint);
@@ -148,74 +145,74 @@ class PurchaseController extends Controller
 
     $user->point = $newPoint;
     $user->save();
-    });
 
     $nextAction=$intent->next_action;
     $cash=$request->cash;
     $mailer->to($user->email)->send(new KonbiniMail($nextAction,$user,$cash));
-
+    });
     return redirect('/myPage/purchase');
     }
 
+
+
     public function credit(PurchaseRequest $request,Mailer $mailer){
+    DB::transaction(function () use ($request, $mailer) {
+        $item=Item::findOrFail($request->item_id);
+        $user=User::findOrFail(Auth::user()->id);
 
-    $item=Item::findOrFail($request->item_id);
-    $user=User::findOrFail(Auth::user()->id);
+        Stripe::setApiKey(config('stripe.stripe_secret_key'));
 
-    Stripe::setApiKey(config('stripe.stripe_secret_key'));
+        $token = $request->input('stripeToken');
 
-    $token = $request->input('stripeToken');
-
-    $customer = \Stripe\Customer::create([
-        'name' => $user->name,
-        'email' => $user->email,
-        'source' => $token,
-    ]);
-
-
-    $user->stripe_id = $customer->id;
-    $user->save();
-
-    try {
-        $charge = \Stripe\Charge::create([
-            'amount' => $request->cash,
-            'currency' => 'jpy',
-            'customer' => $customer->id,
-            'description' => 'credit決済'
+        $customer = \Stripe\Customer::create([
+            'name' => $user->name,
+            'email' => $user->email,
+            'source' => $token,
         ]);
 
-        $purchase=$request->only(['user_id','item_id','postcode','address','building','payment','cash']);
-        $purchase['point'] = $request->usePoint;
-        $purchase['payment_intent_id'] = $charge->id;
-        $purchase['deposited'] = Carbon::now();
-        $purchase_id=Purchase::create($purchase);
-
-        DB::transaction(function () use ($user, $request) {
-        $point = intval($user->point);
-        $usePoint = intval($request->usePoint);
-        $getPoint = intval($request->getPoint);
-
-        $newPoint = $point - $usePoint + $getPoint;
-
-        $user->point = $newPoint;
+        $user->stripe_id = $customer->id;
         $user->save();
-        });
 
-        $purchase_data=Purchase::with('item.user')->findOrFail($purchase_id->id);
-        $mailer->to($purchase_data->item->user->email)->send(new CreditMail($purchase_data));
+        try {
+            $charge = \Stripe\Charge::create([
+                'amount' => $request->cash,
+                'currency' => 'jpy',
+                'customer' => $customer->id,
+                'description' => 'credit決済'
+            ]);
 
-        $proceed=['user_id'=>$item->user_id,'item_id'=>$request->item_id,'proceed'=>$item->price];
-        Proceed::create($proceed);
+            $purchase=$request->only(['user_id','item_id','postcode','address','building','payment','cash']);
+            $purchase['point'] = $request->usePoint;
+            $purchase['payment_intent_id'] = $charge->id;
+            $purchase['deposited'] = Carbon::now();
+            $purchase_id=Purchase::create($purchase);
 
-        return redirect()->route('myPagePurchase');
-    } catch (\Exception $e) {
+            $point = intval($user->point);
+            $usePoint = intval($request->usePoint);
+            $getPoint = intval($request->getPoint);
 
-        return back()->with('error', $e->getMessage());
+            $newPoint = $point - $usePoint + $getPoint;
+
+            $user->point = $newPoint;
+            $user->save();
+
+            $purchase_data=Purchase::with('item.user')->findOrFail($purchase_id->id);
+            $mailer->to($purchase_data->item->user->email)->send(new CreditMail($purchase_data));
+
+            $proceed=['user_id'=>$item->user_id,'item_id'=>$request->item_id,'proceed'=>$item->price];
+            Proceed::create($proceed);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', $e->getMessage());
+        }
+    });
+    return redirect()->route('myPagePurchase');
     }
-    }
+
+
 
     public function creditReuse(PurchaseRequest $request,Mailer $mailer){
-
+    DB::transaction(function () use ($request, $mailer) {
     $item=Item::findOrFail($request->item_id);
     $user=User::findOrFail(Auth::user()->id);
 
@@ -235,7 +232,6 @@ class PurchaseController extends Controller
         $purchase['deposited'] = Carbon::now();
         $purchase_id=Purchase::create($purchase);
 
-        DB::transaction(function () use ($user, $request) {
         $point = intval($user->point);
         $usePoint = intval($request->usePoint);
         $getPoint = intval($request->getPoint);
@@ -244,7 +240,6 @@ class PurchaseController extends Controller
 
         $user->point = $newPoint;
         $user->save();
-        });
 
         $purchase_data=Purchase::with('item.user')->findOrFail($purchase_id->id);
         $mailer->to($purchase_data->item->user->email)->send(new CreditMail($purchase_data));
@@ -252,11 +247,12 @@ class PurchaseController extends Controller
         $proceed=['user_id'=>$item->user_id,'item_id'=>$request->item_id,'proceed'=>$item->price];
         Proceed::create($proceed);
 
-        return redirect()->route('myPagePurchase');
-    } catch (\Exception $e) {
-
-        return back()->with('error', $e->getMessage());
-    }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', $e->getMessage());
+        }
+    });
+    return redirect()->route('myPagePurchase');
     }
 
     public function send(Request $request,Mailer $mailer){
