@@ -32,6 +32,7 @@ class ItemController extends Controller
         if ($accesses) {
             $categories = [];
             foreach ($accesses as $access) {
+                if ($access->item) {
                 foreach ($access->item->categories as $category) {
                     $searchResults = Category::CategorySearch($category->category)->get();
                     foreach ($searchResults as $searchResult) {
@@ -39,13 +40,17 @@ class ItemController extends Controller
                     }
                 }
             }
+        }
             $categoriesItemIds = [];
             foreach ($categories as $category) {
                 $categoriesItemIds[] = $category->item_id;
             }
             $categoriesItems = [];
             foreach ($categoriesItemIds as $categoriesItemId) {
-                $categoriesItems[] = Item::with('purchases')->findOrFail($categoriesItemId);
+                $item = Item::with('purchases')->find($categoriesItemId);
+                    if ($item) {
+                        $categoriesItems[] = $item;
+                    }
             }
             $collection_categoriesItems = collect($categoriesItems);
             $uniqueItems = $collection_categoriesItems->unique('id');
@@ -77,7 +82,10 @@ class ItemController extends Controller
     }
     $categoriesItems=[];
     foreach($categoriesItemIds as $categoriesItemId){
-    $categoriesItems[]=Item::with('purchases')->findOrFail($categoriesItemId);
+    $item = Item::with('purchases')->find($categoriesItemId);
+    if ($item) {
+            $categoriesItems[] = $item;
+        }
     }
     $collection_categoriesItems = collect($categoriesItems);
     $newItems = collect($ItemItems)->merge($collection_categoriesItems);
@@ -102,7 +110,10 @@ class ItemController extends Controller
     }
     $categoriesItems=[];
     foreach($categoriesItemIds as $categoriesItemId){
-    $categoriesItems[]=Item::findOrFail($categoriesItemId);
+        $item = Item::find($categoriesItemId);
+        if ($item) {
+            $categoriesItems[] = $item;
+        }
     }
     $collection_categoriesItems = collect($categoriesItems);
     $newItems = collect($ItemItems)->merge($collection_categoriesItems);
