@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('email_verified_at');
+            //$table->dropColumn('email_verified_at');
             $table->dropColumn('two_factor_secret');
             $table->dropColumn('two_factor_recovery_codes');
             $table->dropColumn('two_factor_confirmed_at');
