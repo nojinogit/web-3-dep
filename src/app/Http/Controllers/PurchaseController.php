@@ -18,6 +18,7 @@ use \Carbon\Carbon;
 use Illuminate\Contracts\Mail\Mailer;
 use App\Http\Requests\PurchaseRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PurchaseController extends Controller
 {
@@ -40,7 +41,7 @@ class PurchaseController extends Controller
     return view('/address',compact('item','user'));
     }
 
-    public function addressChange(SendRequest $request){
+    public function addressChange(Request $request){
     $item=Item::findOrFail($request->item_id);
     $user=User::findOrFail(Auth::user()->id);
     $user['postcode']=$request->postcode;
@@ -220,7 +221,7 @@ class PurchaseController extends Controller
 
     try {
         $charge = \Stripe\Charge::create([
-            'amount' => $item->price,
+            'amount' => $request->cash,
             'currency' => 'jpy',
             'customer' => $user->stripe_id,
             'description' => 'creditReuse決済'
@@ -248,6 +249,7 @@ class PurchaseController extends Controller
         Proceed::create($proceed);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             DB::rollBack();
             return back()->with('error', $e->getMessage());
         }
