@@ -38,10 +38,9 @@ class MyPageController extends Controller
 
     public function profileUpdate(ProfileRequest $request){
     if($request->file('image')!==null){
-        $dir='sample';
         $image_name=$request->file('image')->getClientOriginalName();
-        $request->file('image')->storeAs('public/'.$dir,$image_name);
-        $user=['path' => 'storage/'.$dir.'/'.$image_name];
+        $path=Storage::disk('s3')->putFile('sample', $request->file('image'));
+        $user=['path' => Storage::disk('s3')->url($path)];
         }
 
     if($request->name!==null){

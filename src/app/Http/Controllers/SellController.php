@@ -16,11 +16,9 @@ class SellController extends Controller
 
     public function exhibit(SellRequest $request){
     DB::transaction(function () use ($request) {
-        $dir='sample';
         $image_name=$request->file('image')->getClientOriginalName();
-        $request->file('image')->storeAs('public/'.$dir,$image_name);
-        $item=$request->only(['user_id','name','brand','condition','explanation','price']);
-        $item['path']='storage/'.$dir.'/'.$image_name;
+        $path=Storage::disk('s3')->putFile('sample', $request->file('image'));
+        $item=$request->only(['user_id','name','brand','condition','explanation','price','path' => Storage::disk('s3')->url($path)]);
         $item=Item::create($item);
         $categories = $request->input('category');
         foreach ($categories as $category) {
