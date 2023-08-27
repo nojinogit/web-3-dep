@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Models\Category;
 use App\Http\Requests\SellRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class SellController extends Controller
 {
