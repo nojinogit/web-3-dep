@@ -19,7 +19,8 @@ class SellController extends Controller
     DB::transaction(function () use ($request) {
         $image_name=$request->file('image')->getClientOriginalName();
         $path=Storage::disk('s3')->putFile('sample', $request->file('image'));
-        $item=$request->only(['user_id','name','brand','condition','explanation','price','path' => Storage::disk('s3')->url($path)]);
+        $item=$request->only(['user_id','name','brand','condition','explanation','price']);
+        $item['path']=Storage::disk('s3')->url($path);
         $item=Item::create($item);
         $categories = $request->input('category');
         foreach ($categories as $category) {
