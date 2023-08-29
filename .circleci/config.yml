@@ -11,4 +11,4 @@ jobs:
       - run: cd web-3-dep/src && npm run dev
       - run:
           name: php test
-          command: web-3-dep/src/vendor/bin/phpunit
+          command: cd web-3-dep/src && vendor/bin/phpunit
