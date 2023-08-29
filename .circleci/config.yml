@@ -6,9 +6,9 @@ jobs:
     steps:
       - checkout
       - run: sudo composer self-update --2
-      - run: cd web-3-dep/src && composer install -n --prefer-dist
-      - run: cd web-3-dep/src && npm ci
-      - run: cd web-3-dep/src && npm run dev
+      - run: cd ../src && composer install -n --prefer-dist
+      - run: cd ../src &&  npm ci
+      - run: cd ../src &&  npm run dev
       - run:
           name: php test
-          command: cd web-3-dep/src && vendor/bin/phpunit
+          command: cd ../src &&  vendor/bin/phpunit
