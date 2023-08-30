@@ -12,5 +12,21 @@ jobs:
           name: Start all services declared in docker-compose.yml
           command: docker-compose up -d
       - run:
+          name: Load environment variables from .env file
+          command: |
+            echo 'export $(echo $ENV_FILE | xargs)' >> $BASH_ENV
+            source $BASH_ENV
+      - run:
+          name: Test environment variables
+          command: |
+            echo $AWS_ACCESS_KEY_ID
+            echo $AWS_SECRET_ACCESS_KEY
+            echo $AWS_DEFAULT_REGION
+            echo $AWS_BUCKET
+            echo $AWS_USE_PATH_STYLE_ENDPOINT
+            echo $STRIPE_PUBLIC_KEY
+            echo $STRIPE_SECRET_KEY
+            echo $STRIPE_WEBHOOK
+      - run:
           name: Run PHP tests in the feature directory
           command: docker-compose exec php vendor/bin/phpunit --testsuite Feature
