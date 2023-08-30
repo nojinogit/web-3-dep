@@ -7,3 +7,6 @@ jobs:
       - run:
           name: Start all services declared in docker-compose.yml
           command: docker-compose up -d
+      - run:
+          name: Run PHP tests in the feature directory
+          command: docker-compose exec php vendor/bin/phpunit --testsuite Feature
