@@ -9,4 +9,4 @@ jobs:
       - run: cd src && composer install -n --prefer-dist
       - run:
           name: php test
-          command: vendor/bin/phpunit
+          command: cd src && vendor/bin/phpunit
