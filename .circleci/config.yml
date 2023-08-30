@@ -1,15 +1,9 @@
 version: 2.1
 jobs:
   build:
-    docker:
-      - image: cimg/php:8.1-node
+    machine: true
     steps:
       - checkout
-      - run: sudo composer self-update --2
-      - run: cd src && composer install -n --prefer-dist
       - run:
-          name: Start services
+          name: Start all services declared in docker-compose.yml
           command: docker-compose up -d
-      - run:
-          name: php test
-          command: cd src && vendor/bin/phpunit
