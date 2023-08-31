@@ -3,9 +3,6 @@ jobs:
   build:
     machine: true
     steps:
-      - run:
-          name: Clear config cache
-          command: php artisan config:clear
       - checkout
       - run:
           name: Install dependencies with Composer
@@ -14,6 +11,9 @@ jobs:
       - run:
           name: Start all services declared in docker-compose.yml
           command: docker-compose up -d
+      - run:
+          name: Clear config cache
+          command: php artisan config:clear
       - run:
           name: base64 decode env file
           command: echo $ENV_FILE | base64 -di > .env.testing
