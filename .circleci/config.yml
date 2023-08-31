@@ -15,6 +15,9 @@ jobs:
           name: Clear config cache
           command: docker-compose exec php php artisan config:clear
       - run:
+          name: create database
+          command: docker-compose exec mysql mysql -u root -proot -e "CREATE DATABASE demo_test;"
+      - run:
           name: base64 decode env file
           command: echo $ENV_FILE | base64 -di > .env.testing
       - run:
