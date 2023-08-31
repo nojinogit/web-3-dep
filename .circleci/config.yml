@@ -15,5 +15,9 @@ jobs:
           name: Clear config cache
           command: docker-compose exec php php artisan config:clear
       - run:
+          name: Set up environment variables
+          command: |
+            echo "STRIPE_SECRET_KEY=$STRIPE_SECRET_KEY" >> .env.testing
+      - run:
           name: Run PHP tests in the feature directory
           command: docker-compose exec php vendor/bin/phpunit --testsuite Feature
