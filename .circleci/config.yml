@@ -18,9 +18,6 @@ jobs:
           name: base64 decode env file
           command: echo $ENV_FILE | base64 -di > .env.testing
       - run:
-          name: create table
-          command: docker-compose exec php php artisan migrate --env=testing
-      - run:
           name: Clear config cache
           command: docker-compose exec php php artisan config:clear
       - run:
