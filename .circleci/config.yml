@@ -3,6 +3,9 @@ jobs:
   build:
     machine: true
     steps:
+      - run:
+          name: Clear config cache
+          command: php artisan config:clear
       - checkout
       - run:
           name: Install dependencies with Composer
