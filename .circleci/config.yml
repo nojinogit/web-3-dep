@@ -15,14 +15,14 @@ jobs:
           name: Clear config cache
           command: docker-compose exec php php artisan config:clear
       - run:
-          name: Clear config cache
+          name: base64 decode env file
+          command: echo $ENV_FILE | base64 -di > .env.testing
+      - run:
+          name: create table
           command: docker-compose exec php php artisan migrate --env=testing
       - run:
           name: Clear config cache
           command: docker-compose exec php php artisan config:clear
-      - run:
-          name: base64 decode env file
-          command: echo $ENV_FILE | base64 -di > .env.testing
       - run:
           name: Run PHP tests in the feature directory
           command: docker-compose exec php vendor/bin/phpunit --testsuite Feature
