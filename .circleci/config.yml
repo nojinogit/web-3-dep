@@ -13,7 +13,7 @@ jobs:
           command: docker-compose up -d
       - run:
           name: Clear config cache
-          command: docker-compose exec php artisan config:clear
+          command: docker-compose exec php config:clear
       - run:
           name: base64 decode env file
           command: echo $ENV_FILE | base64 -di > .env.testing
