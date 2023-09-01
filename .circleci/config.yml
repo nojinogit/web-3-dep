@@ -20,3 +20,11 @@ jobs:
       - run:
           name: Run PHP tests in the feature directory
           command: docker-compose exec php vendor/bin/phpunit --testsuite Feature
+      - add_ssh_keys:
+      - run:
+          name: Deploy to EC2 instance
+          command: |
+            ssh -i ec2-user@ec2-43-207-2-213.ap-northeast-1.compute.amazonaws.com << EOF
+              cd web-3-dep/
+              git pull
+            EOF
