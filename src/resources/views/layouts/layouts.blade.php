@@ -20,7 +20,7 @@
             <div class="header-utilities">
                 <div class="header__logo-box">
                     <img src="{{asset('storage/sample/ロゴ.jpg')}}" alt="" class="header__logo-box-img">
-                    <a class="header__logo header-utilities-a" href="/">COACHTECH111</a>
+                    <a class="header__logo header-utilities-a" href="/">COACHTECH</a>
                 </div>
                 <div class="responsive">
                             <span class="nav_toggle">
