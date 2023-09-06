@@ -8,7 +8,6 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Purchase;
-use App\Models\Proceed;
 use Carbon\Carbon;
 use App\Mail\DepositedMail;
 use Illuminate\Support\Facades\Mail;

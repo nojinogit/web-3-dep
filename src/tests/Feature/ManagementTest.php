@@ -42,7 +42,7 @@ class ManagementTest extends TestCase
         $response->assertStatus(200);
     }
 
-     public function testAccountDelete()
+    public function testAccountDelete()
     {
         $user = User::factory()->create();
 
@@ -90,8 +90,8 @@ class ManagementTest extends TestCase
 
         \Mail::assertSent(ContactMail::class, function ($mail) {
             return $mail->hasTo('test@example.com') &&
-                   $mail->title === 'Test Title' &&
-                   $mail->main === 'Test Main';
+                $mail->title === 'Test Title' &&
+                $mail->main === 'Test Main';
         });
 
         $response->assertRedirect(route('management'));
@@ -136,14 +136,12 @@ class ManagementTest extends TestCase
             'proceed'=>100,
         ]);
 
-        // Test with name search
         $response = $this->actingAs($this->user)->get(route('proceed'), [
             'name' => 'Test'
         ]);
 
         $response->assertStatus(200);
 
-        // Test with email search
         $response = $this->actingAs($this->user)->get(route('proceed'), [
             'email' => 'test@example.com'
         ]);
@@ -169,14 +167,12 @@ class ManagementTest extends TestCase
             'proceed'=>100,
         ]);
 
-        // Test with name search
         $response = $this->actingAs($this->user)->get(route('proceedOnly'), [
             'name' => 'Test'
         ]);
 
         $response->assertStatus(200);
 
-        // Test with email search
         $response = $this->actingAs($this->user)->get(route('proceedOnly'), [
             'email' => 'test@example.com'
         ]);
@@ -211,8 +207,8 @@ class ManagementTest extends TestCase
 
         \Mail::assertSent(NoticeOfPaymentMail::class, function ($mail) use ($proceed) {
             return $mail->hasTo('test@example.com') &&
-                   $mail->total === 1000 &&
-                   $mail->user->is($proceed->user);
+                $mail->total === 1000 &&
+                $mail->user->is($proceed->user);
         });
 
         $response->assertRedirect(route('management'));
