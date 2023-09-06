@@ -54,13 +54,6 @@
   flex-wrap: wrap;
 }
 
-.item-button {
-  width: 80%;
-  margin: 50px auto 0 auto;
-  cursor: pointer;
-  display: flex;
-}
-
 .merchandise-buttonbox{
   width: 80%;
   margin: 50px auto 0 auto;

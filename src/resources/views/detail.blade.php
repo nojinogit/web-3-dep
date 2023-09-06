@@ -87,7 +87,7 @@
                     <div class="comment-count">{{$commentCount}}</div>
                 </div>
                 @unless($item->purchases->isEmpty())
-                    <div class="soloOut-message">
+                    <div class="soldOut-message">
                             この商品は売約済みです
                     </div>
                 @else
@@ -111,9 +111,9 @@
                     @endif
                 @endif
                 @endunless
-                <h2  class="detail__h1">商品説明</h2>
+                <h2  class="detail__h2">商品説明</h2>
                 <p class="p">{{$item->explanation}}</p>
-                <h2 class="detail__h1">商品の情報</h2>
+                <h2 class="detail__h2">商品の情報</h2>
                 <div class="category">
                     <p class="p">カテゴリー</p>&emsp;
                     @foreach($item->categories as $category)

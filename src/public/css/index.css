@@ -121,10 +121,6 @@
       display: none;
   }
 
-  .responsive{
-    display:block;
-  }
-
   .item-wrap {
     width: 100%;
     margin: 20px auto;

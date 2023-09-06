@@ -32,7 +32,7 @@
     <div class="form__group">
     <div class="form__group-content">
         <p  class="form__group-content-p">住所</p>
-        <div class="form__input--text">
+        <div>
         <input  type="text" name="address" value="{{$user->address }}" class="form__text-input">
         </div>
             <div class="form__error">
@@ -45,7 +45,7 @@
     <div class="form__group">
     <div class="form__group-content">
         <p class="form__group-content-p">建物名</p>
-        <div class="form__input--text">
+        <div>
         <input  type="text" name="building" value="{{$user->building }}" class="form__text-input">
         </div>
     </div>
